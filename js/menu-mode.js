@@ -22,7 +22,8 @@ var menuModeState = {
     var modes = [
       { name: 'Countdown Crown', desc: 'The faster you respond, the more points you get', prestate: 'pregame', gamestate: 'play', id: 0, endstate: 'endOfGame', maxPtsPerQ: 25, totalTime: 25},
       { name: 'Wild Wild Guess', desc: 'Keep guessing until you get it right\n(Best for beginners)', prestate: 'pregameSU', gamestate: 'playSU', id: 1, endstate: 'endOfGameWWG', maxPtsPerQ: 15, totalTime: 25},
-      { name: 'Time Bonus', desc: 'The faster you respond, the more points you get', prestate: 'pregameTB', gamestate: 'playTB', id: 2, endstate: 'endOfGameTB', maxPtsPerQ: 25, totalTime: 10}
+      { name: 'Time Bonus', desc: 'The faster you respond, the more points you get', prestate: 'pregameTB', gamestate: 'playTB', id: 2, endstate: 'endOfGameTB', maxPtsPerQ: 25, totalTime: 10},
+      { name: 'Big Money', desc: 'Keep choosing until you get the right answer', prestate: 'pregameBM', gamestate: 'playBM', id: 4, endstate: 'endOfGameBM', maxPtsPerQ: 100, totalTime: 25}
     ];
     var prevHeights = 10 * dpr;
     for (var i = 0; i < modes.length; i++) { //create a button and text for each game mode
