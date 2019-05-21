@@ -1,102 +1,8 @@
-// //copy original playState and then modify it to create the state for Big Money mode
-// var playStateBM = Object.create(playState);
-
-// playStateBM.timesAnswered = 0;
-
-// playStateBM.btnClick = function(){
-//   //set cursor back to default; gets stuck as 'hand' otherwise
-//   game.canvas.style.cursor = "default";
-//   //disable each button
-//   game.global.choiceBubbles.forEach( function(item){ item.inputEnabled = false; } );
-//   //disable timer
-//   game.state.getCurrentState().timerOn = false;
-//   game.global.pointsToAdd = (typeof game.state.getCurrentState().seconds === 'undefined') ? 25 : game.state.getCurrentState().seconds + 15; //capture time remaining to use as score; if time hasn't been set yet because the user is that fast, give them full points
-//   //increment number of answered questions
-//   game.global.questionsAnswered++;
-
-//   function btnClickShowAnswers(){
-//     //show AI answers if not already shown
-//     if(!game.global.answersShown){
-//       game.state.getCurrentState().showAnswers(true);
-//       game.global.answeredBeforeAI = true;
-//     }else{
-//       game.global.answeredBeforeAI = false;
-//     }
-//   };
-
-//   function btnClickSymbolFeedback(){
-//     //bring in a symbol of right or wrong
-//     game.global.symbol = game.add.sprite(game.world.x - game.world.width, this.centerY, this.data.correct ? 'check' : 'x');
-//     game.global.symbol.height = game.global.symbol.width = game.global.borderFrameSize * 3;
-//     game.global.symbol.anchor.setTo(0.5,0.5);
-//     game.global.questionUI.add(game.global.symbol);
-//     game.add.tween(game.global.symbol).to({x: Math.floor(this.x - game.global.symbol.width/3), y: Math.floor(this.y + this.bubbleheight/2)}, 300, Phaser.Easing.Default, true, 0);
-//     var sounds = this.data.correct ? game.global.rightsounds : game.global.wrongsounds;
-//     //play sound
-//     sounds[0].play();
-
-//     //if answered wrong, highlight the right answer
-//     if(!this.data.correct){
-//       //also add wrongly answered question to the rehash round
-//       game.global.rehashQuestions.push(this.data.fullQuestion);
-//       game.global.choiceBubbles.forEach( function(item){
-//         if(item.data.correct){
-//           var arrow = game.add.sprite(game.world.x - game.world.width, item.centerY, 'arrow');
-//           arrow.height = arrow.width = game.global.borderFrameSize * 3;
-//           arrow.anchor.setTo(0.5,0.5);
-//           game.global.questionUI.add(arrow);
-//           game.add.tween(arrow).to({x: Math.floor(item.x - arrow.width/3), y: Math.floor(item.y + item.bubbleheight/2)}, 300, Phaser.Easing.Default, true, 0);
-//         }
-//       });
-//     }
-//   };
-
-//   function btnClickHostFeedback(){
-//     //set host's attitude based on right or wrong answer
-//     var speech = this.data.correct ? 'right' : 'wrong';
-//     game.global.jinny.frame = this.data.correct ? 2 : 1;
-
-//     game.global.jinnySpeech.destroy();
-//     game.global.jinnySpeech = game.world.add(new game.global.SpeechBubble(game, game.global.jinny.right + (game.global.borderFrameSize * 2), game.global.chapterText.bottom, game.world.width - (game.global.jinny.width*2), game.global.hostComments[speech][Math.floor(Math.random() * game.global.hostComments[speech].length)], true, false, null, false, null, true));
-
-//     //points graphic
-//     if(!game.global.isRehash && this.data.correct){
-//       var ptsImage = game.add.text(game.world.centerX, game.world.height, game.global.pointsToAdd + ' pts!');
-//       ptsImage.font = 'Arial';
-//       ptsImage.fontWeight = 'bold';
-//       ptsImage.fill = '#ffffff';
-//       ptsImage.stroke = '#000000';
-//       ptsImage.strokeThickness = Math.max(game.global.pointsToAdd / 2, 10) * dpr;
-//       ptsImage.fontSize = Math.max(game.global.pointsToAdd * 4, 40) * dpr;
-//       var tweenA = game.add.tween(ptsImage).to({x: Math.floor(game.world.centerX - ptsImage.width/2), y: Math.floor(game.world.centerY - ptsImage.height/2)}, 300, Phaser.Easing.Default, false, 0);
-//       var tweenB = game.add.tween(ptsImage).to({alpha: 0}, 300, Phaser.Easing.Default, false, 300);
-//       tweenA.chain(tweenB);
-//       tweenA.start();
-//       game.global.questionUI.add(ptsImage);
-//     }
-//   };
-
-//   game.global.timer.stop();
-//   game.global.timer.add(500, btnClickShowAnswers, this);
-//   game.global.timer.add(1500, btnClickSymbolFeedback, this);
-//   game.global.timer.add(2000, btnClickHostFeedback, this);
-//   game.global.timer.add(4500, game.state.getCurrentState().animateOut, this, false);
-//   game.global.timer.start();
-// };
-
-// playStateBM.timeUp = function(){
-//   game.global.jinnySpeech.destroy();
-//   game.global.jinnySpeech = game.world.add(new game.global.SpeechBubble(game, game.global.jinny.right + (game.global.borderFrameSize * 2), game.global.chapterText.bottom, game.world.width - (game.global.jinny.width*2), "Time's up! No bonus this time!", true, false, null, false, null, true));
-//   this.timerOn = false;
-//   this.timeLabel.destroy();
-//   game.state.getCurrentState().seconds = 0; //bad fix for timer bonus bug; timer then doesn't give any bonus on next question?
-// };
-
-
-
-//copy original playState and then modify it to create the state for Wild Wild Guess mode
+//copy original playState and then modify it to create the state for Big Money mode
 var playStateBM = Object.create(playState);
 
+// set possible point rewards
+var ptsArr = [100, 0, -100, -101];
 playStateBM.timesAnswered = 0;
 
 playStateBM.btnClick = function(){
@@ -147,16 +53,18 @@ playStateBM.btnClick = function(){
     //points graphic
     if(this.data.correct){
       //set the number of points earned here, use it to load the appropriate graphic and to update the score later
-      game.global.pointsToAdd = Math.max(0, 20 - (5 * game.state.getCurrentState().timesAnswered));
-      if(game.global.pointsToAdd > 0){
+      game.global.pointsToAdd = ptsArr[game.state.getCurrentState().timesAnswered - 1];
+      console.log("Points to add: " + game.global.pointsToAdd);
+      // if game is not over
+      if(game.global.pointsToAdd != ptsArr[ptsArr.length - 1]){
         // var ptsImage = game.add.sprite(game.world.centerX, game.world.height, game.global.pointsToAdd + 'pts');
         var ptsImage = game.add.text(game.world.centerX, game.world.height, game.global.pointsToAdd + ' pts!');
         ptsImage.font = 'Arial';
         ptsImage.fontWeight = 'bold';
         ptsImage.fill = '#ffffff';
         ptsImage.stroke = '#000000';
-        ptsImage.strokeThickness = Math.max(game.global.pointsToAdd / 2, 10) * dpr;
-        ptsImage.fontSize = Math.max(game.global.pointsToAdd * 4, 40) * dpr;
+        ptsImage.strokeThickness = 10 * dpr;
+        ptsImage.fontSize = 40 * dpr;
         var tweenA = game.add.tween(ptsImage).to({x: Math.floor(game.world.centerX - ptsImage.width/2), y: Math.floor(game.world.centerY - ptsImage.height/2)}, 300, Phaser.Easing.Default, false, 0);
         var tweenB = game.add.tween(ptsImage).to({alpha: 0}, 300, Phaser.Easing.Default, false, 300);
         tweenA.chain(tweenB);
@@ -180,7 +88,10 @@ playStateBM.btnClick = function(){
 playStateBM.updateScores = function(answerCorrect, didntAnswer){
   for(i = 1 ; i < game.global.chars.length; i++){
     if(game.global.chars[i].correct){
-      game.global.chars[i].score += 15;
+      game.global.chars[i].score += ptsArr[0];
+    }
+    else {
+      game.global.chars[i].score += ptsArr[2];
     }
   }
 
@@ -191,7 +102,7 @@ playStateBM.updateScores = function(answerCorrect, didntAnswer){
 
   game.state.getCurrentState().timesAnswered = 0;
   game.global.chars[0].score = game.global.totalStats.score;
-}
+};
 
 playStateBM.createTimer = function(){}; //emptied to remove timer viBMals
 
@@ -201,7 +112,11 @@ playStateBM.update = function(){ //animates scores and keeps score text and name
   for (var i = 0; i < game.global.chars.length; i++) {
     var n = parseInt(game.global.chars[i].scoreText.text);
     if (n < game.global.chars[i].score){
-      n++;
+      n += 5;
+      game.global.chars[i].scoreText.text = n;
+    }
+    else if (n > game.global.chars[i].score){
+      n -= 5;
       game.global.chars[i].scoreText.text = n;
     }
     game.global.chars[i].scoreText.x = Math.floor(game.global.chars[i].sprite.right + game.global.borderFrameSize);
@@ -218,4 +133,4 @@ playStateBM.showAnswers = function(fromButton) { //show AI's selected answers
     }
     game.global.answersShown = true;
   }
-}
+};
