@@ -1,8 +1,9 @@
 //copy original playState and then modify it to create the state for Big Money mode
 var playStateBM = Object.create(playState);
 
-// set possible point rewards
-var ptsArr = [100, 0, -100, -101];
+var ptsArr = [100, 0, -100, -100];  // set possible point rewards
+var maxGuessCount = 4;
+var allGuessesUsed = false;
 playStateBM.timesAnswered = 0;
 
 playStateBM.btnClick = function(){
@@ -11,13 +12,16 @@ playStateBM.btnClick = function(){
   //disable this button
   this.inputEnabled = false;
 
+  game.state.getCurrentState().timesAnswered++;
+  console.log(game.state.getCurrentState().timesAnswered);
+
   if(this.data.correct){
     //increment number of answered questions
     game.global.questionsAnswered++;
+    if (game.state.getCurrentState().timesAnswered < maxGuessCount) {
+      game.global.chars[0].numCorrect++;
+    }
   }
-
-  game.state.getCurrentState().timesAnswered++;
-  console.log(game.state.getCurrentState().timesAnswered);
 
   function btnClickShowAnswers(){
     //show AI answers if not already shown
@@ -88,6 +92,7 @@ playStateBM.btnClick = function(){
 playStateBM.updateScores = function(answerCorrect, didntAnswer){
   for(i = 1 ; i < game.global.chars.length; i++){
     if(game.global.chars[i].correct){
+      game.global.chars[i].numCorrect++;
       game.global.chars[i].score += ptsArr[0];
     }
     else {
@@ -100,8 +105,17 @@ playStateBM.updateScores = function(answerCorrect, didntAnswer){
   //update player score
   game.global.totalStats.score += game.global.pointsToAdd;
 
-  game.state.getCurrentState().timesAnswered = 0;
+  // if the user has made the maximum number of guesses to answer a question, set flag
+  if (game.state.getCurrentState().timesAnswered >= maxGuessCount) {
+    allGuessesUsed = true;
+    console.log("All Guesses Used? " + allGuessesUsed);
+  }
   game.global.chars[0].score = game.global.totalStats.score;
+
+  // if game is not over
+  if (!allGuessesUsed) {
+    game.state.getCurrentState().timesAnswered = 0;
+  }
 };
 
 playStateBM.createTimer = function(){}; //emptied to remove timer viBMals
@@ -133,4 +147,43 @@ playStateBM.showAnswers = function(fromButton) { //show AI's selected answers
     }
     game.global.answersShown = true;
   }
+};
+
+playStateBM.nextQuestion = function(){
+  game.state.getCurrentState().removeQuestion();
+    //set jin's face to default state
+    game.global.jinny.frame = 0;
+    if (!allGuessesUsed) {
+      if (game.global.questionsAnswered < game.global.numQuestions){
+        console.log("NextQ Option 1 Activated.");
+        //still questions left, show the next one
+        game.global.jinnySpeech.destroy();
+        game.global.jinnySpeech = game.world.add(new game.global.SpeechBubble(game, game.global.jinny.right + (game.global.borderFrameSize * 2), game.global.chapterText.bottom, game.world.width - (game.global.jinny.width*2), "Next question...", true, false, null, false, null, true));
+  
+        game.state.getCurrentState().showQuestion(game.global.questions.shift());
+      } else if (game.global.rehashQuestions.length > 0 && !game.global.isRehash) {
+        console.log("NextQ Option 2 Activated.");
+        //if out of questions and any were answered wrong, and this isn't a rehash round, go to rehash round
+        game.global.isRehash = true;
+        game.global.jinnySpeech.destroy();
+        game.state.getCurrentState().ticks.destroy();
+        game.state.start('play', false, false);
+      } else {
+        console.log("NextQ Option 3 Activated.");
+        //out of questions, and everything was right OR this was a rehash round? end the game
+        game.global.jinnySpeech.destroy();
+        game.state.getCurrentState().ticks.destroy();
+        endGame = game.add.audio('endGame');
+        endGame.play();
+        game.state.start(game.global.selectedMode.endstate, false, false);
+      }
+    }
+    else {
+      console.log("NextQ Option 4 Activated.");
+      game.global.jinnySpeech.destroy();
+      game.state.getCurrentState().ticks.destroy();
+      endGame = game.add.audio('endGame');
+      endGame.play();
+      game.state.start(game.global.selectedMode.endstate, false, false);
+    }
 };
