@@ -21,12 +21,15 @@ game.state.add('menuMode', menuModeState);
 game.state.add('play', playState);
 game.state.add('playSU', playStateSU);
 game.state.add('playTB', playStateTB);
+game.state.add('playOC', playStateOC);
 game.state.add('endOfGame', endOfGameState);
 game.state.add('endOfGameWWG', endOfGameStateWWG);
 game.state.add('endOfGameTB', endOfGameStateTB);
+game.state.add('endOfGameOC', endOfGameStateOC);
 game.state.add('pregame', preGameState);
 game.state.add('pregameSU', preGameStateSU);
 game.state.add('pregameTB', preGameStateTB);
+game.state.add('pregameOC', preGameStateOC);
 
 game.global.session = phpSession;
 game.state.start('preload');
