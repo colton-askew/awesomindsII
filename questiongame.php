@@ -19,14 +19,14 @@
 <script type="text/javascript" src="js/menuchapter.js"></script>
 <script type="text/javascript" src="js/menucourse.js"></script>
 <script type="text/javascript" src="js/play.js"></script>
-<script type="text/javascript" src="js/play-selectuntil.js"></script>
+<script type="text/javascript" src="js/play-choose123.js"></script>
 <script type="text/javascript" src="js/play-timebonus.js"></script>
 <script type="text/javascript" src="js/endofgame.js"></script>
-<script type="text/javascript" src="js/endofgame-wwg.js"></script>
+<script type="text/javascript" src="js/endofgame-c123.js"></script>
 <script type="text/javascript" src="js/endofgame-tb.js"></script>
 <script type="text/javascript" src="js/preload.js"></script>
 <script type="text/javascript" src="js/pregame.js"></script>
-<script type="text/javascript" src="js/pregame-selectuntil.js"></script>
+<script type="text/javascript" src="js/pregame-choose123.js"></script>
 <script type="text/javascript" src="js/pregame-timebonus.js"></script>
 <script type="text/javascript" src="js/game.js"></script>
 

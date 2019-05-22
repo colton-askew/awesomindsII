@@ -19,13 +19,13 @@ game.state.add('menuCourse', menuCourseState);
 game.state.add('menuChapter', menuChapterState);
 game.state.add('menuMode', menuModeState);
 game.state.add('play', playState);
-game.state.add('playSU', playStateSU);
+game.state.add('playC123', playStateC123);
 game.state.add('playTB', playStateTB);
 game.state.add('endOfGame', endOfGameState);
-game.state.add('endOfGameWWG', endOfGameStateWWG);
+game.state.add('endOfGameC123', endOfGameStateC123);
 game.state.add('endOfGameTB', endOfGameStateTB);
 game.state.add('pregame', preGameState);
-game.state.add('pregameSU', preGameStateSU);
+game.state.add('pregameC123', preGameStateC123);
 game.state.add('pregameTB', preGameStateTB);
 
 game.global.session = phpSession;

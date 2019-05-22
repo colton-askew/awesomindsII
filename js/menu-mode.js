@@ -21,7 +21,7 @@ var menuModeState = {
 
     var modes = [
       { name: 'Countdown Crown', desc: 'The faster you respond, the more points you get', prestate: 'pregame', gamestate: 'play', id: 0, endstate: 'endOfGame', maxPtsPerQ: 25, totalTime: 25},
-      { name: 'Wild Wild Guess', desc: 'Keep guessing until you get it right\n(Best for beginners)', prestate: 'pregameSU', gamestate: 'playSU', id: 1, endstate: 'endOfGameWWG', maxPtsPerQ: 15, totalTime: 25},
+      { name: 'Choose 1, 2, or 3', desc: 'Choose up to 3 of the options displayed', prestate: 'pregameC123', gamestate: 'playC123', id: 1, endstate: 'endOfGameC123', maxPtsPerQ: 15, totalTime: 25},
       { name: 'Time Bonus', desc: 'The faster you respond, the more points you get', prestate: 'pregameTB', gamestate: 'playTB', id: 2, endstate: 'endOfGameTB', maxPtsPerQ: 25, totalTime: 10}
     ];
     var prevHeights = 10 * dpr;
