@@ -15,9 +15,6 @@ var playState = {
         console.log('new game');
         game.global.questionsBackup = game.global.origQuestions.slice();
         game.global.questions = game.global.shuffleArray(game.global.origQuestions);
-        for (var i = 0; i < game.global.chars.length; i++) {
-          game.global.chars[i].numCorrect = 0;
-        }
       } else {
         //returning on round 2 or higher
         if(game.global.questions.length <= 0){
