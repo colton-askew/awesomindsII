@@ -46,7 +46,8 @@ switch($filetype){
 if($errorUpload){
     die("Error uploading File");
 }
-if(!$gootToParse){
+
+if(!$goodToParse){
     tmpToDb($temp_file,$dbcon);
     if($removeFile){
         unlink($temp_file);
