@@ -36,6 +36,23 @@ playStateOC.btnClick = function(){
     var sounds = this.data.correct ? game.global.rightsounds : game.global.wrongsounds;
     //play sound
     sounds[0].play();
+    console.log("choice bubbles: ", game.global.choiceBubbles);
+    console.log("choice bubble children: ", game.global.choiceBubbles.children[1].data);
+    if (!this.data.correct) {
+      var count;
+      for (count = 0; count < game.global.choiceBubbles.children.length; count++) {
+        console.log("looping thru d:", count)
+        if (game.global.choiceBubbles.children[count].data.correct) {      
+          console.log("Inner incorrect loop");
+          game.global.symbol = game.add.sprite(game.world.x - game.world.width, game.global.choiceBubbles.children[count].centerY, 'check');
+          console.log("this: ", this);
+          game.global.symbol.height = game.global.symbol.width = game.global.borderFrameSize * 3;
+          game.global.symbol.anchor.setTo(0.5,0.5);
+          game.global.questionUI.add(game.global.symbol);
+          game.add.tween(game.global.symbol).to({x: Math.floor(game.global.choiceBubbles.children[count].x - game.global.symbol.width/3), y: Math.floor(game.global.choiceBubbles.children[count].y + game.global.choiceBubbles.children[count].bubbleheight/2)}, 300, Phaser.Easing.Default, true, 0);
+        }
+      }
+    }
   }
 
   function btnClickHostFeedback(){
