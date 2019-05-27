@@ -1,10 +1,15 @@
-//copy original playState and then modify it to create the state for Wild Wild Guess mode
+//copy original playState and then modify it to create the state for Choose 1, 2, or 3 game challenge
 var playStateC123 = Object.create(playState);
 
 playStateC123.timesAnswered = 0;
+playStateC123.selectedAnswers = [ "", "", "" ];
+playStateC123.selectedAnswerCount = 0;
+playStateC123.correctAnswer = "";
+playStateC123.isCorrect = false;
 
 playStateC123.create = function(){
   console.log('state: play');
+  //game.global.pointsToAdd = 0;
   if(game.global.isRehash){ //if in rehash round, use the array of questions that were answered incorrectly in the previous round
     game.global.questions = game.global.rehashQuestions;
   } else {
@@ -117,6 +122,10 @@ playStateC123.showChoices = function(){
   var availChoices = [];
   var tweens = [];
   var question = this.question;
+  // DEV LOG
+  if (devmode) {
+    console.log("question: " , question);
+  }
   var shuffChoices = [];
   var answerText = '';
   for (var c in question.choices) {
@@ -126,7 +135,10 @@ playStateC123.showChoices = function(){
     i++;
   }
   shuffChoices = game.global.shuffleArray(shuffChoices);
-  console.log(shuffChoices);
+  // DEV LOG
+  if (devmode) {
+    console.log("shuffChoices: " , shuffChoices);
+  }
   i = 0;
   for (var c in question.choices) { //create buttons for each choice from the question
     var cbwidth = Math.min(Math.floor(game.world.width - (game.global.jinny.width)), game.global.jinny.width * 5);
@@ -149,15 +161,20 @@ playStateC123.showChoices = function(){
 
   game.global.questionUI.add(game.global.choiceBubbles);
   game.global.questionShown = true;
-  if(devmode) console.log('answer' + question.newAnswer);
+  // DEV LOG
+  if (devmode) {
+    console.log("question.newAnswer: " , question.newAnswer);
+  }
+  playStateC123.correctAnswer = question.newAnswer;
 
-  // create a button to finalize answer selection
-  var b = game.world.add(new game.global.SpeechBubble(game, game.world.width + 1000, game.height, game.width, "Finalize Answer(s)", false, true, this.btnClick));
-  b.x = Math.floor(b.x - (b.bubblewidth/2));
-  b.y = Math.floor(prevHeights + (b.bubbleheight + 10 * dpr) * 4);
+  // create a button to confirm answer selection
+  var bConfirm = game.world.add(new game.global.SpeechBubble(game, game.world.width + 1000, game.height, game.width, "Confirm", false, true, game.state.getCurrentState().btnClick));
+  bConfirm.x = Math.floor(bConfirm.x - (bConfirm.bubblewidth/2));
+  bConfirm.y = Math.floor(prevHeights + (bConfirm.bubbleheight + 10 * dpr) * 4);
   // animate button entrance
-  var bTween = game.add.tween(b).to({x: Math.floor(game.world.centerX - b.bubblewidth/2)}, 500, Phaser.Easing.Default, true, 250 * 4);
+  var bTween = game.add.tween(bConfirm).to({x: Math.floor(game.world.centerX - bConfirm.bubblewidth/2)}, 500, Phaser.Easing.Default, true, 250 * 4);
   bTween.start();
+  game.global.confirmButton = bConfirm;
 
   //determine AI answers
   for(i=1; i<game.global.chars.length; i++){
@@ -187,12 +204,32 @@ playStateC123.showChoices = function(){
 playStateC123.btnSelect = function() {
   // set cursor back to default; gets stuck as 'hand' otherwise
   game.canvas.style.cursor = "default";
+
   // update selected options
   if (this.alpha == 1) {
-    this.alpha = 0.25;
-    game.global.choices.selected
+    // look for first empty selectedAnswer index and add selected answer to the array
+    for (var i = 0; i < playStateC123.selectedAnswers.length; i++) {
+      if (playStateC123.selectedAnswers[i] == "") {
+        playStateC123.selectedAnswers[i] = this.data.letter;
+        playStateC123.selectedAnswerCount++;
+        this.alpha = 0.25;
+        break;
+      }
+    }
   } else {
-    this.alpha = 1;
+    // look for selected answer in selectedAnswer array and clear it
+    for (var i = 0; i < playStateC123.selectedAnswers.length; i++) {
+      if (playStateC123.selectedAnswers[i] == this.data.letter) {
+        playStateC123.selectedAnswers[i] = "";
+        playStateC123.selectedAnswerCount--;
+        this.alpha = 1;
+        break;
+      }
+    }
+  }
+  // DEV LOG
+  if (devmode) {
+    console.log("Selected Answers: " , playStateC123.selectedAnswers);
   }
 };
 
@@ -200,79 +237,146 @@ playStateC123.btnSelect = function() {
 playStateC123.btnClick = function(){
   //set cursor back to default; gets stuck as 'hand' otherwise
   game.canvas.style.cursor = "default";
-  //disable this button
-  this.inputEnabled = false;
 
-  if(this.data.correct){
-    //increment number of answered questions
-    game.global.questionsAnswered++;
-  }
-
-  game.state.getCurrentState().timesAnswered++;
-  console.log(game.state.getCurrentState().timesAnswered);
-
-  function btnClickShowAnswers(){
-    //show AI answers if not already shown
-    if(!game.global.answersShown){
-      game.state.getCurrentState().showAnswers(true);
-      game.global.answeredBeforeAI = true;
-    }else{
-      game.global.answeredBeforeAI = false;
-    }
-  }
-
-  function btnClickSymbolFeedback(){
-    //bring in a symbol of right or wrong
-    game.global.symbol = game.add.sprite(game.world.x - game.world.width, this.centerY, this.data.correct ? 'check' : 'x');
-    game.global.symbol.height = game.global.symbol.width = game.global.borderFrameSize * 3;
-    game.global.symbol.anchor.setTo(0.5,0.5);
-    game.global.questionUI.add(game.global.symbol);
-    game.add.tween(game.global.symbol).to({x: Math.floor(this.x - game.global.symbol.width/3), y: Math.floor(this.y + this.bubbleheight/2)}, 300, Phaser.Easing.Default, true, 0);
-    var sounds = this.data.correct ? game.global.rightsounds : game.global.wrongsounds;
-    //play sound
-    sounds[0].play();
-  }
-
-  function btnClickHostFeedback(){
-    //set host's attitude based on right or wrong answer
-    var speech = this.data.correct ? 'right' : 'wrong';
-    var comment = game.global.hostComments[speech][Math.floor(Math.random() * game.global.hostComments[speech].length)];
-    if(!this.data.correct) comment += '. Keep guessing!';
-
+  // ensure user has selected at least one answer
+  if (playStateC123.selectedAnswerCount == 0) {
+    var comment = "Please select at least one answer.";
     game.global.jinnySpeech.destroy();
     game.global.jinnySpeech = game.world.add(new game.global.SpeechBubble(game, game.global.jinny.right + (game.global.borderFrameSize * 2), game.global.chapterText.bottom, game.world.width - (game.global.jinny.width*2), comment, true, false, null, false, null, true));
+  } else {
+    //disable this button (Confirm button)
+    this.inputEnabled = false;
+    // DEV LOG
+    if (devmode) {
+      console.log("Correct Answer: " , (playStateC123.correctAnswer));
+    }
 
-    //points graphic
-    if(this.data.correct){
-      //set the number of points earned here, use it to load the appropriate graphic and to update the score later
-      game.global.pointsToAdd = Math.max(0, 20 - (5 * game.state.getCurrentState().timesAnswered));
-      if(game.global.pointsToAdd > 0){
-        // var ptsImage = game.add.sprite(game.world.centerX, game.world.height, game.global.pointsToAdd + 'pts');
-        var ptsImage = game.add.text(game.world.centerX, game.world.height, game.global.pointsToAdd + ' pts!');
-        ptsImage.font = 'Arial';
-        ptsImage.fontWeight = 'bold';
-        ptsImage.fill = '#ffffff';
-        ptsImage.stroke = '#000000';
-        ptsImage.strokeThickness = Math.max(game.global.pointsToAdd / 2, 10) * dpr;
-        ptsImage.fontSize = Math.max(game.global.pointsToAdd * 4, 40) * dpr;
-        var tweenA = game.add.tween(ptsImage).to({x: Math.floor(game.world.centerX - ptsImage.width/2), y: Math.floor(game.world.centerY - ptsImage.height/2)}, 300, Phaser.Easing.Default, false, 0);
-        var tweenB = game.add.tween(ptsImage).to({alpha: 0}, 300, Phaser.Easing.Default, false, 300);
-        tweenA.chain(tweenB);
-        tweenA.start();
-        game.global.questionUI.add(ptsImage);
+    for (var i = 0; i < playStateC123.selectedAnswers.length; i++) {
+      // DEV LOG
+      if (devmode) {
+        console.log("Selected Answer #" , i , ": " , playStateC123.selectedAnswers[i]);
+      }
+      // check if any of the selected answers are correct
+      if (playStateC123.selectedAnswers[i] === (playStateC123.correctAnswer)) {
+        // increment number of answered questions
+        playStateC123.isCorrect = true;
+        break;
       }
     }
-  }
+      
+    game.global.questionsAnswered++;
+    game.state.getCurrentState().timesAnswered++;
+    // DEV LOG
+    if (devmode) {
+      console.log("isCorrect: " , playStateC123.isCorrect);
+      console.log("Times answered: " , game.state.getCurrentState().timesAnswered);
+      console.log("Questions answered: " ,  game.global.questionsAnswered);
+    }
 
-  game.global.timer.stop();
-  game.global.timer.add(100, btnClickShowAnswers, this);
-  game.global.timer.add(100, btnClickSymbolFeedback, this);
-  game.global.timer.add(500, btnClickHostFeedback, this);
-  if(this.data.correct){
+    function btnClickShowAnswers(){
+      //show AI answers if not already shown
+      if(!game.global.answersShown){
+        game.state.getCurrentState().showAnswers(true);
+        game.global.answeredBeforeAI = true;
+      }else{
+        game.global.answeredBeforeAI = false;
+      }
+    }
+
+    function btnClickSymbolFeedback(){
+      // check if user selected the correct answer or not
+      if (playStateC123.isCorrect) {
+        // loop through answers (text bubble objects)
+        game.global.choiceBubbles.forEach( function(item){
+          // check for selected buttons
+          if (item.alpha < 1) {
+            if(item.data.correct){
+              // animate a check symbol
+              var check = game.add.sprite(game.world.x - game.world.width, item.centerY, 'check');
+              check.height = check.width = game.global.borderFrameSize * 3;
+              check.anchor.setTo(0.5,0.5);
+              game.global.questionUI.add(check);
+              game.add.tween(check).to({x: Math.floor(item.x - check.width/3), y: Math.floor(item.y + item.bubbleheight/2)}, 300, Phaser.Easing.Default, true, 0);
+            } else {
+              // animate an X symbol
+              var arrow = game.add.sprite(game.world.x - game.world.width, item.centerY, 'x');
+              arrow.height = arrow.width = game.global.borderFrameSize * 3;
+              arrow.anchor.setTo(0.5,0.5);
+              game.global.questionUI.add(arrow);
+              game.add.tween(arrow).to({x: Math.floor(item.x - arrow.width/3), y: Math.floor(item.y + item.bubbleheight/2)}, 300, Phaser.Easing.Default, true, 0);
+            }
+          }
+        });
+      } else {
+        // check if user has selected at least one answer
+        if (playStateC123.selectedAnswerCount > 0) {
+          // loop through answers (text bubble objects)
+          game.global.choiceBubbles.forEach( function(item){
+            if(!item.data.correct){
+              // check for selected buttons
+              if (item.alpha < 1) {
+                // animate an X symbol
+                var xMark = game.add.sprite(game.world.x - game.world.width, item.centerY, 'x');
+                xMark.height = xMark.width = game.global.borderFrameSize * 3;
+                xMark.anchor.setTo(0.5,0.5);
+                game.global.questionUI.add(xMark);
+                game.add.tween(xMark).to({x: Math.floor(item.x - xMark.width/3), y: Math.floor(item.y + item.bubbleheight/2)}, 300, Phaser.Easing.Default, true, 0);
+              }
+            } else {
+              var arrow = game.add.sprite(game.world.x - game.world.width, item.centerY, 'arrow');
+              arrow.height = arrow.width = game.global.borderFrameSize * 3;
+              arrow.anchor.setTo(0.5,0.5);
+              game.global.questionUI.add(arrow);
+              game.add.tween(arrow).to({x: Math.floor(item.x - arrow.width/3), y: Math.floor(item.y + item.bubbleheight/2)}, 300, Phaser.Easing.Default, true, 0);
+            }
+          });
+        }
+      }
+      var sounds = playStateC123.isCorrect ? game.global.rightsounds : game.global.wrongsounds;
+      //play sound
+      sounds[0].play();
+    }
+
+    function btnClickHostFeedback(){
+      //set host's attitude based on right or wrong answer
+      var speech = playStateC123.isCorrect ? 'right' : 'wrong';
+      var comment = game.global.hostComments[speech][Math.floor(Math.random() * game.global.hostComments[speech].length)];
+
+      game.global.jinnySpeech.destroy();
+      game.global.jinnySpeech = game.world.add(new game.global.SpeechBubble(game, game.global.jinny.right + (game.global.borderFrameSize * 2), game.global.chapterText.bottom, game.world.width - (game.global.jinny.width*2), comment, true, false, null, false, null, true));
+
+      //points graphic
+      if(playStateC123.isCorrect){
+        //set the number of points earned here, use it to load the appropriate graphic and to update the score later
+        game.global.pointsToAdd = Math.max(0, 20 - (5 * playStateC123.selectedAnswerCount));
+        if(game.global.pointsToAdd > 0){
+          // var ptsImage = game.add.sprite(game.world.centerX, game.world.height, game.global.pointsToAdd + 'pts');
+          var ptsImage = game.add.text(game.world.centerX, game.world.height, game.global.pointsToAdd + ' pts!');
+          ptsImage.font = 'Arial';
+          ptsImage.fontWeight = 'bold';
+          ptsImage.fill = '#ffffff';
+          ptsImage.stroke = '#000000';
+          ptsImage.strokeThickness = Math.max(game.global.pointsToAdd / 2, 10) * dpr;
+          ptsImage.fontSize = Math.max(game.global.pointsToAdd * 4, 40) * dpr;
+          var tweenA = game.add.tween(ptsImage).to({x: Math.floor(game.world.centerX - ptsImage.width/2), y: Math.floor(game.world.centerY - ptsImage.height/2)}, 300, Phaser.Easing.Default, false, 0);
+          var tweenB = game.add.tween(ptsImage).to({alpha: 0}, 300, Phaser.Easing.Default, false, 300);
+          tweenA.chain(tweenB);
+          tweenA.start();
+          game.global.questionUI.add(ptsImage);
+        }
+      } else {
+        game.global.pointsToAdd = 0;
+      }
+    }
+
+    game.global.timer.stop();
+    game.global.timer.add(100, btnClickShowAnswers, this);
+    game.global.timer.add(100, btnClickSymbolFeedback, this);
+    game.global.timer.add(500, btnClickHostFeedback, this);
     game.global.choiceBubbles.forEach( function(item){ item.inputEnabled = false; } );
     game.global.timer.add(2500, game.state.getCurrentState().animateOut, this, false);
+    game.global.timer.start();
   }
-  game.global.timer.start();
 };
 
 playStateC123.updateScores = function(answerCorrect, didntAnswer){
@@ -289,7 +393,92 @@ playStateC123.updateScores = function(answerCorrect, didntAnswer){
 
   game.state.getCurrentState().timesAnswered = 0;
   game.global.chars[0].score = game.global.totalStats.score;
-}
+};
+
+playStateC123.animateOut = function(didntAnswer){
+  game.state.getCurrentState().timerOn = false;
+  game.add.tween(game.global.questionUI).to({x: game.world.x - game.world.width}, 300, Phaser.Easing.Default, true, 0);
+  game.add.tween(game.global.confirmButton).to({x: game.world.x - game.world.width}, 300, Phaser.Easing.Default, true, 0);
+
+  makeBars = function(correct, didntAnswer){
+    /*
+     * create horizontal progress bars for each player
+     * and animate them
+     */
+    game.state.getCurrentState().updateScores(correct, didntAnswer);
+    for (var i = 0; i < game.global.chars.length; i++) {
+      if(game.global.questionsAnswered <= 1 && !game.global.isRehash){
+        game.global.chars[i].gfx = game.add.graphics(0,0);
+        game.global.chars[i].gfx.visible = false;
+        game.global.chars[i].gfx.beginFill(0x02C487, 1);
+        game.global.chars[i].gfx.drawRect(game.global.chars[i].sprite.x, (game.global.selectedMode.id == 0) ? game.global.chars[i].crown.y : game.global.chars[i].sprite.y, game.global.chars[i].sprite.width, 1);
+        game.global.chars[i].barSprite = game.add.sprite(game.global.chars[i].sprite.x, (game.global.selectedMode.id == 0) ? game.global.chars[i].crown.y : game.global.chars[i].sprite.y, game.global.chars[i].gfx.generateTexture());
+        game.global.chars[i].barSprite.anchor.y = 1;
+      }
+      game.add.tween(game.global.chars[i].barSprite).to({height: Math.max(game.global.chars[i].score, 1)}, 1000, Phaser.Easing.Default, true, 0);
+    }
+  };
+  // makeBars();
+
+
+  /*
+   * remove answers from screen
+   */
+  removeAnswers = function(){
+    game.global.answersShown = false;
+    game.global.answerBubbles.destroy();
+    game.global.answerBubbles = game.add.group();
+  };
+
+  game.global.timer.stop();
+  game.global.timer.add(200, removeAnswers, game.state.getCurrentState());
+  //game.global.timer.add(200, game.global.confirmButton.destroy(), game.state.getCurrentState());
+  game.global.timer.add(600, makeBars, game.state.getCurrentState(), playStateC123.isCorrect, !playStateC123.isCorrect);
+  game.global.timer.add(2000, game.state.getCurrentState().nextQuestion, game.state.getCurrentState());
+  game.global.timer.start();
+};
+
+/*
+ * Reveal next question
+ * if max number of questions reached
+ * switch state to endOfGame state
+ */
+playStateC123.nextQuestion = function(){
+  for (var i = 0; i < playStateC123.selectedAnswers.length; i++) {
+   playStateC123.selectedAnswers[i] = "";
+  }
+  playStateC123.selectedAnswerCount = 0;
+  playStateC123.correctAnswer = "";
+  playStateC123.isCorrect = false;
+  //game.global.pointsToAdd = 0;
+  game.state.getCurrentState().removeQuestion();
+  //set jin's face to default state
+  game.global.jinny.frame = 0;
+  if (game.global.questionsAnswered < game.global.numQuestions){
+    //still questions left, show the next one
+    game.global.jinnySpeech.destroy();
+    game.global.jinnySpeech = game.world.add(new game.global.SpeechBubble(game, game.global.jinny.right + (game.global.borderFrameSize * 2), game.global.chapterText.bottom, game.world.width - (game.global.jinny.width*2), "Next question...", true, false, null, false, null, true));
+    game.state.getCurrentState().showQuestion(game.global.questions.shift());
+  } else if (game.global.rehashQuestions.length > 0 && !game.global.isRehash) {
+    //if out of questions and any were answered wrong, and this isn't a rehash round, go to rehash round
+    game.global.isRehash = true;
+    game.global.jinnySpeech.destroy();
+    game.state.getCurrentState().ticks.destroy();
+    game.state.start('play', false, false);
+  } else {
+    //out of questions, and everything was right OR this was a rehash round? end the game
+    game.global.jinnySpeech.destroy();
+    game.state.getCurrentState().ticks.destroy();
+    endGame = game.add.audio('endGame');
+    endGame.play();
+    game.state.start(game.global.selectedMode.endstate, false, false);
+  }
+};
+
+playStateC123.removeQuestion = function(){
+  game.global.questionUI.destroy();
+  game.global.questionShown = false;
+};
 
 playStateC123.createTimer = function(){}; //emptied to remove timer visuals
 
@@ -316,4 +505,4 @@ playStateC123.showAnswers = function(fromButton) { //show AI's selected answers
     }
     game.global.answersShown = true;
   }
-}
+};

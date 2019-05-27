@@ -7,10 +7,9 @@ preGameStateC123.instructLines = [
         Click/tap the question to make the answer choices appear.\n
         Choose up to 3 of the options displayed.\n
         \n
-        If you are correct and chose 1 option – earn 15 points.\n
-        If you are correct and chose 2 options – earn 10 points.\n
-        If you are correct and chose 3 options – earn 5 points.\n
-        If you are incorrect on all 3 – no points are awarded.`
+        If you choose 1 option and are correct – earn 15 points.\n
+        If you choose 2 options and are correct – earn 10 points.\n
+        If you choose 3 options and are correct – earn 5 points.`
 ];
 
 preGameStateC123.makeHost = function(){
