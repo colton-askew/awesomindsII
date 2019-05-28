@@ -86,7 +86,7 @@ var preGameState = {
         game.global.chars[i].correct = false;
       }
     }
-
+  
     //loop again to add ai tweens; needs to be done after the sprites were made in this case
     for (var i = 0; i < game.global.chars.length; i++) {
       game.global.chars[i].tween = game.add.tween(game.global.chars[i].sprite).to({x: Math.floor(((game.width/game.global.chars.length)*(i+1) -game.width/game.global.chars.length)+(game.width/25))}, 250, Phaser.Easing.Default, false);
@@ -134,3 +134,4 @@ var preGameState = {
     }
   }
 };
+

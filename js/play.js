@@ -76,7 +76,7 @@ var playState = {
     for (var i = 0; i < game.global.chars.length; i++) {
       game.add.tween(game.global.chars[i].sprite).to({x: Math.floor(((game.width/game.global.chars.length)*(i+1) -game.width/game.global.chars.length)+(game.width/25))}, 250, Phaser.Easing.Default, true);
     }
-
+    
     //show the rehash splash or the first question
     if(game.global.isRehash){
       function playBtnClick(){

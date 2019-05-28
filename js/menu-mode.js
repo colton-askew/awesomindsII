@@ -24,6 +24,7 @@ var menuModeState = {
       { name: 'Wild Wild Guess', desc: 'Keep guessing until you get it right\n(Best for beginners)', prestate: 'pregameSU', gamestate: 'playSU', id: 1, endstate: 'endOfGameWWG', maxPtsPerQ: 15, totalTime: 25},
       { name: 'Time Bonus', desc: 'The faster you respond, the more points you get', prestate: 'pregameTB', gamestate: 'playTB', id: 2, endstate: 'endOfGameTB', maxPtsPerQ: 25, totalTime: 10},
       { name: 'One Crack', desc: 'You only get one choice\n 15 points if you are correct', prestate: 'pregameOC', gamestate: 'playOC', id: 3, endstate: 'endOfGameOC', maxPtsPerQ: 15, totalTime: 25},
+      { name: 'Just Drills', desc: 'Studying Mode!\n 5 points if you are correct', prestate: 'pregameJD', gamestate: 'playJD', id: 4, endstate: 'endOfGameJD', maxPtsPerQ: 5, totalTime: 25}, 
     ];
     var prevHeights = 10 * dpr;
     for (var i = 0; i < modes.length; i++) { //create a button and text for each game mode
