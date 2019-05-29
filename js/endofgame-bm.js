@@ -2,9 +2,9 @@
 var endOfGameStateBM = Object.create(endOfGameState);
 
 endOfGameStateBM.hostMindStates = [
-  { min: 70, max: 100, mind: "You have thrived on the frontier!", label: "Thrive", gameOver: false, bonus: 0},
-  { min: 50, max: 69, mind: "You have survived on the frontier!", label: "Survive", gameOver: false, bonus: 0},
-  { min: 0, max: 49, mind: "You have died on the frontier!", label: "Die", gameOver: true, bonus: 0}
+  { min: 70, max: 100, mind: "You hit the jackpot - big money!", label: "Big Money", gameOver: false, bonus: 0},
+  { min: 50, max: 69, mind: "You won some spare change!", label: "Little Money", gameOver: false, bonus: 0},
+  { min: 0, max: 49, mind: "You're broke!", label: "No Money", gameOver: true, bonus: 0}
   ];
   
   endOfGameStateBM.isGameOver = function(mindStateGameOver){
@@ -70,47 +70,48 @@ endOfGameStateBM.hostMindStates = [
     game.global.jinnySpeech = game.world.add(new game.global.SpeechBubble(game, game.global.jinny.right + (game.global.borderFrameSize * 2), game.global.chapterText.bottom, game.world.width - (game.global.jinny.width + maxBtnWidth + 10), mindStateToUse.mind, true, false, null, false, null, true));
     this.endGameUI.add(game.global.jinnySpeech);
 
-    // convert score + progress bars to percentage
-    for (var i = 0; i < game.global.chars.length; i++) {
-      this.endGameUI.add(game.global.chars[i].gfx);
-      this.endGameUI.add(game.global.chars[i].barSprite);
-      var topBar = Math.min(game.global.chars[i].score, game.global.questionsAnswered * game.global.selectedMode.maxPtsPerQ);
-      // calculate correct answer percentage (between 0 and 100, even if score is negative)
-      var scorePercent = Math.max(Math.floor(((topBar) / (game.global.questionsAnswered * game.global.selectedMode.maxPtsPerQ)) * 100), 0);
-      var y = game.global.mapNum(scorePercent, 0, 100, (game.global.selectedMode.id == 0) ? game.global.chars[i].crown.y : game.global.chars[i].sprite.y, prevHeightsBtns + 5);
-      scorePercentLabel = game.add.bitmapText(game.global.chars[i].sprite.centerX, (game.global.selectedMode.id == 0) ? game.global.chars[i].crown.y : game.global.chars[i].sprite.y, '8bitoperator', scorePercent + '%', 11 * dpr);
-      scorePercentLabel.x = Math.floor(game.global.chars[i].sprite.centerX - scorePercentLabel.width/2);
-      scorePercentLabel.y = Math.floor(((game.global.selectedMode.id == 0) ? game.global.chars[i].crown.y : game.global.chars[i].sprite.y) - (scorePercentLabel.height*2));
-      scorePercentLabel.tint = 0x000044;
-      this.endGameUI.add(scorePercentLabel);
-      // game.add.tween(scorePercentLabel).to({y: y}, 500, Phaser.Easing.Default, true, 250); game.global.chars[i].numJewels
-      game.add.tween(game.global.chars[i].barSprite).to({height: Math.max(((game.global.selectedMode.id == 0) ? game.global.chars[i].crown.y : game.global.chars[i].sprite.y) - y, 1)}, 500, Phaser.Easing.Default, true, 250);
-      this.endGameUI.add(game.global.chars[i].barSprite);
-      if(game.global.chars[i].score == winningScore){
-        var medal = game.add.sprite(game.global.chars[i].sprite.x, (game.global.selectedMode.id == 0) ? game.global.chars[i].crown.y : game.global.chars[i].sprite.y, 'medal');
-        medal.width = game.global.chars[i].sprite.width;
-        medal.height = game.global.chars[i].sprite.height;
-        this.endGameUI.add(medal);
-        game.add.tween(medal).to({y: y + (scorePercentLabel.height*2)}, 500, Phaser.Easing.Default, true, 250);
-      }
-    }
+    // ## Leaving the follow code in case the game challenge results chart is to be restored at a later point ##
+    // // convert score + progress bars to percentage
+    // for (var i = 0; i < game.global.chars.length; i++) {
+    //   this.endGameUI.add(game.global.chars[i].gfx);
+    //   this.endGameUI.add(game.global.chars[i].barSprite);
+    //   var topBar = Math.min(game.global.chars[i].score, game.global.questionsAnswered * game.global.selectedMode.maxPtsPerQ);
+    //   // calculate correct answer percentage (between 0 and 100, even if score is negative)
+    //   var scorePercent = Math.max(Math.floor(((topBar) / (game.global.questionsAnswered * game.global.selectedMode.maxPtsPerQ)) * 100), 0);
+    //   var y = game.global.mapNum(scorePercent, 0, 100, (game.global.selectedMode.id == 0) ? game.global.chars[i].crown.y : game.global.chars[i].sprite.y, prevHeightsBtns + 5);
+    //   scorePercentLabel = game.add.bitmapText(game.global.chars[i].sprite.centerX, (game.global.selectedMode.id == 0) ? game.global.chars[i].crown.y : game.global.chars[i].sprite.y, '8bitoperator', scorePercent + '%', 11 * dpr);
+    //   scorePercentLabel.x = Math.floor(game.global.chars[i].sprite.centerX - scorePercentLabel.width/2);
+    //   scorePercentLabel.y = Math.floor(((game.global.selectedMode.id == 0) ? game.global.chars[i].crown.y : game.global.chars[i].sprite.y) - (scorePercentLabel.height*2));
+    //   scorePercentLabel.tint = 0x000044;
+    //   this.endGameUI.add(scorePercentLabel);
+    //   // game.add.tween(scorePercentLabel).to({y: y}, 500, Phaser.Easing.Default, true, 250); game.global.chars[i].numJewels
+    //   game.add.tween(game.global.chars[i].barSprite).to({height: Math.max(((game.global.selectedMode.id == 0) ? game.global.chars[i].crown.y : game.global.chars[i].sprite.y) - y, 1)}, 500, Phaser.Easing.Default, true, 250);
+    //   this.endGameUI.add(game.global.chars[i].barSprite);
+    //   if(game.global.chars[i].score == winningScore){
+    //     var medal = game.add.sprite(game.global.chars[i].sprite.x, (game.global.selectedMode.id == 0) ? game.global.chars[i].crown.y : game.global.chars[i].sprite.y, 'medal');
+    //     medal.width = game.global.chars[i].sprite.width;
+    //     medal.height = game.global.chars[i].sprite.height;
+    //     this.endGameUI.add(medal);
+    //     game.add.tween(medal).to({y: y + (scorePercentLabel.height*2)}, 500, Phaser.Easing.Default, true, 250);
+    //   }
+    // }
 
-    var lineGfx = game.add.graphics(0,0);
-    this.endGameUI.add(lineGfx);
-    lineGfx.lineStyle(1, 0x333333, 1);
+    // var lineGfx = game.add.graphics(0,0);
+    // this.endGameUI.add(lineGfx);
+    // lineGfx.lineStyle(1, 0x333333, 1);
 
-    //loop mindstates again to add the labels on top of the progress bars
-    for (var i = 0; i < mindStates.length; i++) {
-      var lineYposition = game.global.mapNum(mindStates[i].max, 0, 100, (game.global.selectedMode.id == 0) ? game.global.chars[0].crown.y : game.global.chars[0].sprite.y, prevHeightsBtns + 5);
-      lineGfx.moveTo(0, lineYposition);
-      lineGfx.lineTo(game.world.width, lineYposition);
-      var label = game.add.text(game.world.centerX, lineYposition, mindStates[i].label, game.global.whiteFont);
-      label.x -= label.width/2;
-      label.setShadow(2, 2, 'rgba(0,0,0,0.5)', 5);
-      label.padding.x = 5;
-      label.z++;
-      this.endGameUI.add(label);
-    }
+    // //loop mindstates again to add the labels on top of the progress bars
+    // for (var i = 0; i < mindStates.length; i++) {
+    //   var lineYposition = game.global.mapNum(mindStates[i].max, 0, 100, (game.global.selectedMode.id == 0) ? game.global.chars[0].crown.y : game.global.chars[0].sprite.y, prevHeightsBtns + 5);
+    //   lineGfx.moveTo(0, lineYposition);
+    //   lineGfx.lineTo(game.world.width, lineYposition);
+    //   var label = game.add.text(game.world.centerX, lineYposition, mindStates[i].label, game.global.whiteFont);
+    //   label.x -= label.width/2;
+    //   label.setShadow(2, 2, 'rgba(0,0,0,0.5)', 5);
+    //   label.padding.x = 5;
+    //   label.z++;
+    //   this.endGameUI.add(label);
+    // }
 
     game.state.getCurrentState().statsUI = game.add.group();
     game.state.getCurrentState().statsUI.visible = false;
@@ -147,3 +148,15 @@ endOfGameStateBM.hostMindStates = [
 
     game.state.getCurrentState().endGameUI.add(game.state.getCurrentState().statsUI);
   };
+
+  endOfGameStateBM.update = function(){ //animates scores and keeps score text and names positioned near their respective avatars
+    for (var i = 0; i < game.global.chars.length; i++) {
+      // remove score bars
+      game.global.chars[i].barSprite.destroy();
+      // modify original score text to be above each characters' sprite
+      game.global.chars[i].scoreText.fontSize = 30 * dpr;
+      game.global.chars[i].scoreText.x = Math.floor(game.global.chars[i].sprite.centerX - (game.global.chars[i].sprite.width * 0.4));
+      game.global.chars[i].scoreText.y = Math.floor(game.global.chars[i].sprite.centerY - (game.global.chars[i].sprite.height * 0.75));
+    }
+  };
+  
