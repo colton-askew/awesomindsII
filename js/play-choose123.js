@@ -9,7 +9,6 @@ playStateC123.isCorrect = false;
 
 playStateC123.create = function(){
   console.log('state: play');
-  //game.global.pointsToAdd = 0;
   if(game.global.isRehash){ //if in rehash round, use the array of questions that were answered incorrectly in the previous round
     game.global.questions = game.global.rehashQuestions;
   } else {
@@ -420,7 +419,6 @@ playStateC123.animateOut = function(didntAnswer){
   };
   // makeBars();
 
-
   /*
    * remove answers from screen
    */
@@ -444,13 +442,13 @@ playStateC123.animateOut = function(didntAnswer){
  * switch state to endOfGame state
  */
 playStateC123.nextQuestion = function(){
+  // reset state variables for next question
   for (var i = 0; i < playStateC123.selectedAnswers.length; i++) {
    playStateC123.selectedAnswers[i] = "";
   }
   playStateC123.selectedAnswerCount = 0;
   playStateC123.correctAnswer = "";
   playStateC123.isCorrect = false;
-  //game.global.pointsToAdd = 0;
   game.state.getCurrentState().removeQuestion();
   //set jin's face to default state
   game.global.jinny.frame = 0;
