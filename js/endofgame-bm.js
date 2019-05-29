@@ -2,9 +2,9 @@
 var endOfGameStateBM = Object.create(endOfGameState);
 
 endOfGameStateBM.hostMindStates = [
-    { min: 70, max: 100, mind: "You have an awesomind!", label: "Awesomind", gameOver: false, bonus: 0},
-    { min: 50, max: 69, mind: "You have an averagemind!", label: "Averagemind", gameOver: false, bonus: 0},
-    { min: 0, max: 49, mind: "You should nevermind!", label: "Nevermind", gameOver: true, bonus: 0}
+  { min: 70, max: 100, mind: "You have thrived on the frontier!", label: "Thrive", gameOver: false, bonus: 0},
+  { min: 50, max: 69, mind: "You have survived on the frontier!", label: "Survive", gameOver: false, bonus: 0},
+  { min: 0, max: 49, mind: "You have died on the frontier!", label: "Die", gameOver: true, bonus: 0}
   ];
   
   endOfGameStateBM.isGameOver = function(mindStateGameOver){
@@ -12,22 +12,33 @@ endOfGameStateBM.hostMindStates = [
   };
 
   endOfGameStateBM.makeStatUI = function(){
-    console.log("game.global.questionsAnswered: " + game.global.questionsAnswered); // For debugging
     var mindStates = game.state.getCurrentState().hostMindStates.slice();
     // calculate score based off of number of questions answered
-    var score = Math.min(100, Math.floor(((game.global.chars[0].numCorrect) / (game.global.questionsAnswered)) * 100));
+    var score = Math.min(100, Math.floor(((game.global.totalStats.score) / (game.global.questionsAnswered * game.global.selectedMode.maxPtsPerQ)) * 100));
 
     if(score > mindStates[0].min){
       //if awesomind, be happy
       game.global.jinny.frame = 2;
     }
 
+    // DEV LOG
+    if (devmode) {
+      console.log("Total questions answered: " + game.global.questionsAnswered);
+      console.log("Score: " , score);
+    }
+
     var mindStateToUse = mindStates[mindStates.length];
     // set up visual areas for score ranges
     for (var i = 0; i < mindStates.length; i++) {
-      if(score >= mindStates[i].min && score <= mindStates[i].max){
-        mindStateToUse = mindStates[i];
+      // check if score is negative (if so, use lowest scoring mindstate)
+      if (score < 0) {
+        mindStateToUse = mindStates[mindStates.length - 1];
         break;
+      } else {
+        if(score >= mindStates[i].min && score <= mindStates[i].max){
+          mindStateToUse = mindStates[i];
+          break;
+        }
       }
     }
 
@@ -63,11 +74,9 @@ endOfGameStateBM.hostMindStates = [
     for (var i = 0; i < game.global.chars.length; i++) {
       this.endGameUI.add(game.global.chars[i].gfx);
       this.endGameUI.add(game.global.chars[i].barSprite);
-      // calculate score based off of number of questions answered
-      console.log("game.global.chars[" + i + "].numCorrect: " + game.global.chars[i].numCorrect);
-      var topBar = Math.min(game.global.chars[i].numCorrect, game.global.questionsAnswered);
+      var topBar = Math.min(game.global.chars[i].score, game.global.questionsAnswered * game.global.selectedMode.maxPtsPerQ);
       // calculate correct answer percentage (between 0 and 100, even if score is negative)
-      var scorePercent = Math.max(Math.floor(((topBar) / (game.global.questionsAnswered)) * 100), 0);
+      var scorePercent = Math.max(Math.floor(((topBar) / (game.global.questionsAnswered * game.global.selectedMode.maxPtsPerQ)) * 100), 0);
       var y = game.global.mapNum(scorePercent, 0, 100, (game.global.selectedMode.id == 0) ? game.global.chars[i].crown.y : game.global.chars[i].sprite.y, prevHeightsBtns + 5);
       scorePercentLabel = game.add.bitmapText(game.global.chars[i].sprite.centerX, (game.global.selectedMode.id == 0) ? game.global.chars[i].crown.y : game.global.chars[i].sprite.y, '8bitoperator', scorePercent + '%', 11 * dpr);
       scorePercentLabel.x = Math.floor(game.global.chars[i].sprite.centerX - scorePercentLabel.width/2);
