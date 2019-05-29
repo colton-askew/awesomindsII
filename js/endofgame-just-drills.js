@@ -1,5 +1,5 @@
 //copy original end of game state and modify it
-var endOfGameStateJD = Object.create(endOfGameState);
+var endOfGameStateJD = Object.create(endOfModeState);
 
 endOfGameStateJD.hostMindStates = [
   { min: 70, max: 100, mind: "You have thrived on the frontier!", label: "Thrive", gameOver: false, bonus: 50},

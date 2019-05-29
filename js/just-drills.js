@@ -1,5 +1,5 @@
 //copy original playState and then modify it to create the state for One Crack mode
-var playStateJD = Object.create(playState);
+var playStateJD = Object.create(modeState);
 
 playStateJD.timesAnswered = 0;
 
@@ -96,12 +96,8 @@ playStateJD.btnClick = function(){
   game.global.timer.start();
 };
 
-playStateJD.updateScores = function(){; //emptied to remove AI avatars
-  //for(i = 1 ; i < game.global.chars.length; i++){
-  //  if(game.global.chars[i].correct){
-  //    game.global.chars[i].score += 5;
-  //  }
- // }
+//changed to remove AI avatars
+playStateJD.updateScores = function(){ 
 
   game.global.totalStats.numRight++;
 
@@ -120,24 +116,16 @@ playStateJD.createTimer = function(){}; //emptied to remove timer visuals
 playStateJD.updateTimer = function(){}; //emptied; not using this timer in this mode
 
 playStateJD.update = function(){ //animates scores and keeps score text and names positioned near their respective avatars
-  //for (var i = 0; i < game.global.chars.length; i++) {
-    var n = parseInt(game.global.chars[0].scoreText.text);
-    if (n < game.global.chars[0].score){
-      n++;
-      game.global.chars[0].scoreText.text = n;
-    }
-    game.global.chars[0].scoreText.x = Math.floor(game.global.chars[0].sprite.right + game.global.borderFrameSize);
-    game.global.chars[0].scoreText.y = Math.floor(game.global.chars[0].sprite.centerY + (11*dpr));
-    game.global.chars[0].name.x = Math.floor(game.global.chars[0].sprite.centerX - game.global.chars[0].name.width/2);
-    game.global.chars[0].name.y = Math.floor(game.global.chars[0].sprite.bottom);
-  };
-//};
+  var n = parseInt(game.global.chars[0].scoreText.text);
+  if (n < game.global.chars[0].score){
+    n++;
+    game.global.chars[0].scoreText.text = n;
+  }
+  game.global.chars[0].scoreText.x = Math.floor(game.global.chars[0].sprite.right + game.global.borderFrameSize);
+  game.global.chars[0].scoreText.y = Math.floor(game.global.chars[0].sprite.centerY + (11*dpr));
+  game.global.chars[0].name.x = Math.floor(game.global.chars[0].sprite.centerX - game.global.chars[0].name.width/2);
+  game.global.chars[0].name.y = Math.floor(game.global.chars[0].sprite.bottom);
+};
+
 
 playStateJD.showAnswers = function(fromButton) {};//show AI's selected answers
-/*  if((!game.global.answersShown) && game.global.questionShown){
-    for(i=1;i<game.global.chars.length;i++){
-      game.add.tween(game.global.chars[i].answerBubble).to({width: game.global.answerBubbleWidth }, 100, Phaser.Easing.Default, true, 250 * i);
-    }
-    game.global.answersShown = true;
-  }
-} */
