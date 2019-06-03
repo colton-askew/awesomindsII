@@ -13,6 +13,7 @@
             </a>
             <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
               <a class="dropdown-item" href="inst-coursemgmt.php">Manage Courses</a>
+              <a class="dropdown-item" href="inst-taskgamemgmt.php">Manage Tasks/Games</a>
               <a class="dropdown-item" href="inst-inviteinstructor.php">Invite Instructor</a>
               <a class="dropdown-item" href="inst-stats.php">View Student Progress</a>
             </div>
