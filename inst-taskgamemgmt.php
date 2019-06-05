@@ -535,7 +535,7 @@ var getRoundsLevels = function(){
             console.log("j loop 1: " , j);
             $('#roundsLevelsCheckbox' + [i]).empty();
             if (roundsLevels[j].goalcompleteround == null || roundsLevels[j].goalcompleteround == 0) {
-                $('#roundsLevelsCheckbox' + [i]).append('<input class="form-check-input" type="checkbox" value=0 checked>');
+                $('#roundsLevelsCheckbox' + [i]).append('<input class="form-check-input" type="checkbox" value=0>');
             } else {
                 $('#roundsLevelsCheckbox' + [i]).append('<input class="form-check-input" type="checkbox" value=1 checked>');
             }
@@ -548,7 +548,7 @@ var getRoundsLevels = function(){
             console.log("j loop 1: " , j);
             $('#roundsLevelsCheckbox' + [i]).empty();
             if (roundsLevels[j].goalbeatopponent == null || roundsLevels[j].goalbeatopponent == 0) {
-                $('#roundsLevelsCheckbox' + [i]).append('<input class="form-check-input" type="checkbox" value=0 checked>');
+                $('#roundsLevelsCheckbox' + [i]).append('<input class="form-check-input" type="checkbox" value=0>');
             } else {
                 $('#roundsLevelsCheckbox' + [i]).append('<input class="form-check-input" type="checkbox" value=1 checked>');
             }
