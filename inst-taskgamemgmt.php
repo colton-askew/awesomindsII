@@ -100,20 +100,20 @@
                         </div>
                         <div class="form-row">
                             <div class="col-sm-9"></div>
-                            <label class="col-sm-1" style="float: right; padding: 10px">GOAL</label>
+                            <label class="col-sm-1" style="float: right; margin-right: -2.0em">GOAL</label>
                         </div>
                         <table class="table">
                             <thead>
                                 <tr>
                                     <th scope="col">Number</th>
-                                    <th scope="col">Number of questions</th>
-                                    <th scope="col" title="Click for more information">Type of challenge <a class="btn"
+                                    <th scope="col">Number of Questions</th>
+                                    <th scope="col" title="Click for more information">Type of Challenge<a class="btn"
                                             href="" name="story" data-toggle="modal"
                                             data-target="#challengeTypeInfoModal">[?]</a></th>
-                                    <th scope="col">Max points value per question</th>
+                                    <th scope="col">Max Points Value per Question</th>
                                     <th scope="col">Points</th>
-                                    <th scope="col">Complete round</th>
-                                    <th scope="col">Beat opponent</th>
+                                    <th scope="col">Complete Round</th>
+                                    <th scope="col">Beat Opponent</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -121,230 +121,95 @@
                                     <th scope="row">1</th>
                                     <td><select class="custom-select mr-sm-4" id='roundsLevelsDropdown0'
                                             style="margin-left: 1em">
-                                            <option selected>10</option>
-                                            <?php
-                                                for ($i=1; $i<=100; $i++) {
-                                            ?>
-                                            <option value="<?php echo $i;?>"><?php echo $i;?></option>
-                                            <?php
-                                                }
-                                            ?>
                                         </select></td>
                                     <td><select class="custom-select mr-sm-4" id='roundsLevelsDropdown1'
                                             style="margin-left: 1em">
-                                            <option selected>Keep Choosing</option>
                                         </select></td>
                                     <td><select class="custom-select mr-sm-4" id='roundsLevelsDropdown2'
                                             style="margin-left: 1em">
-                                            <option selected>15</option>
-                                            <?php
-                                            for ($i=1; $i<=100; $i++) {
-                                        ?>
-                                            <option value="<?php echo $i;?>"><?php echo $i;?></option>
-                                            <?php
-                                            }
-                                        ?>
                                         </select></td>
                                     <td><select class="custom-select mr-sm-4" id='roundsLevelsDropdown3'
                                             style="margin-left: 1em">
-                                            <option selected>10</option>
-                                            <?php
-                                            for ($i=1; $i<=100; $i++) {
-                                        ?>
-                                            <option value="<?php echo $i;?>"><?php echo $i;?></option>
-                                            <?php
-                                            }
-                                        ?>
                                         </select></td>
-                                    <td>
-                                        <input class="form-check-input" type="checkbox" id='roundsLevelsCheckbox0'>
+                                    <td id='roundsLevelsCheckbox0'>
                                     </td>
-                                    <td>
-                                        <input class="form-check-input" type="checkbox" id='roundsLevelsCheckbox1'>
+                                    <td id='roundsLevelsCheckbox1'>
                                     </td>
                                 </tr>
                                 <tr>
                                     <th scope="row">2</th>
                                     <td><select class="custom-select mr-sm-4" id='roundsLevelsDropdown4'
                                             style="margin-left: 1em">
-                                            <option selected>10</option>
-                                            <?php
-                                            for ($i=1; $i<=100; $i++) {
-                                        ?>
-                                            <option value="<?php echo $i;?>"><?php echo $i;?></option>
-                                            <?php
-                                            }
-                                        ?>
                                         </select></td>
                                     <td><select class="custom-select mr-sm-4" id='roundsLevelsDropdown5'
                                             style="margin-left: 1em">
-                                            <option selected>Choose 1, 2, or 3</option>
                                         </select></td>
                                     <td><select class="custom-select mr-sm-4" id='roundsLevelsDropdown6'
                                             style="margin-left: 1em">
-                                            <option selected>15</option>
-                                            <?php
-                                            for ($i=1; $i<=100; $i++) {
-                                        ?>
-                                            <option value="<?php echo $i;?>"><?php echo $i;?></option>
-                                            <?php
-                                            }
-                                        ?>
                                         </select></td>
                                     <td><select class="custom-select mr-sm-4" id='roundsLevelsDropdown7'
                                             style="margin-left: 1em">
-                                            <option selected>10</option>
-                                            <?php
-                                    for ($i=1; $i<=100; $i++) {
-                                ?>
-                                            <option value="<?php echo $i;?>"><?php echo $i;?></option>
-                                            <?php
-                                    }
-                                ?>
                                         </select></td>
-                                    <td>
-                                        <input class="form-check-input" type="checkbox" id='roundsLevelsCheckbox2'>
+                                    <td id='roundsLevelsCheckbox2'>
                                     </td>
-                                    <td>
-                                        <input class="form-check-input" type="checkbox" id='roundsLevelsCheckbox3'>
+                                    <td id='roundsLevelsCheckbox3'>
                                     </td>
                                 </tr>
                                 <tr>
                                     <th scope="row">3</th>
                                     <td><select class="custom-select mr-sm-4" id='roundsLevelsDropdown8'
                                             style="margin-left: 1em">
-                                            <option selected>10</option>
-                                            <?php
-                                    for ($i=1; $i<=100; $i++) {
-                                ?>
-                                            <option value="<?php echo $i;?>"><?php echo $i;?></option>
-                                            <?php
-                                    }
-                                ?>
                                         </select></td>
                                     <td><select class="custom-select mr-sm-4" id='roundsLevelsDropdown9'
                                             style="margin-left: 1em">
-                                            <option selected>Time Bonus</option>
                                         </select></td>
                                     <td><select class="custom-select mr-sm-4" id='roundsLevelsDropdown10'
                                             style="margin-left: 1em">
-                                            <option selected>15</option>
-                                            <?php
-                                    for ($i=1; $i<=100; $i++) {
-                                ?>
-                                            <option value="<?php echo $i;?>"><?php echo $i;?></option>
-                                            <?php
-                                    }
-                                ?>
                                         </select></td>
                                     <td><select class="custom-select mr-sm-4" id='roundsLevelsDropdown11'
                                             style="margin-left: 1em">
-                                            <option selected>10</option>
-                                            <?php
-                                    for ($i=1; $i<=100; $i++) {
-                                ?>
-                                            <option value="<?php echo $i;?>"><?php echo $i;?></option>
-                                            <?php
-                                    }
-                                ?>
                                         </select></td>
-                                    <td>
-                                        <input class="form-check-input" type="checkbox" id='roundsLevelsCheckbox4'>
+                                    <td id='roundsLevelsCheckbox4'>
                                     </td>
-                                    <td>
-                                        <input class="form-check-input" type="checkbox" id='roundsLevelsCheckbox5'>
+                                    <td id='roundsLevelsCheckbox5'>
                                     </td>
                                 </tr>
                                 <tr>
                                     <th scope="row">4</th>
                                     <td><select class="custom-select mr-sm-4" id='roundsLevelsDropdown12'
                                             style="margin-left: 1em">
-                                            <option selected>10</option>
-                                            <?php
-                                    for ($i=1; $i<=100; $i++) {
-                                ?>
-                                            <option value="<?php echo $i;?>"><?php echo $i;?></option>
-                                            <?php
-                                    }
-                                ?>
                                         </select></td>
                                     <td><select class="custom-select mr-sm-4" id='roundsLevelsDropdown13'
                                             style="margin-left: 1em">
-                                            <option selected>Mystery Multipliers</option>
                                         </select></td>
                                     <td><select class="custom-select mr-sm-4" id='roundsLevelsDropdown14'
                                             style="margin-left: 1em">
-                                            <option selected>15</option>
-                                            <?php
-                                    for ($i=1; $i<=100; $i++) {
-                                ?>
-                                            <option value="<?php echo $i;?>"><?php echo $i;?></option>
-                                            <?php
-                                    }
-                                ?>
                                         </select></td>
                                     <td><select class="custom-select mr-sm-4" id='roundsLevelsDropdown15'
                                             style="margin-left: 1em">
-                                            <option selected>10</option>
-                                            <?php
-                                    for ($i=1; $i<=100; $i++) {
-                                ?>
-                                            <option value="<?php echo $i;?>"><?php echo $i;?></option>
-                                            <?php
-                                    }
-                                ?>
                                         </select></td>
-                                    <td>
-                                        <input class="form-check-input" type="checkbox" id='roundsLevelsCheckbox6'>
+                                    <td id='roundsLevelsCheckbox6'>
                                     </td>
-                                    <td>
-                                        <input class="form-check-input" type="checkbox" id='roundsLevelsCheckbox7'>
+                                    <td id='roundsLevelsCheckbox7'>
                                     </td>
                                 </tr>
                                 <tr>
                                     <th scope="row">5</th>
                                     <td><select class="custom-select mr-sm-4" id='roundsLevelsDropdown16'
                                             style="margin-left: 1em">
-                                            <option selected>10</option>
-                                            <?php
-                                    for ($i=1; $i<=100; $i++) {
-                                ?>
-                                            <option value="<?php echo $i;?>"><?php echo $i;?></option>
-                                            <?php
-                                    }
-                                ?>
                                         </select></td>
                                     <td><select class="custom-select mr-sm-4" id='roundsLevelsDropdown17'
                                             style="margin-left: 1em">
-                                            <option selected>Big Money</option>
                                         </select></td>
                                     <td><select class="custom-select mr-sm-4" id='roundsLevelsDropdown18'
                                             style="margin-left: 1em">
-                                            <option selected>100</option>
-                                            <?php
-                                    for ($i=1; $i<=100; $i++) {
-                                ?>
-                                            <option value="<?php echo $i;?>"><?php echo $i;?></option>
-                                            <?php
-                                    }
-                                ?>
                                         </select></td>
                                     <td><select class="custom-select mr-sm-4" id='roundsLevelsDropdown19'
                                             style="margin-left: 1em">
-                                            <option selected>10</option>
-                                            <?php
-                                    for ($i=1; $i<=100; $i++) {
-                                ?>
-                                            <option value="<?php echo $i;?>"><?php echo $i;?></option>
-                                            <?php
-                                    }
-                                ?>
                                         </select></td>
-                                    <td>
-                                        <input class="form-check-input" type="checkbox" id='roundsLevelsCheckbox8'>
+                                    <td id='roundsLevelsCheckbox8'>
                                     </td>
-                                    <td>
-                                        <input class="form-check-input" type="checkbox" id='roundsLevelsCheckbox9'>
+                                    <td id='roundsLevelsCheckbox9'>
                                     </td>
                                 </tr>
                             </tbody>
@@ -355,6 +220,8 @@
         </div>
     </div>
 
+    <br>
+
     <!-- Game Challenges - More Information -->
     <div class="modal fade" id="challengeTypeInfoModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
         <div class="modal-dialog modal-lg" role="document">
@@ -362,7 +229,7 @@
                 <div class="modal-header text-center">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                             aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title text-center" id="myModalLabel">Camosun College's <i>Awesominds II</i></h4>
+                    <h4 class="modal-title text-center" id="myModalLabel">Camosun College's <i>Awesominds</i></h4>
                 </div>
                 <div class="modal-body text-center" style="font-size: 14px">
 
@@ -479,9 +346,6 @@ var getTasks = function(){
   $.ajax({
     url: 'gettasks.php',
     success: function(data){
-      //$('#gameAttributeValueDropdown').empty();
-      //$('#gameAttributeValueDropdown').append('<option value="null">Select a value</option>');
-      //$("#selectedCourseOutput").empty();
       tasks = $.parseJSON(data);
 
       for (var i = 0; i < tasks.length; i++) {
@@ -559,20 +423,24 @@ var getGameAttributes = function(){
   $.ajax({
     url: 'getgameattributes.php',
     success: function(data){
-      //$('#gameAttributeValueDropdown').empty();
-      //$('#gameAttributeValueDropdown').append('<option value="null">Select a value</option>');
-      //$("#selectedCourseOutput").empty();
       gameAttributes = $.parseJSON(data);
-    //   for (var j = 0; j < gameAttributeValueDropdownCount; j++) {
-    //     $('#gameAttributeValueDropdown' + [j]).empty();
-    //     $('#gameAttributeValueDropdown' + [j]).append('<option value="' + gameAttributes[j].value + '">' + gameAttributes[j].value + '</option>');
-    //   }
+
       for (var i = 0; i < gameAttributes.length; i++) {
         console.log("gameAttributes: " , gameAttributes);
         $('#gameAttributeValueDropdown' + [i]).empty();
         $('#gameAttributeValueDropdown' + [i]).append('<option value="' + gameAttributes[i].value + '">' + gameAttributes[i].value + '</option>');
-        for (var j = 0; j <= 100; j++) {
-            $('#gameAttributeValueDropdown' + [i]).append('<option value="' + j + '">' + j + '</option>');
+        if ((gameAttributes[i].name == "Number of lives per game") && (gameAttributes[i].name == "Number of rounds/levels per game")) {
+            for (var j = 1; j <= 10; j++) {
+                $('#gameAttributeValueDropdown' + [i]).append('<option value="' + j + '">' + j + '</option>');
+            }
+        } else if (gameAttributes[i].name == "Correct answers 'In a row' earns") {
+            for (var j = 0; j <= 100; j += 5) {
+                $('#gameAttributeValueDropdown' + [i]).append('<option value="' + j + '">' + j + '</option>');
+            }
+        } else {
+            for (var j = 0; j <= 100; j++) {
+                $('#gameAttributeValueDropdown' + [i]).append('<option value="' + j + '">' + j + '</option>');
+            }
         }
       }
       <?php
@@ -601,49 +469,91 @@ var getRoundsLevels = function(){
   $.ajax({
     url: 'getroundslevels.php',
     success: function(data){
-      roundsLevels = $.parseJSON(data);
+        roundsLevels = $.parseJSON(data);
+        
+        console.log("roundsLevels: " , roundsLevels);
+        console.log("roundsLevels.length: " , roundsLevels.length);
 
+        // Column 2 of Rounds/Levels table
         for (var i = 0, j = 0; i < roundsLevelsDropdownCount, j < roundsLevels.length; i += 4, j++) {
-            console.log("games: " , roundsLevels);
-            console.log("games.length: " , roundsLevels.length);
-            console.log("i: " , i);
-            console.log("j: " , j);
+            console.log("i loop 1: " , i);
+            console.log("j loop 1: " , j);
             $('#roundsLevelsDropdown' + [i]).empty();
             $('#roundsLevelsDropdown' + [i]).append('<option value="' + roundsLevels[j].numofq + '">' + roundsLevels[j].numofq + '</option>');
-            for (var j = 1; j <= 25; j++) {
-                $('#roundsLevelsDropdown' + [i]).append('<option value="' + j + '">' + j + '</option>');
+            for (var k = 1; k <= 25; k++) {
+                if (k != roundsLevels[j].numofq) {
+                    $('#roundsLevelsDropdown' + [i]).append('<option value="' + k + '">' + k + '</option>');
+                }
             }
         }
-    //   for (var i = 1; i < roundsLevelsDropdownCount; i = i + 4) {
-    //     console.log("roundsLevels: " , roundsLevels);
-    //     $('#roundsLevelsDropdown' + [i]).empty();
-    //     $('#roundsLevelsDropdown' + [i]).append('<option value="' + roundsLevels[i].numofq + '">' + roundsLevels[i].numofq + '</option>');
-    //     for (var j = 0; j <= 105; j++) {
-    //         $('#roundsLevelsDropdown' + [i]).append('<option value="' + j + '">' + j + '</option>');
-    //     }
-    //   }
-        for (var i = 2, j = 0; i < roundsLevelsDropdownCount, j < roundsLevels.length; i += 4, j++) {
-            console.log("games: " , roundsLevels);
-            console.log("games.length: " , roundsLevels.length);
-            console.log("i: " , i);
-            console.log("j: " , j);
-            $('#roundsLevelsDropdown' + [i]).empty();
-            $('#roundsLevelsDropdown' + [i]).append('<option value="' + roundsLevels[j].maxptsperq + '">' + roundsLevels[j].maxptsperq + '</option>');
-            for (var j = 0; j <= 500; j += 5) {
-                $('#roundsLevelsDropdown' + [i]).append('<option value="' + j + '">' + j + '</option>');
-            }
-        }
-        // for (var i = 3, j = 0; i < roundsLevelsDropdownCount, j < games.length; i += 4, j++) {
-        //     console.log("games: " , games);
-        //     console.log("games.length: " , games.length);
-        //     console.log("i: " , i);
-        //     console.log("j: " , j);
+
+        // // Column 3 of Rounds/Levels table
+        // for (var i = 2, j = 0; i < roundsLevelsDropdownCount, j < roundsLevels.length; i += 4, j++) {
+        //     console.log("i loop 2: " , i);
+        //     console.log("j loop 2: " , j);
         //     $('#roundsLevelsDropdown' + [i]).empty();
-        //     $('#roundsLevelsDropdown' + [i]).append('<option value="' + roundsLevels[j].numofq + '">' + roundsLevels[j].numofq + '</option>');
-        //     for (var j = 1; j <= 16; j++) {
-        //         $('#roundsLevelsDropdown' + [i]).append('<option value="' + j + '">' + j + '</option>');
+        //     $('#roundsLevelsDropdown' + [i]).append('<option value="' + roundsLevels[j].maxptsperq + '">' + roundsLevels[j].maxptsperq + '</option>');
+        //     for (var k = 0; k <= 500; k += 5) {
+        //         $('#roundsLevelsDropdown' + [i]).append('<option value="' + k + '">' + k + '</option>');
         //     }
         // }
+
+        // Column 4 of Rounds/Levels table
+        for (var i = 2, j = 0; i < roundsLevelsDropdownCount, j < roundsLevels.length; i += 4, j++) {
+            console.log("i loop 3: " , i);
+            console.log("j loop 3: " , j);
+            $('#roundsLevelsDropdown' + [i]).empty();
+            $('#roundsLevelsDropdown' + [i]).append('<option value="' + roundsLevels[j].maxptsperq + '">' + roundsLevels[j].maxptsperq + '</option>');
+            for (var k = 0; k <= 500; k += 5) {
+                $('#roundsLevelsDropdown' + [i]).append('<option value="' + k + '">' + k + '</option>');
+            }
+        }
+        
+        // Column 5 of Rounds/Levels table
+        for (var i = 3, j = 0; i < roundsLevelsDropdownCount, j < roundsLevels.length; i += 4, j++) {
+            console.log("i loop 4: " , i);
+            console.log("j loop 4: " , j);
+            $('#roundsLevelsDropdown' + [i]).empty();
+            if (roundsLevels[j].goalpts == null) {
+                $('#roundsLevelsDropdown' + [i]).append('<option value=0>0</option>');
+                for (var k = 5; k <= 500; k += 5) {
+                    $('#roundsLevelsDropdown' + [i]).append('<option value="' + k + '">' + k + '</option>');
+                }
+            } else {
+                $('#roundsLevelsDropdown' + [i]).append('<option value="' + roundsLevels[j].goalpts + '">' + roundsLevels[j].goalpts + '</option>');
+                for (var k = 0; k <= 500; k += 5) {
+                    if (k != roundsLevels[j].goalpts) {
+                        $('#roundsLevelsDropdown' + [i]).append('<option value="' + k + '">' + k + '</option>');
+                    }
+                }
+            }
+        }
+
+        // Column 6 of Rounds/Levels table
+        for (var i = 0, j = 0; i < roundsLevelsCheckboxCount, j < roundsLevels.length; i += 2, j++) {
+            console.log("i loop 1: " , i);
+            console.log("j loop 1: " , j);
+            $('#roundsLevelsCheckbox' + [i]).empty();
+            if (roundsLevels[j].goalcompleteround == null || roundsLevels[j].goalcompleteround == 0) {
+                $('#roundsLevelsCheckbox' + [i]).append('<input class="form-check-input" type="checkbox" value=0 checked>');
+            } else {
+                $('#roundsLevelsCheckbox' + [i]).append('<input class="form-check-input" type="checkbox" value=1 checked>');
+            }
+            //$('#roundsLevelsCheckbox' + [i]).append('<input class="form-check-input" type="checkbox" id='roundsLevelsCheckbox0'>');
+        }
+
+        // Column 7 of Rounds/Levels table
+        for (var i = 1, j = 0; i < roundsLevelsCheckboxCount, j < roundsLevels.length; i += 2, j++) {
+            console.log("i loop 1: " , i);
+            console.log("j loop 1: " , j);
+            $('#roundsLevelsCheckbox' + [i]).empty();
+            if (roundsLevels[j].goalbeatopponent == null || roundsLevels[j].goalbeatopponent == 0) {
+                $('#roundsLevelsCheckbox' + [i]).append('<input class="form-check-input" type="checkbox" value=0 checked>');
+            } else {
+                $('#roundsLevelsCheckbox' + [i]).append('<input class="form-check-input" type="checkbox" value=1 checked>');
+            }
+            //$('#roundsLevelsCheckbox' + [i]).append('<input class="form-check-input" type="checkbox" id='roundsLevelsCheckbox0'>');
+        }
       <?php
         // if(isset($_GET["courseid"])){
         //   $c = $_GET["courseid"];
