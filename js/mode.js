@@ -6,7 +6,7 @@ var modeState = {
    *
    */
   create: function(){
-    console.log('state: play');
+    console.log('state: mode');
     if(game.global.isRehash){ //if in rehash round, use the array of questions that were answered incorrectly in the previous round
       game.global.questions = game.global.rehashQuestions;
     } else {
@@ -24,8 +24,9 @@ var modeState = {
     }
     console.log('rehash: ' + game.global.isRehash);
     this.ticks = game.add.group();
-    game.global.numQuestions = Math.min( (devmode ? devvars.numQ : 10), game.global.questions.length);
+    game.global.numQuestions = Math.min( (devmode ? devvars.numQ : game.global.questions.length), game.global.questions.length);
     game.global.questionsAnswered = 0;
+    game.global.timesAnswered = 0;
     game.global.questionShown = false;
     game.global.answeredBeforeAI = false;
     if(!game.global.isRehash){
@@ -35,8 +36,7 @@ var modeState = {
         numWrong: 0,
         score: 0
       };
-        game.global.chars[0].score = 0;
-        game.global.chars[0].scoreText.text = 0;
+      game.global.chars[0].score = 0;
       if(game.global.bonus > 0){
         game.global.totalStats.score = game.global.bonus;
         game.global.chars[0].score = game.global.totalStats.score;
@@ -44,6 +44,14 @@ var modeState = {
       }
       game.global.answerBubbles = game.add.group();
     }
+
+    /* 
+    game.global.chars[0].scoreText.text = game.add.text(game.world.centerX, 500, "Score: " + game.global.chars[0].score, {
+     font: "30px Arial",
+     fill: "#000000",
+     align: "center"
+    });
+    */
 
     game.global.music.stop();
     game.global.music = game.add.audio('play');
@@ -62,30 +70,32 @@ var modeState = {
     game.global.loseStreak = 1;
 
     //Host
+    
     game.global.jinny.frame = 0;
     game.global.hostComments = {
       right : ["That's correct","Well done","Good job","Nice going","Nice!","Yes!","You betcha","Good guess","Right!","You got it!","Impressive"],
       wrong : [ "Oh no"," Not quite", "Sorry", "Incorrect", "That's a miss", "Too bad", "Unfortunate", "That's not it", "Nope", "Uh-uh", "Ouch"]
     };
     game.global.jinnySpeech = game.world.add(new game.global.SpeechBubble(game, game.global.jinny.right + (game.global.borderFrameSize * 2), game.global.chapterText.bottom, game.world.width - (game.global.jinny.width*2), game.global.isRehash ? "Welcome to the rehash round!\nThis is a second chance to earn some points on the questions you answered incorrectly.\nCorrect answers are worth 5 points, and your opponents are sitting out this round." : 'Here comes your first question...', true, false, null, false, null, true));
-
-    //animate avatars to the bottom; needed in case this state was skipped to before animation finished in pregame
-    var image = game.global.imagecheck;
-    game.add.tween(game.global.chars[0].sprite).to({x: Math.floor(((game.width/game.global.chars.length)*(1) -game.width/game.global.chars.length)+(game.width/25))}, 250, Phaser.Easing.Default, true);
-  
+    game.global.jinny.alpha = 0;
+    game.global.jinnySpeech.alpha = 0;
+    
     
     //show the rehash splash or the first question
     if(game.global.isRehash){
       function playBtnClick(){
-        game.global.jinnySpeech.destroy();
-        this.destroy();
+        //game.global.jinnySpeech.destroy();
+        //this.destroy();
         game.global.jinnySpeech = game.world.add(new game.global.SpeechBubble(game, game.global.jinny.right + (game.global.borderFrameSize * 2), game.global.chapterText.bottom, game.world.width - (game.global.jinny.width*2), 'Here comes your first question...', true, false, null, false, null, true));
+        game.global.jinny.alpha = 0;
+        game.global.jinnySpeech.alpha = 0;
         game.state.getCurrentState().showQuestion(game.global.questions.shift());
       }
       var playBtn = game.world.add(new game.global.SpeechBubble(game, game.world.centerX, game.height, game.width, "Play", false, true, playBtnClick));
       playBtn.x = Math.floor(playBtn.x - (playBtn.bubblewidth/2));
-      playBtn.y = Math.floor(game.global.jinnySpeech.y + game.global.jinnySpeech.bubbleheight + (10*dpr));
+      playBtn.y = Math.floor(centerY);
     } else {
+      console.log("Show question called");
       this.showQuestion(game.global.questions.shift());
     }
   },
@@ -94,40 +104,18 @@ var modeState = {
    *updates ai and characters score on screen
    */
   update: function(){
-    var n = parseInt(game.global.chars[0].scoreText.text);
-    if (n < game.global.chars[0].score){
+    
+    var n = parseInt(game.global.chars[0].onScreenScore);
+  if (n < game.global.chars[0].score){
       n++;
-      game.global.chars[0].scoreText.text = n;
+      game.global.chars[0].onScreenScore = n;
+      game.global.chars[0].scoreText.setText("Points: " + game.global.chars[0].onScreenScore);
     }
-    game.global.chars[0].scoreText.x = Math.floor(game.global.chars[0].sprite.right + game.global.borderFrameSize);
-    game.global.chars[0].scoreText.y = Math.floor(game.global.chars[0].sprite.centerY + (11*dpr));
-    game.global.chars[0].name.x = Math.floor(game.global.chars[0].sprite.centerX - game.global.chars[0].name.width/2);
-    game.global.chars[0].name.y = Math.floor(game.global.chars[0].sprite.bottom);
-    game.global.chars[0].crown.centerX = Math.floor(game.global.chars[0].sprite.centerX);
-  
-    if(this.timerOn){
-      if(Math.floor(this.timeElapsed) >= 10 && !game.global.answersShown){
-        //show ai answers after 10 seconds and make bar yellow
-        this.showAnswers(false);
-        this.gfx = game.add.graphics(game.world.x - 1000, game.world.y - 1000);
-        this.gfx.lineStyle(1, 0x000000, 1);
-        this.gfx.beginFill(0xebf442, 1);
-        this.gfx.drawRoundedRect(this.gfx.x, this.gfx.y, game.global.bubble.bubblewidth, 8*dpr, 5);
-        this.timerBar.loadTexture(this.gfx.generateTexture());
-      }
-
-      if(Math.floor(this.timeRemaining) <= 3 && game.global.answersShown){ //when there's little time left, make the bar red
-        this.gfx = game.add.graphics(game.world.x - 1000, game.world.y - 1000);
-        this.gfx.lineStyle(1, 0x000000, 1);
-        this.gfx.beginFill(0xf70e0e, 1);
-        this.gfx.drawRoundedRect(this.gfx.x, this.gfx.y, game.global.bubble.bubblewidth, 8*dpr, 5);
-        this.timerBar.loadTexture(this.gfx.generateTexture());
-      }
-
-      if(this.timeElapsed >= this.totalTime){
-        //call 'time is up' function, clean up question and move on with no score
-        this.timeUp();
-      }
+    
+      
+    if(this.timeElapsed >= this.totalTime){
+      //call 'time is up' function, clean up question and move on with no score
+      this.timeUp();
     }
   },
 
@@ -300,6 +288,8 @@ var modeState = {
 
       game.global.jinnySpeech.destroy();
       game.global.jinnySpeech = game.world.add(new game.global.SpeechBubble(game, game.global.jinny.right + (game.global.borderFrameSize * 2), game.global.chapterText.bottom, game.world.width - (game.global.jinny.width*2), game.global.hostComments[speech][Math.floor(Math.random() * game.global.hostComments[speech].length)], true, false, null, false, null, true));
+      game.global.jinny.alpha = 0;
+      game.global.jinnySpeech.alpha = 0;  
 
       //points graphic
       if(!game.global.isRehash && this.data.correct){
@@ -331,8 +321,8 @@ var modeState = {
    */
   updateScores : function(answerCorrect, didntAnswer){
     //for(i = 1 ; i < game.global.chars.length; i++){
-      if(game.global.chars[0].correct && !game.global.isRehash){
-        game.global.chars[0].score += game.global.selectedMode.maxPtsPerQ;
+      if(game.global.chars[0].correct){
+        score += game.global.selectedMode.maxPtsPerQ;
       }
     //}
 
@@ -380,7 +370,7 @@ var modeState = {
       game.global.loseStreak += 1;
       game.global.winStreak = 1;
     }
-    game.global.chars[0].score = game.global.totalStats.score;
+    score = game.global.totalStats.score;
   },
 
   animateOut : function(didntAnswer){
@@ -388,12 +378,14 @@ var modeState = {
     game.add.tween(game.global.questionUI).to({x: game.world.x - game.world.width}, 300, Phaser.Easing.Default, true, 0);
 
     makeBars = function(correct, didntAnswer){
-      /*
-       * create horizontal progress bars for each player
-       * and animate them
-       */
-      game.state.getCurrentState().updateScores(correct, didntAnswer);
-        if(game.global.questionsAnswered <= 1 && !game.global.isRehash){
+      
+      // * create horizontal progress bars for each player
+      // * and animate them
+       
+      
+       game.state.getCurrentState().updateScores(correct, didntAnswer);
+      
+      /* if(game.global.questionsAnswered <= 1 && !game.global.isRehash){
           game.global.chars[0].gfx = game.add.graphics(0,0);
           game.global.chars[0].gfx.visible = false;
           game.global.chars[0].gfx.beginFill(0x02C487, 1);
@@ -402,7 +394,8 @@ var modeState = {
           game.global.chars[0].barSprite.anchor.y = 1;
         }
         game.add.tween(game.global.chars[0].barSprite).to({height: Math.max(game.global.chars[0].score, 1)}, 1000, Phaser.Easing.Default, true, 0);
-    }
+        */
+      }
     // makeBars();
 
 
@@ -435,6 +428,8 @@ var modeState = {
       //still questions left, show the next one
       game.global.jinnySpeech.destroy();
       game.global.jinnySpeech = game.world.add(new game.global.SpeechBubble(game, game.global.jinny.right + (game.global.borderFrameSize * 2), game.global.chapterText.bottom, game.world.width - (game.global.jinny.width*2), "Next question...", true, false, null, false, null, true));
+      game.global.jinnySpeech.alpha = 0;    
+
 
       game.state.getCurrentState().showQuestion(game.global.questions.shift());
     } else if (game.global.rehashQuestions.length > 0 && !game.global.isRehash) {
@@ -497,6 +492,8 @@ var modeState = {
   timeUp : function(){
     game.global.jinnySpeech.destroy();
     game.global.jinnySpeech = game.world.add(new game.global.SpeechBubble(game, game.global.jinny.right + (game.global.borderFrameSize * 2), game.global.chapterText.bottom, game.world.width - (game.global.jinny.width*2), "Time's up!", true, false, null, false, null, true));
+    game.global.jinny.alpha = 0;
+    game.global.jinnySpeech.alpha = 0;    
     game.global.questionsAnswered++;
     var dummy = {data: {correct: false}};
     this.timerOn = false;

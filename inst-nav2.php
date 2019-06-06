@@ -15,6 +15,7 @@
               <a class="dropdown-item" href="inst-coursemgmt.php">Manage Courses</a>
               <a class="dropdown-item" href="inst-inviteinstructor.php">Invite Instructor</a>
               <a class="dropdown-item" href="inst-stats.php">View Student Progress</a>
+              <a class="dropdown-item" href="resetfromoptions.php">Reset Password</a>
             </div>
           </div>';
       }

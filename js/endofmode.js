@@ -1,4 +1,5 @@
 var endOfModeState = {
+  
   hostMindStates : [
     { min: 70, max: 100, mind: "You have earned a jewel for your crown!", label: "Achievement", gameOver: false, bonus: 0},
     { min: 50, max: 69, mind: "You may continue to the next village!", label: "Continue", gameOver: false, bonus: 0},
@@ -25,9 +26,13 @@ var endOfModeState = {
   },
 
   getStatLines: function(gameOver){
+    console.log("times answered " +game.global.timesAnswered);
+    console.log("questions answered " +game.global.questionsAnswered);
+    console.log("Percentage: " + game.global.questionsAnswered / game.global.timesAnswered);
     var statLines = [
       game.global.session.play_name,
       "Round " + game.global.roundNum + " Stats:",
+      "Percentage: " + Math.floor((game.global.questionsAnswered / game.global.timesAnswered) * 100) + "%",
       "Score This Round: " + game.global.totalStats.score,
       "Your Highest Score: " + game.global.scoreData["high_score"],
       "Total Points Earned: " + game.global.scoreData["total_score"],
@@ -45,6 +50,7 @@ var endOfModeState = {
 
     //create ui group to destroy when switching back to play state
     this.endGameUI = game.add.group();
+    
 
     $(function (){
       $.ajax({
@@ -79,6 +85,7 @@ var endOfModeState = {
             game.global.scoreData["total_score"] = parseInt(game.global.scoreData["total_score"]) + game.global.totalStats.score;
             game.global.scoreData["high_score"] = Math.max(parseInt(game.global.scoreData["high_score"]), game.global.totalStats.score);
             game.global.scoreData["times_played"] = parseInt(game.global.scoreData["times_played"]) + 1;
+            console.log(game.global.scoreData);
             $(function (){
               $.ajax({
                 type: 'POST',
@@ -111,10 +118,12 @@ var endOfModeState = {
     var mindStates = game.state.getCurrentState().hostMindStates.slice();
     var score = Math.min(100, Math.floor(((game.global.totalStats.score) / (game.global.numOrigQuestions * game.global.selectedMode.maxPtsPerQ)) * 100));
 
+    /*
     if(score > mindStates[0].min){
       //if awesomind, be happy
       game.global.jinny.frame = 2;
     }
+    */
 
     var mindStateToUse = mindStates[mindStates.length];
     // set up visual areas for score ranges
@@ -124,7 +133,9 @@ var endOfModeState = {
         break;
       }
     }
+    
 
+    /*
     var winningScore = 0;
     for (var i = 0; i < game.global.chars.length; i++) { // calculate top score first for tie purposes
       winningScore = Math.max(winningScore, game.global.chars[i].score);
@@ -136,15 +147,17 @@ var endOfModeState = {
         }
       }
     }
+    */
 
     var gameOver = game.state.getCurrentState().isGameOver(mindStateToUse.gameOver);
     game.state.getCurrentState().buttons = game.state.getCurrentState().optionButtons(gameOver);
     game.state.getCurrentState().statLines = game.state.getCurrentState().getStatLines(gameOver);
     game.global.bonus = mindStateToUse.bonus;
 
+    
     var btns = [ {text: 'Stats', clickFunction: game.state.getCurrentState().viewStatsClick} ];
-    if(!gameOver) btns.push({text: 'Play Next Round', clickFunction: game.state.getCurrentState().playAgainClick});
-    btns.push({text: 'Quit', clickFunction: game.state.getCurrentState().chooseCourseClick});
+    //if(!gameOver) btns.push({text: 'Play Next Round', clickFunction: game.state.getCurrentState().playAgainClick});
+    //btns.push({text: 'Quit', clickFunction: game.state.getCurrentState().chooseCourseClick});
 
     var prevHeightsBtns = game.global.chapterText.bottom;
     var maxBtnWidth = 0;
@@ -155,11 +168,16 @@ var endOfModeState = {
       prevHeightsBtns += btn.bubbleheight + 5;
       maxBtnWidth = Math.max(maxBtnWidth, btn.bubblewidth);
     };
+    
 
     game.global.jinnySpeech.destroy();
     game.global.jinnySpeech = game.world.add(new game.global.SpeechBubble(game, game.global.jinny.right + (game.global.borderFrameSize * 2), game.global.chapterText.bottom, game.world.width - (game.global.jinny.width + maxBtnWidth + 10), mindStateToUse.mind, true, false, null, false, null, true));
+    game.global.jinny.alpha = 0;
+    game.global.jinnySpeech.alpha = 0;
+
     this.endGameUI.add(game.global.jinnySpeech);
 
+    /*
     // convert score + progress bars to percentage
     for (var i = 0; i < game.global.chars.length; i++) {
       this.endGameUI.add(game.global.chars[i].gfx);
@@ -183,11 +201,13 @@ var endOfModeState = {
         game.add.tween(medal).to({y: y + (scorePercentLabel.height*2)}, 500, Phaser.Easing.Default, true, 250);
       }
     }
+    */
 
     var lineGfx = game.add.graphics(0,0);
     this.endGameUI.add(lineGfx);
     lineGfx.lineStyle(1, 0x333333, 1);
 
+    /*
     //loop mindstates again to add the labels on top of the progress bars
     for (var i = 0; i < mindStates.length; i++) {
       var lineYposition = game.global.mapNum(mindStates[i].max, 0, 100, (game.global.selectedMode.id == 0) ? game.global.chars[0].crown.y : game.global.chars[0].sprite.y, prevHeightsBtns + 5);
@@ -200,9 +220,10 @@ var endOfModeState = {
       label.z++;
       this.endGameUI.add(label);
     }
+    */
 
     game.state.getCurrentState().statsUI = game.add.group();
-    game.state.getCurrentState().statsUI.visible = false;
+    game.state.getCurrentState().statsUI.visible = true;
     var statBG = game.add.graphics(0, 0);
     statBG.lineStyle(2, 0x000000, 1);
     statBG.beginFill(0x078EB7, 1);

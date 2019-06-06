@@ -1,13 +1,15 @@
 var preModeState = {
   instructLines : [
-    "How to play:\nA question will appear.\nClick/tap the question to make the answer choices appear.\nChoose the right answer as quickly as possible.\nThe faster you are, the more points you earn.\n \nEach round has 10 questions.\n \nGoal:\nTo win the round, score more points than your opponents.\nThe winner of each round earns a jewel for their crown.\nBe the first to complete your crown to win the game."
+    "How to play:\nA question will appear.\nClick/tap the question to make the answer choices appear.\nChoose the right answer as quickly as possible.\n \nEach round has as many questions as are in the chapter.\n \nGoal:\nTo Study!"
   ],
-
+  
   makeHost: function(){
     game.global.jinny = game.add.sprite(0,0, 'jin', 0);
     game.global.hostText = game.add.text(0, 0, 'Jin', game.global.smallerWhiteFont);
     game.global.hostText.setShadow(2, 2, 'rgba(0,0,0,0.5)', 5);
     game.global.hostText.padding.x = 5;
+    game.global.hostText.alpha = 0;
+    game.global.jinny.alpha = 0;
   },
 
   create: function(){
@@ -51,10 +53,6 @@ var preModeState = {
       }
     }
 
-    var winChances = [65, 75];
-    winChances = game.global.shuffleArray(winChances);
-    winChances.unshift(0); //loop below doesn't use first index of winchances, so put garbage in there
-    game.global.chars = [];
     game.global.oppImageKeys = game.global.shuffleArray(game.global.oppImageKeys);
 
     //Dirty fix for opponents being on screen for smaller devices
@@ -64,30 +62,40 @@ var preModeState = {
 
     prevHeights += 10*dpr;
 
-     //create avatars and their score and name text
-      game.global.chars[0] = {};
-      game.global.chars[0].name = game.add.text(0 - game.world.width, 0 - game.world.height, 'You', game.global.smallerWhiteFont);
-      game.global.chars[0].name.fill= 0xffffff;
-      game.global.chars[0].sprite = game.add.sprite(0 - game.world.width, (game.world.height - image.height - (game.global.chars[0].name.height)), (i==0) ? 'opp' + game.global.session['avatarnum'] : game.global.oppImageKeys[i].imageKey);
-      if(dpr>=2) game.global.chars[0].sprite.scale.setTo(dpr/4,dpr/4);
-      game.global.chars[0].score = 0;
-      game.global.chars[0].scoreText = game.add.text(0 - game.world.width, 0 - game.world.height, '0', game.global.smallerWhiteFont);
-      game.global.chars[0].scoreText.fill = 0xffffff;
-      
-  
-    //add tweens; needs to be done after the sprites were made in this case
-      game.global.chars[0].tween = game.add.tween(game.global.chars[0].sprite).to({x: Math.floor(((game.width/game.global.chars.length)*(i+1) -game.width/game.global.chars.length)+(game.width/25))}, 250, Phaser.Easing.Default, false);
-      if(i==0){
-        sbtweens[sbtweens.length - 1].chain(game.global.chars[0].tween);
-      }
-    
+    game.global.chars = [];
+    game.global.chars[0] = {};
+    //stored score
+    game.global.chars[0].score = 0;
+    //score for appending onto the string 
+    game.global.chars[0].onScreenScore = 0;
+    //score on screen
+    game.global.chars[0].scoreText = game.add.text(game.world.centerX, 500, "Points: " + game.global.chars[0].onScreenScore, {
+      font: "25px Arial",
+      fill: "#000000",
+      align: "center",
+      boundsAlignV: "bottom"
+    });
 
+
+    //create score text on screen 
+     /*
+     var score = 0;
+     var text = game.add.text(game.world.centerX, 500, "Score: " + score, {
+      font: "30px Arial",
+      fill: "#000000",
+      align: "center",
+      boundsAlignV: "bottom"
+    });
+
+    text.anchor.setTo(0.5, 0.5);
+      */
+      
     var skip = game.world.add(new game.global.SpeechBubble(game, game.world.centerX, game.height, game.width, "Play", false, true, this.skipFunction));
     skip.x = Math.floor(skip.x - (skip.bubblewidth/2));
     skip.y = Math.floor(bubbles[bubbles.length-1].y + bubbles[bubbles.length-1].bubbleheight + (10*dpr));
     this.pregameUI.add(skip);
 
-    sbtweens[0].start();
+    //sbtweens[0].start();
   },
   skipFunction: function(){
     // get a chapter of questions from the database and load them into the questions array
@@ -112,8 +120,8 @@ var preModeState = {
     });
   },
   update: function(){ //keeps names and crown positioned near their avatar
-      game.global.chars[0].name.x = Math.floor(game.global.chars[0].sprite.right + (10*dpr));
-      game.global.chars[0].name.y = Math.floor(game.global.chars[0].sprite.centerY + (10*dpr));
+      //game.global.chars[0].scoreText.x = Math.floor(game.global.chars[0].sprite.right + (10*dpr));
+      //game.global.chars[0].scoreText.y = Math.floor(game.global.chars[0].sprite.centerY + (10*dpr));
       }
 };
 
