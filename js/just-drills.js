@@ -108,6 +108,7 @@ playStateJD.update = function(){ //updates points on screen
       n++;
       game.global.chars[0].onScreenScore = n;
       game.global.chars[0].scoreText.setText("Points: " + game.global.chars[0].onScreenScore);
+      if (devmode) console.log("current points: ", game.global.chars[0].onScreenScore); 
     }
 };
 

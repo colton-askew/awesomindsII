@@ -36,6 +36,10 @@ var modeState = {
         numWrong: 0,
         score: 0
       };
+      
+      //reset text and score on screen back to 0
+      game.global.chars[0].onScreenScore = 0;
+      game.global.chars[0].scoreText.setText("Points: " + game.global.chars[0].onScreenScore);
       game.global.chars[0].score = 0;
       if(game.global.bonus > 0){
         game.global.totalStats.score = game.global.bonus;
@@ -44,14 +48,6 @@ var modeState = {
       }
       game.global.answerBubbles = game.add.group();
     }
-
-    /* 
-    game.global.chars[0].scoreText.text = game.add.text(game.world.centerX, 500, "Score: " + game.global.chars[0].score, {
-     font: "30px Arial",
-     fill: "#000000",
-     align: "center"
-    });
-    */
 
     game.global.music.stop();
     game.global.music = game.add.audio('play');
