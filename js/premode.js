@@ -68,27 +68,15 @@ var preModeState = {
     game.global.chars[0].score = 0;
     //score for appending onto the string 
     game.global.chars[0].onScreenScore = 0;
+    
     //score on screen
     game.global.chars[0].scoreText = game.add.text(game.world.centerX, 500, "Points: " + game.global.chars[0].onScreenScore, {
-      font: "25px Arial",
+      font: "25px Calibri",
       fill: "#000000",
-      align: "center",
+      align: "right",
       boundsAlignV: "bottom"
     });
 
-
-    //create score text on screen 
-     /*
-     var score = 0;
-     var text = game.add.text(game.world.centerX, 500, "Score: " + score, {
-      font: "30px Arial",
-      fill: "#000000",
-      align: "center",
-      boundsAlignV: "bottom"
-    });
-
-    text.anchor.setTo(0.5, 0.5);
-      */
       
     var skip = game.world.add(new game.global.SpeechBubble(game, game.world.centerX, game.height, game.width, "Play", false, true, this.skipFunction));
     skip.x = Math.floor(skip.x - (skip.bubblewidth/2));
