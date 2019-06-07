@@ -18,15 +18,28 @@ game.state.add('preload', preloadState);
 game.state.add('menuCourse', menuCourseState);
 game.state.add('menuChapter', menuChapterState);
 game.state.add('menuMode', menuModeState);
+
 game.state.add('play', playState);
+//game.state.add('mode', modeState);
 game.state.add('playSU', playStateSU);
 game.state.add('playTB', playStateTB);
+game.state.add('playTB', playStateTB);
+//game.state.add('modeRQ', modeStateRQ);
+game.state.add('modeSC', modeStateSC);
+
 game.state.add('endOfGame', endOfGameState);
+//game.state.add('endOfMode', endOfModeState);
+//game.state.add('endOfModeRQ', endOfModeStateRQ);
+game.state.add('endOfModeSC', endOfModeStateSC);
 game.state.add('endOfGameWWG', endOfGameStateWWG);
 game.state.add('endOfGameTB', endOfGameStateTB);
+
 game.state.add('pregame', preGameState);
+//game.state.add('premode', preModeState);
 game.state.add('pregameSU', preGameStateSU);
 game.state.add('pregameTB', preGameStateTB);
+//game.state.add('premodeRQ', preModeStateRQ);
+game.state.add('premodeSC', preModeStateSC);
 
 game.global.session = phpSession;
 game.state.start('preload');

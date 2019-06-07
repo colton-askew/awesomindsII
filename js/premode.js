@@ -1,8 +1,8 @@
-var preGameState = {
+var preModeState = {
   instructLines : [
-    "How to play:\nA question will appear.\nClick/tap the question to make the answer choices appear.\nChoose the right answer as quickly as possible.\nThe faster you are, the more points you earn.\n \nEach round has 10 questions.\n \nGoal:\nTo win the round, score more points than your opponents.\nThe winner of each round earns a jewel for their crown.\nBe the first to complete your crown to win the game."
+    "How to play:\nA question will appear.\nClick/tap the question to make the answer choices appear.\nChoose the right answer as quickly as possible.\n \nEach round has as many questions as are in the chapter.\n \nGoal:\nTo Study!"
   ],
-
+  
   makeHost: function(){
     game.global.jinny = game.add.sprite(0,0, 'jin', 0);
     game.global.hostText = game.add.text(0, 0, 'Jin', game.global.smallerWhiteFont);
@@ -11,7 +11,7 @@ var preGameState = {
   },
 
   create: function(){
-    console.log("state: pregame");
+    console.log("state: premode");
     //Host
     game.global.bonus = 0;
     game.state.getCurrentState().makeHost();
@@ -19,7 +19,7 @@ var preGameState = {
     game.global.hostText.centerX = Math.floor(game.global.jinny.centerX);
     game.global.hostText.x = Math.floor(game.global.hostText.x);
     game.global.hostText.y = Math.floor(game.global.jinny.bottom);
-    //game.add.tween(game.global.logoText).to({x: Math.floor(game.global.jinny.right + game.global.borderFrameSize)}, 60, Phaser.Easing.Default, true, 0);
+    game.add.tween(game.global.logoText).to({x: Math.floor(game.global.jinny.right + game.global.borderFrameSize)}, 60, Phaser.Easing.Default, true, 0);
     this.pregameUI = game.add.group();
 
     var instructLines = game.state.getCurrentState().instructLines.slice();
@@ -51,10 +51,6 @@ var preGameState = {
       }
     }
 
-    var winChances = [65, 75];
-    winChances = game.global.shuffleArray(winChances);
-    winChances.unshift(0); //loop below doesn't use first index of winchances, so put garbage in there
-    game.global.chars = [];
     game.global.oppImageKeys = game.global.shuffleArray(game.global.oppImageKeys);
 
     //Dirty fix for opponents being on screen for smaller devices
@@ -64,46 +60,23 @@ var preGameState = {
 
     prevHeights += 10*dpr;
 
-    for(var i = 0; i < 3; i++){ //create avatars and their score and name text
-      game.global.chars[i] = {};
-      game.global.chars[i].name = game.add.text(0 - game.world.width, 0 - game.world.height, 'You', game.global.smallerWhiteFont);
-      game.global.chars[i].name.fill= 0xffffff;
-      game.global.chars[i].sprite = game.add.sprite(0 - game.world.width, (game.world.height - image.height - (game.global.chars[i].name.height)), (i==0) ? 'opp' + game.global.session['avatarnum'] : game.global.oppImageKeys[i].imageKey);
-      if(dpr>=2) game.global.chars[i].sprite.scale.setTo(dpr/4,dpr/4);
-      game.global.chars[i].score = 0;
-      game.global.chars[i].scoreText = game.add.text(0 - game.world.width, 0 - game.world.height, '0', game.global.smallerWhiteFont);
-      game.global.chars[i].scoreText.fill = 0xffffff;
-      if(game.global.selectedMode.id == 0 || game.global.selectedMode.id == 2){ //id for countdown crown or time bonus
-        game.global.chars[i].crown = game.add.sprite(0 - game.world.width, Math.floor(game.global.chars[i].sprite.top - game.global.chars[i].sprite.height/2), 'crown', 0);
-        if(dpr>=2) game.global.chars[i].crown.scale.setTo(dpr/4,dpr/4);
-        game.global.chars[i].numJewels = 0;
-      }
-      if(i!=0){ //more setup for non-player avatars
-        prevHeights += Math.floor(image.height + (10 * dpr));
-        game.global.chars[i].name.text = game.global.oppImageKeys[i].name;
-        game.global.chars[i].chance = winChances[i];
-        console.log(game.global.chars[i].chance);
-        game.global.chars[i].correct = false;
-      }
-    }
+     //create score text on screen
+     var score = 0;
+     var text = game.add.text(game.world.centerX, game.world.centerY, "Score: 0", {
+      font: "65px Arial",
+      fill: "#000000",
+      align: "bottom"
+    });
 
-    //loop again to add ai tweens; needs to be done after the sprites were made in this case
-    for (var i = 0; i < game.global.chars.length; i++) {
-      console.log('no ai tween');
-      // game.global.chars[i].tween = game.add.tween(game.global.chars[i].sprite).to({x: Math.floor(((game.width/game.global.chars.length)*(i+1) -game.width/game.global.chars.length)+(game.width/25))}, 250, Phaser.Easing.Default, false);
-      // if(i==0){
-      //   sbtweens[sbtweens.length - 1].chain(game.global.chars[i].tween);
-      // }else{
-      //   game.global.chars[i-1].tween.chain(game.global.chars[i].tween);
-      // }
-    }
-
+    text.anchor.setTo(0.5, 0.5);
+      
+      
     var skip = game.world.add(new game.global.SpeechBubble(game, game.world.centerX, game.height, game.width, "Play", false, true, this.skipFunction));
     skip.x = Math.floor(skip.x - (skip.bubblewidth/2));
     skip.y = Math.floor(bubbles[bubbles.length-1].y + bubbles[bubbles.length-1].bubbleheight + (10*dpr));
     this.pregameUI.add(skip);
 
-    sbtweens[0].start();
+    //sbtweens[0].start();
   },
   skipFunction: function(){
     // get a chapter of questions from the database and load them into the questions array
@@ -127,11 +100,9 @@ var preGameState = {
       }
     });
   },
-  update: function(){ //keeps names and crowns positioned near their avatars
-    for (var i = 0; i < game.global.chars.length; i++) {
-      game.global.chars[i].name.x = Math.floor(game.global.chars[i].sprite.right + (10*dpr));
-      game.global.chars[i].name.y = Math.floor(game.global.chars[i].sprite.centerY + (10*dpr));
-      game.global.chars[i].crown.centerX = Math.floor(game.global.chars[i].sprite.centerX);
-    }
-  }
+  update: function(){ //keeps names and crown positioned near their avatar
+      //game.global.chars[0].scoreText.x = Math.floor(game.global.chars[0].sprite.right + (10*dpr));
+      //game.global.chars[0].scoreText.y = Math.floor(game.global.chars[0].sprite.centerY + (10*dpr));
+      }
 };
+
