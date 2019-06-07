@@ -88,14 +88,14 @@ var preGameState = {
     }
 
     //loop again to add ai tweens; needs to be done after the sprites were made in this case
-    for (var i = 0; i < game.global.chars.length; i++) {
-      game.global.chars[i].tween = game.add.tween(game.global.chars[i].sprite).to({x: Math.floor(((game.width/game.global.chars.length)*(i+1) -game.width/game.global.chars.length)+(game.width/25))}, 250, Phaser.Easing.Default, false);
-      if(i==0){
-        sbtweens[sbtweens.length - 1].chain(game.global.chars[i].tween);
-      }else{
-        game.global.chars[i-1].tween.chain(game.global.chars[i].tween);
-      }
-    }
+    // for (var i = 0; i < game.global.chars.length; i++) {
+    //   game.global.chars[i].tween = game.add.tween(game.global.chars[i].sprite).to({x: Math.floor(((game.width/game.global.chars.length)*(i+1) -game.width/game.global.chars.length)+(game.width/25))}, 250, Phaser.Easing.Default, false);
+    //   if(i==0){
+    //     sbtweens[sbtweens.length - 1].chain(game.global.chars[i].tween);
+    //   }else{
+    //     game.global.chars[i-1].tween.chain(game.global.chars[i].tween);
+    //   }
+    // }
 
     var skip = game.world.add(new game.global.SpeechBubble(game, game.world.centerX, game.height, game.width, "Play", false, true, this.skipFunction));
     skip.x = Math.floor(skip.x - (skip.bubblewidth/2));

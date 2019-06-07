@@ -1,0 +1,1 @@
+var endOfModeStateRQ = Object.create(endOfGameState);
