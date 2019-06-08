@@ -24,12 +24,14 @@
 <script type="text/javascript" src="js/play-timebonus.js"></script>
 <script type="text/javascript" src="js/play-onecrack.js"></script>
 <script type="text/javascript" src="js/just-drills.js"></script>
+<script type="text/javascript" src="js/mode-ratequestion.js"></script>
 <script type="text/javascript" src="js/endofgame.js"></script>
 <script type="text/javascript" src="js/endofmode.js"></script>
 <script type="text/javascript" src="js/endofgame-wwg.js"></script>
 <script type="text/javascript" src="js/endofgame-tb.js"></script>
 <script type="text/javascript" src="js/endofgame-oc.js"></script>
 <script type="text/javascript" src="js/endofgame-just-drills.js"></script>
+<script type="text/javascript" src="js/endofmode-rq.js"></script>
 <script type="text/javascript" src="js/preload.js"></script>
 <script type="text/javascript" src="js/pregame.js"></script>
 <script type="text/javascript" src="js/premode.js"></script>
@@ -37,6 +39,7 @@
 <script type="text/javascript" src="js/pregame-timebonus.js"></script>
 <script type="text/javascript" src="js/pregame-onecrack.js"></script>
 <script type="text/javascript" src="js/pregame-just-drills.js"></script>
+<script type="text/javascript" src="js/premode-ratequestion.js"></script>
 <script type="text/javascript" src="js/game.js"></script>
 
 <style type="text/css">

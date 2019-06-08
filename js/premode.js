@@ -70,7 +70,7 @@ var preModeState = {
     game.global.chars[0].onScreenScore = 0;
 
     //score on screen
-    game.global.chars[0].scoreText = game.add.text(game.world.centerX - 30, 500, "Points: " + game.global.chars[0].onScreenScore, {
+    game.global.chars[0].scoreText = game.add.text(game.world.centerX + (200 * dpr), 500, "Points: " + game.global.chars[0].onScreenScore, {
       font: "25px Calibri",
       fill: "#000000",
       align: "right",

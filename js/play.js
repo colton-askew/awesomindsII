@@ -74,7 +74,7 @@ var playState = {
     //animate avatars to the bottom; needed in case this state was skipped to before animation finished in pregame
     var image = game.global.imagecheck;
     for (var i = 0; i < game.global.chars.length; i++) {
-      game.add.tween(game.global.chars[i].sprite).to({x: Math.floor(((game.width/game.global.chars.length)*(i+1) -game.width/game.global.chars.length)+(game.width/25))}, 250, Phaser.Easing.Default, true);
+      //game.add.tween(game.global.chars[i].sprite).to({x: Math.floor(((game.width/game.global.chars.length)*(i+1) -game.width/game.global.chars.length)+(game.width/25))}, 250, Phaser.Easing.Default, true);
     }
     
     //show the rehash splash or the first question
