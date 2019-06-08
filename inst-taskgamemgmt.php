@@ -58,7 +58,7 @@
                             <div class="col-sm-1"></div>
                             <label style="col-sm-2">Number of lives per game:</label>
                             <select class="custom-select mr-sm-4" id='gameAttributeValueDropdown0'
-                                style="margin-left: 1em">
+                                style="margin-left: 1em" onchange="changeGameAttribute()">
                             </select>
                             <label class="col-sm-3">If you lose a round, you lose a life and have to repeat a
                                 round</label>
@@ -67,18 +67,18 @@
                             <div class="col-sm-1"></div>
                             <label style="col-sm-2">'In a row' bonus:</label>
                             <select class="custom-select mr-sm-4" id='gameAttributeValueDropdown1'
-                                style="margin-left: 1em">
+                                style="margin-left: 1em" onchange="changeGameAttribute()">
                             </select>
                             <label class="col-sm-3">Correct answers 'In a row' earns:</label>
                             <select class="custom-select mr-sm-4" id='gameAttributeValueDropdown2'
-                                style="margin-left: 1em">
+                                style="margin-left: 1em" onchange="changeGameAttribute()">
                             </select>
                             <label class="col-sm-1" style="margin-left: -20px">points</label>
                         </div>
                         <div class="form-row" style="margin-top: 1.0em">
                             <div class="col-sm-1"></div>
                             <label style="col-sm-2">Game theme:</label>
-                            <select class="custom-select mr-sm-4" id="inlineFormCustomSelect" style="margin-left: 1em">
+                            <select class="custom-select mr-sm-4" id="gameAttributeValueDropdown3" style="margin-left: 1em">
                                 <option selected>Currently Unavailable</option>
                             </select>
                         </div>
@@ -86,7 +86,7 @@
                             <div class="col-sm-1"></div>
                             <label style="col-sm-2">Number of rounds/levels per game:</label>
                             <select class="custom-select mr-sm-4" id='gameAttributeValueDropdown4'
-                                style="margin-left: 1em">
+                                style="margin-left: 1em" onchange="changeGameAttribute()">
                             </select>
                         </div>
                     </div>
@@ -102,118 +102,7 @@
                             <div class="col-sm-9"></div>
                             <label class="col-sm-1" style="float: right; margin-right: -2.0em">GOAL</label>
                         </div>
-                        <table class="table">
-                            <thead>
-                                <tr>
-                                    <th scope="col">Number</th>
-                                    <th scope="col">Number of Questions</th>
-                                    <th scope="col" title="Click for more information">Type of Challenge<a class="btn"
-                                            href="" name="story" data-toggle="modal"
-                                            data-target="#challengeTypeInfoModal">[?]</a></th>
-                                    <th scope="col">Max Points Value per Question</th>
-                                    <th scope="col">Points</th>
-                                    <th scope="col">Complete Round</th>
-                                    <th scope="col">Beat Opponent</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <th scope="row">1</th>
-                                    <td><select class="custom-select mr-sm-4" id='roundsLevelsDropdown0'
-                                            style="margin-left: 1em">
-                                        </select></td>
-                                    <td><select class="custom-select mr-sm-4" id='roundsLevelsDropdown1'
-                                            style="margin-left: 1em">
-                                        </select></td>
-                                    <td><select class="custom-select mr-sm-4" id='roundsLevelsDropdown2'
-                                            style="margin-left: 1em">
-                                        </select></td>
-                                    <td><select class="custom-select mr-sm-4" id='roundsLevelsDropdown3'
-                                            style="margin-left: 1em">
-                                        </select></td>
-                                    <td id='roundsLevelsCheckbox0'>
-                                    </td>
-                                    <td id='roundsLevelsCheckbox1'>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">2</th>
-                                    <td><select class="custom-select mr-sm-4" id='roundsLevelsDropdown4'
-                                            style="margin-left: 1em">
-                                        </select></td>
-                                    <td><select class="custom-select mr-sm-4" id='roundsLevelsDropdown5'
-                                            style="margin-left: 1em">
-                                        </select></td>
-                                    <td><select class="custom-select mr-sm-4" id='roundsLevelsDropdown6'
-                                            style="margin-left: 1em">
-                                        </select></td>
-                                    <td><select class="custom-select mr-sm-4" id='roundsLevelsDropdown7'
-                                            style="margin-left: 1em">
-                                        </select></td>
-                                    <td id='roundsLevelsCheckbox2'>
-                                    </td>
-                                    <td id='roundsLevelsCheckbox3'>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">3</th>
-                                    <td><select class="custom-select mr-sm-4" id='roundsLevelsDropdown8'
-                                            style="margin-left: 1em">
-                                        </select></td>
-                                    <td><select class="custom-select mr-sm-4" id='roundsLevelsDropdown9'
-                                            style="margin-left: 1em">
-                                        </select></td>
-                                    <td><select class="custom-select mr-sm-4" id='roundsLevelsDropdown10'
-                                            style="margin-left: 1em">
-                                        </select></td>
-                                    <td><select class="custom-select mr-sm-4" id='roundsLevelsDropdown11'
-                                            style="margin-left: 1em">
-                                        </select></td>
-                                    <td id='roundsLevelsCheckbox4'>
-                                    </td>
-                                    <td id='roundsLevelsCheckbox5'>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">4</th>
-                                    <td><select class="custom-select mr-sm-4" id='roundsLevelsDropdown12'
-                                            style="margin-left: 1em">
-                                        </select></td>
-                                    <td><select class="custom-select mr-sm-4" id='roundsLevelsDropdown13'
-                                            style="margin-left: 1em">
-                                        </select></td>
-                                    <td><select class="custom-select mr-sm-4" id='roundsLevelsDropdown14'
-                                            style="margin-left: 1em">
-                                        </select></td>
-                                    <td><select class="custom-select mr-sm-4" id='roundsLevelsDropdown15'
-                                            style="margin-left: 1em">
-                                        </select></td>
-                                    <td id='roundsLevelsCheckbox6'>
-                                    </td>
-                                    <td id='roundsLevelsCheckbox7'>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">5</th>
-                                    <td><select class="custom-select mr-sm-4" id='roundsLevelsDropdown16'
-                                            style="margin-left: 1em">
-                                        </select></td>
-                                    <td><select class="custom-select mr-sm-4" id='roundsLevelsDropdown17'
-                                            style="margin-left: 1em">
-                                        </select></td>
-                                    <td><select class="custom-select mr-sm-4" id='roundsLevelsDropdown18'
-                                            style="margin-left: 1em">
-                                        </select></td>
-                                    <td><select class="custom-select mr-sm-4" id='roundsLevelsDropdown19'
-                                            style="margin-left: 1em">
-                                        </select></td>
-                                    <td id='roundsLevelsCheckbox8'>
-                                    </td>
-                                    <td id='roundsLevelsCheckbox9'>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
+                        <div id="roundsLevelsTable"> 
                     </div>
                 </div>
             </form>
@@ -272,8 +161,6 @@ var table = null;
 var gameAttributes = [];
 var gameAttributeValueDropdownCount = 5;
 var roundsLevels =  [];
-var roundsLevelsDropdownCount = 20;
-var roundsLevelsCheckboxCount = 10;
 
 function nextLetter(s){
   return s.replace(/([A-Z])[^A-Z]*$/, function(a){
@@ -342,20 +229,81 @@ function addOption(){
   }
 };
 
+function changeGameAttribute() {
+  //gameAttributeValueDropdown
+  for (var i = 0; i < gameAttributes.length; i++) {
+    if (document.getElementById('gameAttributeValueDropdown' + i).value != gameAttributes[i].gavalue) {
+        console.log("!=");
+        //console.log("data.gaName: " , gameAttributes[i].ganame);
+        //console.log("data.gaValue: " , gameAttributes[i].gavalue);
+
+        console.log("roundsLevels[i]: " , roundsLevels[i]);
+        console.log("roundsLevels.length: " , roundsLevels.length);
+        console.log("roundsLevels[i].roundlevelid: " , roundsLevels[i].roundlevelid);
+
+        console.log("document.getElementById('gameAttributeValueDropdown' + i).value: " , document.getElementById('gameAttributeValueDropdown' + i).value);
+        console.log("gameAttributes[i].gavalue: " , gameAttributes[i].gavalue);
+        
+        var newRoundLevelCount = document.getElementById('gameAttributeValueDropdown' + i).value - gameAttributes[i].gavalue;
+        
+        console.log("gameAttributes[i].gavalue: " , gameAttributes[i].gavalue);
+        console.log("newRoundLevelCount: " , newRoundLevelCount);
+
+
+        $.ajax({
+          type: 'POST',
+          url: 'updategameattribute.php',
+          data: { gaName: gameAttributes[i].ganame, gaValue: document.getElementById('gameAttributeValueDropdown' + i).value },
+          success: function(data) {
+            getGameAttributes();
+            console.log("gameattributes updated");
+          }
+        });
+
+        if (i == gameAttributes.length - 1) {
+          if (newRoundLevelCount > 0) {
+            $.ajax({
+              type: 'POST',
+              url: 'insertroundlevel.php',
+              data: { roundLevelCount: gameAttributes[i].gavalue, addRoundLevelCount: newRoundLevelCount },
+              success: function(data) {
+                getRoundsLevels();
+                console.log("gameattributes updated");
+              }
+            });
+          } else {
+            $.ajax({
+              type: 'POST',
+              url: 'deleteroundlevel.php',
+              data: { roundLevelCount: gameAttributes[i].gavalue, removeRoundLevelCount: newRoundLevelCount },
+              success: function(data) {
+                getRoundsLevels();
+                console.log("gameattributes updated");
+              }
+            });
+          }
+        }
+    }     
+    else{
+      console.log("==");
+    }
+  } 
+}
+
 var getTasks = function(){
   $.ajax({
     url: 'gettasks.php',
     success: function(data){
       tasks = $.parseJSON(data);
 
-      for (var i = 0; i < tasks.length; i++) {
-        console.log("tasks: " , tasks);
-        $('#gameAttributeValueDropdown' + [i]).empty();
-        $('#gameAttributeValueDropdown' + [i]).append('<option value="' + gameAttributes[i].value + '">' + gameAttributes[i].value + '</option>');
-        for (var j = 0; j <= 100; j++) {
-            $('#gameAttributeValueDropdown' + [i]).append('<option value="' + j + '">' + j + '</option>');
-        }
-      }
+      // for (var i = 0; i < tasks.length; i++) {
+      //   console.log("tasks: " , tasks);
+      //   $('#gameAttributeValueDropdown' + [i]).empty();
+      //   $('#gameAttributeValueDropdown' + [i]).append('<option value="' + gameAttributes[i].value + '">' + gameAttributes[i].value + '</option>');
+      //   for (var j = 0; j <= 100; j++) {
+      //       $('#gameAttributeValueDropdown' + [i]).append('<option value="' + j + '">' + j + '</option>');
+      //   }
+      // }
       <?php
         // if(isset($_GET["courseid"])){
         //   $c = $_GET["courseid"];
@@ -384,19 +332,19 @@ var getGames = function(){
     success: function(data){
       games = $.parseJSON(data);
 
-      for (var i = 1, j = 0; i < roundsLevelsDropdownCount, j < games.length; i += 4, j++) {
-        console.log("games: " , games);
-        console.log("games.length: " , games.length);
-        console.log("i: " , i);
-        console.log("j: " , j);
-        $('#roundsLevelsDropdown' + [i]).empty();
-        $('#roundsLevelsDropdown' + [i]).append('<option value="' + games[j].name + '">' + games[j].name + '</option>');
-        for (var k = 0; k < games.length; k++) {
-            if (k != j) {
-                $('#roundsLevelsDropdown' + [i]).append('<option value="' + games[k].name + '">' + games[k].name + '</option>');
-            }
-        }
-      }
+      // for (var i = 1, j = 0; i < roundsLevelsDropdownCount, j < games.length; i += 4, j++) {
+      //   console.log("games: " , games);
+      //   console.log("games.length: " , games.length);
+      //   console.log("i: " , i);
+      //   console.log("j: " , j);
+      //   $('#roundsLevelsDropdown' + [i]).empty();
+      //   $('#roundsLevelsDropdown' + [i]).append('<option value="' + games[j].name + '">' + games[j].name + '</option>');
+      //   for (var k = 0; k < games.length; k++) {
+      //       if (k != j) {
+      //           $('#roundsLevelsDropdown' + [i]).append('<option value="' + games[k].name + '">' + games[k].name + '</option>');
+      //       }
+      //   }
+      // }
       <?php
         // if(isset($_GET["courseid"])){
         //   $c = $_GET["courseid"];
@@ -427,19 +375,23 @@ var getGameAttributes = function(){
 
       for (var i = 0; i < gameAttributes.length; i++) {
         console.log("gameAttributes: " , gameAttributes);
-        $('#gameAttributeValueDropdown' + [i]).empty();
-        $('#gameAttributeValueDropdown' + [i]).append('<option value="' + gameAttributes[i].value + '">' + gameAttributes[i].value + '</option>');
-        if ((gameAttributes[i].name == "Number of lives per game") && (gameAttributes[i].name == "Number of rounds/levels per game")) {
-            for (var j = 1; j <= 10; j++) {
-                $('#gameAttributeValueDropdown' + [i]).append('<option value="' + j + '">' + j + '</option>');
-            }
-        } else if (gameAttributes[i].name == "Correct answers 'In a row' earns") {
-            for (var j = 0; j <= 100; j += 5) {
-                $('#gameAttributeValueDropdown' + [i]).append('<option value="' + j + '">' + j + '</option>');
-            }
+        $('#gameAttributeValueDropdown' + i).empty();
+        if ((gameAttributes[i].ganame == "Game theme") && (gameAttributes[i].gavalue == 0)) {
+          $('#gameAttributeValueDropdown' + i).append('<option value="' + gameAttributes[i].gavalue + '">Currently Unavailable</option>')
         } else {
+          $('#gameAttributeValueDropdown' + i).append('<option value="' + gameAttributes[i].gavalue + '">' + gameAttributes[i].gavalue + '</option>');
+        }
+        if ((gameAttributes[i].ganame == "Number of lives per game") && (gameAttributes[i].ganame == "Number of rounds/levels per game")) {
+            for (var j = 1; j <= 10; j++) {
+                $('#gameAttributeValueDropdown' + i).append('<option value="' + j + '">' + j + '</option>');
+            }
+        } else if (gameAttributes[i].ganame == "Correct answers 'In a row' earns") {
+            for (var j = 0; j <= 100; j += 5) {
+                $('#gameAttributeValueDropdown' + i).append('<option value="' + j + '">' + j + '</option>');
+            }
+        } else if ((gameAttributes[i].ganame != "Game theme") || (gameAttributes[i].gavalue != 0)) {
             for (var j = 0; j <= 100; j++) {
-                $('#gameAttributeValueDropdown' + [i]).append('<option value="' + j + '">' + j + '</option>');
+                $('#gameAttributeValueDropdown' + i).append('<option value="' + j + '">' + j + '</option>');
             }
         }
       }
@@ -466,114 +418,99 @@ var getGameAttributes = function(){
 }
 
 var getRoundsLevels = function(){
-  $.ajax({
-    url: 'getroundslevels.php',
-    success: function(data){
-        roundsLevels = $.parseJSON(data);
-        
-        console.log("roundsLevels: " , roundsLevels);
-        console.log("roundsLevels.length: " , roundsLevels.length);
+var games = [];
 
-        // Column 2 of Rounds/Levels table
-        for (var i = 0, j = 0; i < roundsLevelsDropdownCount, j < roundsLevels.length; i += 4, j++) {
-            console.log("i loop 1: " , i);
-            console.log("j loop 1: " , j);
-            $('#roundsLevelsDropdown' + [i]).empty();
-            $('#roundsLevelsDropdown' + [i]).append('<option value="' + roundsLevels[j].numofq + '">' + roundsLevels[j].numofq + '</option>');
-            for (var k = 1; k <= 25; k++) {
-                if (k != roundsLevels[j].numofq) {
-                    $('#roundsLevelsDropdown' + [i]).append('<option value="' + k + '">' + k + '</option>');
+  $.ajax({
+    url: 'getgames.php',
+    success: function(data){
+      games = $.parseJSON(data);
+
+      $.ajax({
+        url: 'getroundslevels.php',
+        success: function(data){
+          roundsLevels = $.parseJSON(data);
+          
+          console.log("roundsLevels: " , roundsLevels);
+          console.log("roundsLevels.length: " , roundsLevels.length);
+
+          // Empty and show roundsLevelsTable div
+          $('#roundsLevelsTable').empty();
+          $('#roundsLevelsTable').show();
+
+          // Create table for roundsLevelsTable div
+          // Table heading and column 1
+          var htmlStr = '<table id="table" class="display table table-hover table-bordered"><thead><tr><th scope="col">Number</th><th scope="col">Number of Questions</th><th scope="col" title="Click for more information">Type of Challenge<a class="btn"href="" name="story" data-toggle="modal"data-target="#challengeTypeInfoModal">[?]</a></th><th scope="col">Max Points Value per Question</th><th scope="col">Points</th><th scope="col">Complete Round</th><th scope="col">Beat Opponent</th></tr></thead><tbody>';
+          for (var i = 0; i < roundsLevels.length; i++) {
+            var id = $.parseJSON(roundsLevels[i].roundlevelid);
+            var numofq = $.parseJSON(roundsLevels[i].numofq);
+            var maxptsperq = $.parseJSON(roundsLevels[i].maxptsperq);
+            var goalpts = $.parseJSON(roundsLevels[i].goalpts);
+            var goalcompleteround = $.parseJSON(roundsLevels[i].goalcompleteround);
+            var goalbeatopponent = $.parseJSON(roundsLevels[i].goalbeatopponent);
+            var gameid = $.parseJSON(roundsLevels[i].game_gameid);
+
+            //console.log("typeof(gameid): " , typeof(gameid));
+            //console.log("games[0].name: " , games[0].name);
+
+            // Column 2
+            htmlStr += '<tr id="row' + id + '"><td>' + id +'</td><td><select class="custom-select mr-sm-4" id="numOfQ" style="margin-left: 1em"><option value="' + numofq + '">' + numofq + '</option>';
+            for (var j = 1; j <= 25; j++) {
+                if (j != numofq) {
+                    htmlStr += '<option value="' + j + '">' + j + '</option>';
                 }
             }
-        }
-
-        // // Column 3 of Rounds/Levels table
-        // for (var i = 2, j = 0; i < roundsLevelsDropdownCount, j < roundsLevels.length; i += 4, j++) {
-        //     console.log("i loop 2: " , i);
-        //     console.log("j loop 2: " , j);
-        //     $('#roundsLevelsDropdown' + [i]).empty();
-        //     $('#roundsLevelsDropdown' + [i]).append('<option value="' + roundsLevels[j].maxptsperq + '">' + roundsLevels[j].maxptsperq + '</option>');
-        //     for (var k = 0; k <= 500; k += 5) {
-        //         $('#roundsLevelsDropdown' + [i]).append('<option value="' + k + '">' + k + '</option>');
-        //     }
-        // }
-
-        // Column 4 of Rounds/Levels table
-        for (var i = 2, j = 0; i < roundsLevelsDropdownCount, j < roundsLevels.length; i += 4, j++) {
-            console.log("i loop 3: " , i);
-            console.log("j loop 3: " , j);
-            $('#roundsLevelsDropdown' + [i]).empty();
-            $('#roundsLevelsDropdown' + [i]).append('<option value="' + roundsLevels[j].maxptsperq + '">' + roundsLevels[j].maxptsperq + '</option>');
-            for (var k = 0; k <= 500; k += 5) {
-                $('#roundsLevelsDropdown' + [i]).append('<option value="' + k + '">' + k + '</option>');
+            // Column 3
+            htmlStr += '</select></td><td><select class="custom-select mr-sm-4" id="gameChallenges" style="margin-left: 1em"><option value="' +  games[gameid - 1].name + '">' + games[gameid - 1].name + '</option>';
+            for (var j = 0; j < 5; j++) {
+                if (j != i) {
+                    htmlStr += '<option value="' + games[j].name + '">' + games[j].name + '</option>';
+                }
             }
-        }
-        
-        // Column 5 of Rounds/Levels table
-        for (var i = 3, j = 0; i < roundsLevelsDropdownCount, j < roundsLevels.length; i += 4, j++) {
-            console.log("i loop 4: " , i);
-            console.log("j loop 4: " , j);
-            $('#roundsLevelsDropdown' + [i]).empty();
-            if (roundsLevels[j].goalpts == null) {
-                $('#roundsLevelsDropdown' + [i]).append('<option value=0>0</option>');
-                for (var k = 5; k <= 500; k += 5) {
-                    $('#roundsLevelsDropdown' + [i]).append('<option value="' + k + '">' + k + '</option>');
+            // Column 4
+            htmlStr += '</select></td><td><select class="custom-select mr-sm-4" id="maxPtsPerQ" style="margin-left: 1em"><option value="' + maxptsperq + '">' + maxptsperq + '</option>';
+            for (var j = 0; j <= 500; j += 5) {
+                if (j != maxptsperq) {
+                    htmlStr += '<option value="' + j + '">' + j + '</option>';
+                }
+            }
+            // Column 5
+            htmlStr += '</select></td><td><select class="custom-select mr-sm-4" id="goalPts" style="margin-left: 1em">';
+            if (goalpts == null) {
+                htmlStr += '<option value=0>0</option>';
+                for (var j = 5; j <= 500; j += 5) {
+                    htmlStr += '<option value="' + j + '">' + j + '</option>';
                 }
             } else {
-                $('#roundsLevelsDropdown' + [i]).append('<option value="' + roundsLevels[j].goalpts + '">' + roundsLevels[j].goalpts + '</option>');
-                for (var k = 0; k <= 500; k += 5) {
-                    if (k != roundsLevels[j].goalpts) {
-                        $('#roundsLevelsDropdown' + [i]).append('<option value="' + k + '">' + k + '</option>');
+                htmlStr += '<option value="' + goalpts + '">' + goalpts + '</option>';
+                for (var j = 0; j <= 500; j += 5) {
+                    if (j != goalpts) {
+                        htmlStr += '<option value="' + j + '">' + j + '</option>';
                     }
                 }
             }
-        }
-
-        // Column 6 of Rounds/Levels table
-        for (var i = 0, j = 0; i < roundsLevelsCheckboxCount, j < roundsLevels.length; i += 2, j++) {
-            console.log("i loop 1: " , i);
-            console.log("j loop 1: " , j);
-            $('#roundsLevelsCheckbox' + [i]).empty();
-            if (roundsLevels[j].goalcompleteround == null || roundsLevels[j].goalcompleteround == 0) {
-                $('#roundsLevelsCheckbox' + [i]).append('<input class="form-check-input" type="checkbox" value=0>');
+            // Column 6
+            htmlStr += '</select></td><td>';
+            if (goalcompleteround == null || goalcompleteround == 0) {
+                htmlStr += '<input class="form-check-input" type="checkbox" value=0>';
             } else {
-                $('#roundsLevelsCheckbox' + [i]).append('<input class="form-check-input" type="checkbox" value=1 checked>');
+                htmlStr += '<input class="form-check-input" type="checkbox" value=1 checked>';
             }
-            //$('#roundsLevelsCheckbox' + [i]).append('<input class="form-check-input" type="checkbox" id='roundsLevelsCheckbox0'>');
-        }
-
-        // Column 7 of Rounds/Levels table
-        for (var i = 1, j = 0; i < roundsLevelsCheckboxCount, j < roundsLevels.length; i += 2, j++) {
-            console.log("i loop 1: " , i);
-            console.log("j loop 1: " , j);
-            $('#roundsLevelsCheckbox' + [i]).empty();
-            if (roundsLevels[j].goalbeatopponent == null || roundsLevels[j].goalbeatopponent == 0) {
-                $('#roundsLevelsCheckbox' + [i]).append('<input class="form-check-input" type="checkbox" value=0>');
+            // Column 7
+            htmlStr += '</td><td>';
+            if (goalbeatopponent == null || goalbeatopponent == 0) {
+                htmlStr += '<input class="form-check-input" type="checkbox" value=0>';
             } else {
-                $('#roundsLevelsCheckbox' + [i]).append('<input class="form-check-input" type="checkbox" value=1 checked>');
+                htmlStr += '<input class="form-check-input" type="checkbox" value=1 checked>';
             }
-            //$('#roundsLevelsCheckbox' + [i]).append('<input class="form-check-input" type="checkbox" id='roundsLevelsCheckbox0'>');
+            htmlStr += '</td></tr>';
+          }
+          htmlStr += '</tbody></table>';
+          $('#roundsLevelsTable').html(htmlStr);
         }
-      <?php
-        // if(isset($_GET["courseid"])){
-        //   $c = $_GET["courseid"];
-        //   echo "if ($('#courseDropdown option[value=\"$c\"]').length > 0){
-        //           selectedCourse = '$c';
-        //           $('.selectChapterUI').show();
-        //           $.ajax({
-        //             type: 'POST',
-        //             url: 'setcourse.php',
-        //             data: { course: selectedCourse },
-        //             success: function(data){
-        //               $('#courseDropdown').val(selectedCourse);
-        //               getChapters(selectedCourse);
-        //             }
-        //           });
-        //         }";
-        // }
-      ?>
+      });
     }
   });
+
 }
 
 var getCourses = function(){
@@ -1036,8 +973,8 @@ $(function (){
 
   getCourses();
   getGameAttributes();
-  getRoundsLevels();
   getGames();
+  getRoundsLevels();
 });
 </script>
 
