@@ -66,12 +66,12 @@ var modeState = {
     game.global.loseStreak = 1;
 
     //Host
-    
     game.global.jinny.frame = 0;
     game.global.hostComments = {
       right : ["That's correct","Well done","Good job","Nice going","Nice!","Yes!","You betcha","Good guess","Right!","You got it!","Impressive"],
       wrong : [ "Oh no"," Not quite", "Sorry", "Incorrect", "That's a miss", "Too bad", "Unfortunate", "That's not it", "Nope", "Uh-uh", "Ouch"]
     };
+    //set the alphas to 0 to get image off screen while maintaining anchors
     game.global.jinnySpeech = game.world.add(new game.global.SpeechBubble(game, game.global.jinny.right + (game.global.borderFrameSize * 2), game.global.chapterText.bottom, game.world.width - (game.global.jinny.width*2), game.global.isRehash ? "Welcome to the rehash round!\nThis is a second chance to earn some points on the questions you answered incorrectly.\nCorrect answers are worth 5 points, and your opponents are sitting out this round." : 'Here comes your first question...', true, false, null, false, null, true));
     game.global.jinny.alpha = 0;
     game.global.jinnySpeech.alpha = 0;
@@ -136,7 +136,7 @@ var modeState = {
 
     //new question
     var prefix = game.global.isRehash ? 'REHASH ' : '';
-    var questionNumText = game.add.text(game.world.width, Math.floor(game.global.logoText.bottom + 5), prefix + 'Q ' + (game.global.questionsAnswered + 1) + '/' + game.global.numQuestions, game.global.smallerWhiteFont);
+    var questionNumText = game.add.text(game.world.width, Math.floor(game.global.logoText.bottom + 5), prefix + 'Q#: ' + (game.global.questionsAnswered + 1)) ;
     questionNumText.x = Math.round(questionNumText.x - questionNumText.width - game.global.borderFrameSize);
     questionNumText.setShadow(2, 2, 'rgba(0,0,0,0.5)', 5);
     questionNumText.padding.x = 5;
@@ -282,6 +282,7 @@ var modeState = {
       var speech = this.data.correct ? 'right' : 'wrong';
       game.global.jinny.frame = this.data.correct ? 2 : 1;
 
+      // set the alpha to 0 to get off screen while maintaining anchors
       game.global.jinnySpeech.destroy();
       game.global.jinnySpeech = game.world.add(new game.global.SpeechBubble(game, game.global.jinny.right + (game.global.borderFrameSize * 2), game.global.chapterText.bottom, game.world.width - (game.global.jinny.width*2), game.global.hostComments[speech][Math.floor(Math.random() * game.global.hostComments[speech].length)], true, false, null, false, null, true));
       game.global.jinny.alpha = 0;
@@ -424,8 +425,8 @@ var modeState = {
       //still questions left, show the next one
       game.global.jinnySpeech.destroy();
       game.global.jinnySpeech = game.world.add(new game.global.SpeechBubble(game, game.global.jinny.right + (game.global.borderFrameSize * 2), game.global.chapterText.bottom, game.world.width - (game.global.jinny.width*2), "Next question...", true, false, null, false, null, true));
-      game.global.jinnySpeech.alpha = 0;    
-
+      game.global.jinny.alpha = 0;
+      game.global.jinnySpeech.alpha = 0; 
 
       game.state.getCurrentState().showQuestion(game.global.questions.shift());
     } else if (game.global.rehashQuestions.length > 0 && !game.global.isRehash) {

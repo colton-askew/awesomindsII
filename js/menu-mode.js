@@ -25,7 +25,8 @@ var menuModeState = {
       { name: 'Time Bonus', desc: 'The faster you respond, the more points you get', prestate: 'pregameTB', gamestate: 'playTB', id: 2, endstate: 'endOfGameTB', maxPtsPerQ: 25, totalTime: 10},
       { name: 'One Crack', desc: 'You only get one choice\n 15 points if you are correct', prestate: 'pregameOC', gamestate: 'playOC', id: 3, endstate: 'endOfGameOC', maxPtsPerQ: 15, totalTime: 25},
       { name: 'Just Drills', desc: 'Studying Mode!\n 5 points if you are correct', prestate: 'pregameJD', gamestate: 'playJD', id: 4, endstate: 'endOfGameJD', maxPtsPerQ: 5, totalTime: 25}, 
-      { name: 'Rate Question', desc: 'Rate Question based on difficulty', prestate: 'premodeRQ', gamestate: 'modeRQ', id: 5, endstate: 'endOfModeRQ', maxPtsPerQ: 1, totalTime: 10}
+      { name: 'Rate Question', desc: 'Rate Question based on difficulty', prestate: 'premodeRQ', gamestate: 'modeRQ', id: 5, endstate: 'endOfModeRQ', maxPtsPerQ: 1, totalTime: 10},
+      { name: 'Slide Cards', desc: 'Slide question to reveal answer', prestate: 'premodeSC', gamestate: 'modeSC', id: 6, endstate: 'endOfModeSC', maxPtsPerQ:2, totalTime:25}
     ];
     var prevHeights = 10 * dpr;
     for (var i = 0; i < modes.length; i++) { //create a button and text for each game mode

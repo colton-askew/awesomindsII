@@ -19,7 +19,7 @@ var preGameState = {
     game.global.hostText.centerX = Math.floor(game.global.jinny.centerX);
     game.global.hostText.x = Math.floor(game.global.hostText.x);
     game.global.hostText.y = Math.floor(game.global.jinny.bottom);
-    game.add.tween(game.global.logoText).to({x: Math.floor(game.global.jinny.right + game.global.borderFrameSize)}, 60, Phaser.Easing.Default, true, 0);
+    //game.add.tween(game.global.logoText).to({x: Math.floor(game.global.jinny.right + game.global.borderFrameSize)}, 60, Phaser.Easing.Default, true, 0);
     this.pregameUI = game.add.group();
 
     var instructLines = game.state.getCurrentState().instructLines.slice();

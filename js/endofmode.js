@@ -1,16 +1,14 @@
 var endOfModeState = {
-  
   hostMindStates : [
     { min: 70, max: 100, mind: "You have earned a jewel for your crown!", label: "Achievement", gameOver: false, bonus: 0},
     { min: 50, max: 69, mind: "You may continue to the next village!", label: "Continue", gameOver: false, bonus: 0},
-    { min: 0, max: 49, mind: "You have been banished from the realm!", label: "Banishment", gameOver: true, bonus: 0}
+    { min: 0, max: 49, mind: "You have been banished from the realm!", label: "Banishment", gameOver: false, bonus: 0}
   ],
 
   optionButtons: function(gameOver){
     var buttonsTemplate = [
-      { text: 'Continue', function: game.state.getCurrentState().playAgainClick },
       { text: 'Select Different Course', function: game.state.getCurrentState().chooseCourseClick },
-      { text: 'Select Different Chapter', function: game.state.getCurrentState().chooseChapterClick },
+      { text: 'Select Different Game', function: game.state.getCurrentState().chooseChapterClick },
       { text: 'Log Out', function: game.state.getCurrentState().logOutClick }
     ];
     var buttons = [];
@@ -74,7 +72,7 @@ var endOfModeState = {
             game.global.scoreData["total_score"] = parseInt(game.global.scoreData["total_score"]) + game.global.totalStats.score;
             game.global.scoreData["high_score"] = Math.max(parseInt(game.global.scoreData["high_score"]), game.global.totalStats.score);
             game.global.scoreData["times_played"] = parseInt(game.global.scoreData["times_played"]) + 1;
-            console.log(game.global.scoreData);
+            if (devmode) console.log(game.global.scoreData);
             $(function (){
               $.ajax({
                 type: 'POST',

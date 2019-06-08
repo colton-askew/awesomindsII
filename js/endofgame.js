@@ -156,7 +156,7 @@ var endOfGameState = {
       maxBtnWidth = Math.max(maxBtnWidth, btn.bubblewidth);
     };
 
-    game.global.jinnySpeech.destroy();
+    //game.global.jinnySpeech.destroy();
     game.global.jinnySpeech = game.world.add(new game.global.SpeechBubble(game, game.global.jinny.right + (game.global.borderFrameSize * 2), game.global.chapterText.bottom, game.world.width - (game.global.jinny.width + maxBtnWidth + 10), mindStateToUse.mind, true, false, null, false, null, true));
     this.endGameUI.add(game.global.jinnySpeech);
 
@@ -172,7 +172,7 @@ var endOfGameState = {
       scorePercentLabel.y = Math.floor(((game.global.selectedMode.id == 0) ? game.global.chars[i].crown.y : game.global.chars[i].sprite.y) - (scorePercentLabel.height*2));
       scorePercentLabel.tint = 0x000044;
       this.endGameUI.add(scorePercentLabel);
-      // game.add.tween(scorePercentLabel).to({y: y}, 500, Phaser.Easing.Default, true, 250); game.global.chars[i].numJewels
+      game.add.tween(scorePercentLabel).to({y: y}, 500, Phaser.Easing.Default, true, 250); game.global.chars[i].numJewels
       game.add.tween(game.global.chars[i].barSprite).to({height: Math.max(((game.global.selectedMode.id == 0) ? game.global.chars[i].crown.y : game.global.chars[i].sprite.y) - y, 1)}, 500, Phaser.Easing.Default, true, 250);
       this.endGameUI.add(game.global.chars[i].barSprite);
       if(game.global.chars[i].score == winningScore){

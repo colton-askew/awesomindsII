@@ -193,7 +193,8 @@ var playState = {
     game.global.winThreshold = Math.floor(Math.random() * 100) + 1;
     console.log('ai wins if over ' + game.global.winThreshold);
     for(i = 1; i < game.global.chars.length; i++){
-      game.global.chars[i].correct = (game.global.winThreshold <= game.global.chars[i].chance);
+      console.log('ai loses');
+      //game.global.chars[i].correct = (game.global.winThreshold <= game.global.chars[i].chance);
     }
 
     game.global.promptShown = false;
