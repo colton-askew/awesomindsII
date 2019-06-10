@@ -109,7 +109,30 @@ modeStateRQ.btnClick = function(){
   }
   function hardClicked(){
     console.log('hard clicked');
-    
+    console.log(game.global.answerText);
+    if(game.global.questionData == null){
+      game.global.questionData = {
+        chapter: game.global.selectedChapter,
+        courseid: game.global.selectedCourse,
+        question: game.global.answerText,
+        hard: 'no'
+      };
+    }
+
+    game.global.questionData["question"] = game.global.answerText;
+    game.global.questionData["hard"] = 'yes';
+    console.log('questionData questiontext is: ' + game.global.questionData["question"]);
+    $(function (){
+      $.ajax({
+        type: 'POST',
+        url: 'updatedifficulty.php',
+        data: game.global.questionData,
+        success: function(data){
+          console.log('Success, set to hard');
+          console.log(game.global.questionData["hard"]);
+        }
+      });
+    });
     game.global.choiceBubbles.forEach( function(item){ item.inputEnabled = false; } );
     game.global.timer.add(2500, game.state.getCurrentState().animateOut, this, false);
     game.global.questionsAnswered++;
@@ -160,7 +183,10 @@ modeStateRQ.showChoices = function(){
     for (var c in question.choices) {
       availChoices[i] = c;
       shuffChoices[i] = question.choices[c];
-      if(c == question.answer[0]) answerText = question.choices[c];
+      if(c == question.answer[0]){
+        answerText = question.choices[c];
+        game.global.answerText = answerText;
+      } 
       i++;
     }
     shuffChoices = game.global.shuffleArray(shuffChoices);
