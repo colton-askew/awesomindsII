@@ -67,7 +67,7 @@ modeStateSC.showQuestion = function(question){
 
     //new question
     var prefix = game.global.isRehash ? 'REHASH ' : '';
-    var questionNumText = game.add.text(game.world.width, Math.floor(game.global.logoText.bottom + 5), prefix + 'Q#: ' + (game.global.questionsAnswered + 1) + '\nScore: ' + game.global.totalStats.score, game.global.smallerWhiteFont);
+    var questionNumText = game.add.text(game.world.width, Math.floor(game.global.logoText.bottom + 5), prefix + 'Q#: ' + (game.global.questionsAnswered + 1), game.global.smallerWhiteFont);
     questionNumText.x = Math.round(questionNumText.x - questionNumText.width - game.global.borderFrameSize);
     questionNumText.setShadow(2, 2, 'rgba(0,0,0,0.5)', 5);
     questionNumText.padding.x = 5;
@@ -149,10 +149,10 @@ modeStateSC.showQuestion = function(question){
       //console.log('create rate buttons')
       // create no idea
       var bNoIdea = game.world.add(new game.global.SpeechBubble(game, game.world.width + 1000, game.height, game.width, " Had No Idea", false, true, noIdeaClicked));
-      bNoIdea.x = Math.floor(bNoIdea.x - (bNoIdea.bubblewidth/2 - 200 ));
+      bNoIdea.x = Math.floor(bNoIdea.x - (bNoIdea.bubblewidth/2 - 600 ));
       bNoIdea.y = Math.floor(prevHeights + (bNoIdea.bubbleheight + 10 * dpr) * 4);
       // animate button entrance
-      var bTween = game.add.tween(bNoIdea).to({x: Math.floor(game.world.centerX - bNoIdea.bubblewidth/2 - 200)}, 500, Phaser.Easing.Default, true, 250 * 4);
+      var bTween = game.add.tween(bNoIdea).to({x: Math.floor(game.world.centerX - bNoIdea.bubblewidth/2 - 600)}, 500, Phaser.Easing.Default, true, 250 * 4);
       bTween.start();
       game.global.noIdeaButton = bNoIdea;
 
@@ -204,10 +204,10 @@ modeStateSC.showQuestion = function(question){
 
       // create Doesn't Work
       var bDoesntWork = game.world.add(new game.global.SpeechBubble(game, game.world.width + 1000, game.height, game.width, "Doesnt work", false, true, doesntWorkClicked));
-      bDoesntWork.x = Math.floor(bDoesntWork.x - (bDoesntWork.bubblewidth/2 - 600));
+      bDoesntWork.x = Math.floor(bDoesntWork.x - (bDoesntWork.bubblewidth/2 - 200));
       bDoesntWork.y = Math.floor(prevHeights + 180 + (bDoesntWork.bubbleheight + 10 * dpr) * 4);
       // animate button entrance
-      var bTween = game.add.tween(bDoesntWork).to({x: Math.floor(game.world.centerX - bDoesntWork.bubblewidth/2 - 600)}, 500, Phaser.Easing.Default, true, 250 * 4);
+      var bTween = game.add.tween(bDoesntWork).to({x: Math.floor(game.world.centerX - bDoesntWork.bubblewidth/2 - 300)}, 500, Phaser.Easing.Default, true, 250 * 4);
       bTween.start();
       game.global.doesntWorkButton = bDoesntWork;
 
