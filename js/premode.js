@@ -29,7 +29,7 @@ var preModeState = {
     var courseText = game.add.text(game.global.pauseButton.left, game.world.y, game.global.selectedCourseName, game.global.smallerWhiteFont);
     courseText.x = Math.round(courseText.x - courseText.width - game.global.borderFrameSize);
     courseText.setShadow(2, 2, 'rgba(0,0,0,0.5)', 5);
-    courseText.padding.x = 5;
+    courseText.padding.x = 5;z
 
     game.global.chapterText = game.add.text(game.global.pauseButton.left, Math.floor(courseText.bottom - 5), 'Chapter ' + game.global.selectedChapter, game.global.smallerWhiteFont);
     game.global.chapterText.x = Math.round(game.global.chapterText.x - game.global.chapterText.width - game.global.borderFrameSize);
