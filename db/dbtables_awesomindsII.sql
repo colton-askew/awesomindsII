@@ -160,7 +160,7 @@ DEFAULT CHARACTER SET = latin1;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `task` (
   `taskid` INT NOT NULL,
-  `name` VARCHAR(20) NOT NULL,
+  `tname` VARCHAR(20) NOT NULL,
   `enabledstatus` TINYINT NOT NULL,
   `users_c_number` VARCHAR(11) NOT NULL,
   PRIMARY KEY (`taskid`),
@@ -178,8 +178,8 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `taskattribute` (
   `taskattributeid` INT NOT NULL,
-  `name` VARCHAR(45) NOT NULL,
-  `value` INT NULL,
+  `taname` VARCHAR(45) NOT NULL,
+  `tavalue` INT NULL,
   `task_taskid` INT NOT NULL,
   PRIMARY KEY (`taskattributeid`),
   KEY `fk_taskattribute_task1_idx` (`task_taskid`),
@@ -196,7 +196,7 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `game` (
   `gameid` INT NOT NULL,
-  `name` VARCHAR(45) NOT NULL,
+  `gname` VARCHAR(45) NOT NULL,
   `users_c_number` VARCHAR(11) NOT NULL,
   PRIMARY KEY (`gameid`),
   KEY `fk_game_users1_idx` (`users_c_number`),
@@ -213,8 +213,8 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `gameattribute` (
   `gameattributeid` INT NOT NULL,
-  `name` VARCHAR(50) NOT NULL,
-  `value` INT NULL,
+  `ganame` VARCHAR(50) NOT NULL,
+  `gavalue` INT NULL,
   `game_gameid` INT NOT NULL,
   PRIMARY KEY (`gameattributeid`),
    KEY `fk_gameattribute_game1_idx` (`game_gameid`),
@@ -233,9 +233,9 @@ CREATE TABLE IF NOT EXISTS `roundlevel` (
   `roundlevelid` INT NOT NULL,
   `numofq` INT NOT NULL,
   `maxptsperq` INT NOT NULL,
-  `goalpts` INT NULL,
-  `goalcompleteround` TINYINT NULL,
-  `goalbeatopponent` TINYINT NULL,
+  `goalpts` INT NOT NULL,
+  `goalcompleteround` TINYINT NOT NULL,
+  `goalbeatopponent` TINYINT NOT NULL,
   `game_gameid` INT NOT NULL,
   PRIMARY KEY (`roundlevelid`),
    KEY `fk_roundlevel_game1_idx` (`game_gameid`),

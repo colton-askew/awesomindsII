@@ -3,7 +3,7 @@
   include('redir-notloggedin.php');
 
   if ($_SESSION['isInstructor']) {
-    $query = $dbcon->prepare("SELECT t.taskid, t.name, t.enabledstatus
+    $query = $dbcon->prepare("SELECT t.taskid, t.tname, t.enabledstatus
                             FROM task t
                             WHERE t.users_c_number = :c_number");
     $query->bindParam(':c_number', $_SESSION['c_number']);

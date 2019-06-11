@@ -159,7 +159,6 @@ var questions = [];
 var questionid = 0;
 var table = null;
 var gameAttributes = [];
-var gameAttributeValueDropdownCount = 5;
 var roundsLevels =  [];
 
 function nextLetter(s){
@@ -230,25 +229,14 @@ function addOption(){
 };
 
 function changeGameAttribute() {
-  //gameAttributeValueDropdown
   for (var i = 0; i < gameAttributes.length; i++) {
     if (document.getElementById('gameAttributeValueDropdown' + i).value != gameAttributes[i].gavalue) {
         console.log("!=");
-        //console.log("data.gaName: " , gameAttributes[i].ganame);
-        //console.log("data.gaValue: " , gameAttributes[i].gavalue);
-
-        console.log("roundsLevels[i]: " , roundsLevels[i]);
-        console.log("roundsLevels.length: " , roundsLevels.length);
-        console.log("roundsLevels[i].roundlevelid: " , roundsLevels[i].roundlevelid);
-
-        console.log("document.getElementById('gameAttributeValueDropdown' + i).value: " , document.getElementById('gameAttributeValueDropdown' + i).value);
-        console.log("gameAttributes[i].gavalue: " , gameAttributes[i].gavalue);
         
         var newRoundLevelCount = document.getElementById('gameAttributeValueDropdown' + i).value - gameAttributes[i].gavalue;
         
         console.log("gameAttributes[i].gavalue: " , gameAttributes[i].gavalue);
         console.log("newRoundLevelCount: " , newRoundLevelCount);
-
 
         $.ajax({
           type: 'POST',
@@ -290,6 +278,100 @@ function changeGameAttribute() {
   } 
 }
 
+function changeRoundLevel() {
+  for (var i = 0, j = 0; i < roundsLevels.length; i++, j += 6) {
+    if (document.getElementById('roundLevelDropdown' + j).value != roundsLevels[i].numofq) {
+      console.log("numofq !=");
+
+      $.ajax({
+        type: 'POST',
+        url: 'updateroundlevel.php',
+        data: { rlValue: i + 1, rlValueToChange: 'numofq', docValue: document.getElementById('roundLevelDropdown' + j).value },
+        success: function(data) {
+          getRoundsLevels();
+          console.log("roundslevels+0 updated");
+        }
+      });
+    } else if (document.getElementById('roundLevelDropdown' + (j + 1)).value != roundsLevels[i].game_gameid) {
+      console.log("gname !=");
+
+      console.log("rlValue: " , i + 1);
+      console.log("rlValueToChange: game_gameid");
+      console.log("docValue: " , document.getElementById('roundLevelDropdown' + (j + 1)).value);
+
+      $.ajax({
+        type: 'POST',
+        url: 'updateroundlevel.php',
+        data: { rlValue: i + 1, rlValueToChange: 'game_gameid', docValue: document.getElementById('roundLevelDropdown' + (j + 1)).value },
+        success: function(data) {
+          getRoundsLevels();
+          console.log("roundslevels+1 updated");
+        }
+      });
+    }else if (document.getElementById('roundLevelDropdown' + (j + 2)).value != roundsLevels[i].maxptsperq) {
+      console.log("maxptsperq !=");
+
+      $.ajax({
+        type: 'POST',
+        url: 'updateroundlevel.php',
+        data: { rlValue: i + 1, rlValueToChange: 'maxptsperq', docValue: document.getElementById('roundLevelDropdown' + (j + 2)).value },
+        success: function(data) {
+          getRoundsLevels();
+          console.log("roundslevels+2 updated");
+        }
+      });
+    } else if (document.getElementById('roundLevelDropdown' + (j + 3)).value != roundsLevels[i].goalpts) {
+      console.log("goalpts !=");
+
+      $.ajax({
+        type: 'POST',
+        url: 'updateroundlevel.php',
+        data: { rlValue: i + 1, rlValueToChange: 'goalpts', docValue: document.getElementById('roundLevelDropdown' + (j + 3)).value },
+        success: function(data) {
+          getRoundsLevels();
+          console.log("roundslevels+3 updated");
+        }
+      });
+    } else if (document.getElementById('roundLevelDropdown' + (j + 4)).value != roundsLevels[i].goalcompleteround) {
+      console.log("goalcompleteround !=");
+
+      $.ajax({
+        type: 'POST',
+        url: 'updateroundlevel.php',
+        data: { rlValue: i + 1, rlValueToChange: 'goalcompleteround', docValue: document.getElementById('roundLevelDropdown' + (j + 4)).value },
+        success: function(data) {
+          getRoundsLevels();
+          console.log("roundslevels+4 updated");
+        }
+      });
+    } else if (document.getElementById('roundLevelDropdown' + (j + 5)).value != roundsLevels[i].goalbeatopponent) {
+        console.log("goalbeatopponent !=");
+
+        $.ajax({
+          type: 'POST',
+          url: 'updateroundlevel.php',
+          data: { rlValue: i + 1, rlValueToChange: 'goalbeatopponent', docValue: document.getElementById('roundLevelDropdown' + (j + 5)).value },
+          success: function(data) {
+            getRoundsLevels();
+            console.log("roundslevels+5 updated");
+          }
+        });
+    }
+    else{
+      console.log("==");
+      console.log("dropdownValue: " , (j + 5));
+    }
+  }
+}
+
+function changeColCheck(dropdownValue) {
+  if (document.getElementById('roundLevelDropdown' + dropdownValue).checked) {
+    document.getElementById('roundLevelDropdown' + dropdownValue).value = 1;
+  } else {
+    document.getElementById('roundLevelDropdown' + dropdownValue).value = 0;
+  }
+}
+
 var getTasks = function(){
   $.ajax({
     url: 'gettasks.php',
@@ -304,24 +386,6 @@ var getTasks = function(){
       //       $('#gameAttributeValueDropdown' + [i]).append('<option value="' + j + '">' + j + '</option>');
       //   }
       // }
-      <?php
-        // if(isset($_GET["courseid"])){
-        //   $c = $_GET["courseid"];
-        //   echo "if ($('#courseDropdown option[value=\"$c\"]').length > 0){
-        //           selectedCourse = '$c';
-        //           $('.selectChapterUI').show();
-        //           $.ajax({
-        //             type: 'POST',
-        //             url: 'setcourse.php',
-        //             data: { course: selectedCourse },
-        //             success: function(data){
-        //               $('#courseDropdown').val(selectedCourse);
-        //               getChapters(selectedCourse);
-        //             }
-        //           });
-        //         }";
-        // }
-      ?>
     }
   });
 }
@@ -345,24 +409,6 @@ var getGames = function(){
       //       }
       //   }
       // }
-      <?php
-        // if(isset($_GET["courseid"])){
-        //   $c = $_GET["courseid"];
-        //   echo "if ($('#courseDropdown option[value=\"$c\"]').length > 0){
-        //           selectedCourse = '$c';
-        //           $('.selectChapterUI').show();
-        //           $.ajax({
-        //             type: 'POST',
-        //             url: 'setcourse.php',
-        //             data: { course: selectedCourse },
-        //             success: function(data){
-        //               $('#courseDropdown').val(selectedCourse);
-        //               getChapters(selectedCourse);
-        //             }
-        //           });
-        //         }";
-        // }
-      ?>
     }
   });
 }
@@ -372,9 +418,10 @@ var getGameAttributes = function(){
     url: 'getgameattributes.php',
     success: function(data){
       gameAttributes = $.parseJSON(data);
+      
+      console.log("gameAttributes: " , gameAttributes);
 
       for (var i = 0; i < gameAttributes.length; i++) {
-        console.log("gameAttributes: " , gameAttributes);
         $('#gameAttributeValueDropdown' + i).empty();
         if ((gameAttributes[i].ganame == "Game theme") && (gameAttributes[i].gavalue == 0)) {
           $('#gameAttributeValueDropdown' + i).append('<option value="' + gameAttributes[i].gavalue + '">Currently Unavailable</option>')
@@ -395,24 +442,6 @@ var getGameAttributes = function(){
             }
         }
       }
-      <?php
-        // if(isset($_GET["courseid"])){
-        //   $c = $_GET["courseid"];
-        //   echo "if ($('#courseDropdown option[value=\"$c\"]').length > 0){
-        //           selectedCourse = '$c';
-        //           $('.selectChapterUI').show();
-        //           $.ajax({
-        //             type: 'POST',
-        //             url: 'setcourse.php',
-        //             data: { course: selectedCourse },
-        //             success: function(data){
-        //               $('#courseDropdown').val(selectedCourse);
-        //               getChapters(selectedCourse);
-        //             }
-        //           });
-        //         }";
-        // }
-      ?>
     }
   });
 }
@@ -435,49 +464,49 @@ var games = [];
 
           // Empty and show roundsLevelsTable div
           $('#roundsLevelsTable').empty();
-          $('#roundsLevelsTable').show();
 
           // Create table for roundsLevelsTable div
-          // Table heading and column 1
+          // Table heading
           var htmlStr = '<table id="table" class="display table table-hover table-bordered"><thead><tr><th scope="col">Number</th><th scope="col">Number of Questions</th><th scope="col" title="Click for more information">Type of Challenge<a class="btn"href="" name="story" data-toggle="modal"data-target="#challengeTypeInfoModal">[?]</a></th><th scope="col">Max Points Value per Question</th><th scope="col">Points</th><th scope="col">Complete Round</th><th scope="col">Beat Opponent</th></tr></thead><tbody>';
-          for (var i = 0; i < roundsLevels.length; i++) {
-            var id = $.parseJSON(roundsLevels[i].roundlevelid);
-            var numofq = $.parseJSON(roundsLevels[i].numofq);
-            var maxptsperq = $.parseJSON(roundsLevels[i].maxptsperq);
-            var goalpts = $.parseJSON(roundsLevels[i].goalpts);
-            var goalcompleteround = $.parseJSON(roundsLevels[i].goalcompleteround);
-            var goalbeatopponent = $.parseJSON(roundsLevels[i].goalbeatopponent);
-            var gameid = $.parseJSON(roundsLevels[i].game_gameid);
+          for (var i = 0, k = 0; i < roundsLevels.length; i++, k += 6) {
+            var id = roundsLevels[i].roundlevelid;
+            var numofq = roundsLevels[i].numofq;
+            var gnameRL = roundsLevels[i].gname;
+            var maxptsperq = roundsLevels[i].maxptsperq;
+            var goalpts = roundsLevels[i].goalpts;
+            var goalcompleteround = roundsLevels[i].goalcompleteround;
+            var goalbeatopponent = roundsLevels[i].goalbeatopponent;
+            var gameid = roundsLevels[i].game_gameid;
 
-            //console.log("typeof(gameid): " , typeof(gameid));
-            //console.log("games[0].name: " , games[0].name);
+            // Column 1
+            htmlStr += '<tr id="row' + id + '"><td>' + id + '</td>';
 
             // Column 2
-            htmlStr += '<tr id="row' + id + '"><td>' + id +'</td><td><select class="custom-select mr-sm-4" id="numOfQ" style="margin-left: 1em"><option value="' + numofq + '">' + numofq + '</option>';
+            htmlStr += '<td><select class="custom-select mr-sm-4" id="roundLevelDropdown' + k + '" onchange="changeRoundLevel()" style="margin-left: 1em"><option value="' + numofq + '">' + numofq + '</option>';
             for (var j = 1; j <= 25; j++) {
                 if (j != numofq) {
                     htmlStr += '<option value="' + j + '">' + j + '</option>';
                 }
             }
             // Column 3
-            htmlStr += '</select></td><td><select class="custom-select mr-sm-4" id="gameChallenges" style="margin-left: 1em"><option value="' +  games[gameid - 1].name + '">' + games[gameid - 1].name + '</option>';
-            for (var j = 0; j < 5; j++) {
-                if (j != i) {
-                    htmlStr += '<option value="' + games[j].name + '">' + games[j].name + '</option>';
+            htmlStr += '</select></td><td><select class="custom-select mr-sm-4" id="roundLevelDropdown' + (k + 1) + '" onchange="changeRoundLevel()" style="margin-left: 1em"><option value=' +  gameid + '>' + gnameRL + '</option>';
+            for (var j = 1; j <= games.length; j++) {
+                if (j != gameid) {
+                    htmlStr += '<option value=' + (j) + '>' + games[j - 1].gname + '</option>';
                 }
             }
             // Column 4
-            htmlStr += '</select></td><td><select class="custom-select mr-sm-4" id="maxPtsPerQ" style="margin-left: 1em"><option value="' + maxptsperq + '">' + maxptsperq + '</option>';
+            htmlStr += '</select></td><td><select class="custom-select mr-sm-4" id="roundLevelDropdown' + (k + 2) + '" onchange="changeRoundLevel()" style="margin-left: 1em"><option value="' + maxptsperq + '">' + maxptsperq + '</option>';
             for (var j = 0; j <= 500; j += 5) {
                 if (j != maxptsperq) {
                     htmlStr += '<option value="' + j + '">' + j + '</option>';
                 }
             }
             // Column 5
-            htmlStr += '</select></td><td><select class="custom-select mr-sm-4" id="goalPts" style="margin-left: 1em">';
+            htmlStr += '</select></td><td><select class="custom-select mr-sm-4" id="roundLevelDropdown' + (k + 3) + '" onchange="changeRoundLevel()" style="margin-left: 1em">';
             if (goalpts == null) {
-                htmlStr += '<option value=0>0</option>';
-                for (var j = 5; j <= 500; j += 5) {
+                htmlStr += '<option value=""></option>';
+                for (var j = 0; j <= 500; j += 5) {
                     htmlStr += '<option value="' + j + '">' + j + '</option>';
                 }
             } else {
@@ -490,27 +519,27 @@ var games = [];
             }
             // Column 6
             htmlStr += '</select></td><td>';
-            if (goalcompleteround == null || goalcompleteround == 0) {
-                htmlStr += '<input class="form-check-input" type="checkbox" value=0>';
+            if (goalcompleteround == 0) {
+              htmlStr += '<input class="form-check-input" type="checkbox" id="roundLevelDropdown' + (k + 4) + '" onchange="changeColCheck(' + (k + 4) + ');changeRoundLevel()" value=0>';
             } else {
-                htmlStr += '<input class="form-check-input" type="checkbox" value=1 checked>';
+              htmlStr += '<input class="form-check-input" type="checkbox" id="roundLevelDropdown' + (k + 4) + '" onchange="changeColCheck(' + (k + 4) + ');changeRoundLevel()" value=1 checked>';
             }
             // Column 7
             htmlStr += '</td><td>';
-            if (goalbeatopponent == null || goalbeatopponent == 0) {
-                htmlStr += '<input class="form-check-input" type="checkbox" value=0>';
+            if (goalbeatopponent == 0) {
+                htmlStr += '<input class="form-check-input" type="checkbox" id="roundLevelDropdown' + (k + 5) + '" onchange="changeColCheck(' + (k + 5) + ');changeRoundLevel()" value=0>';
             } else {
-                htmlStr += '<input class="form-check-input" type="checkbox" value=1 checked>';
+                htmlStr += '<input class="form-check-input" type="checkbox" id="roundLevelDropdown' + (k + 5) + '" onchange="changeColCheck(' + (k + 5) + ');changeRoundLevel()" value=1 checked>';
             }
             htmlStr += '</td></tr>';
           }
           htmlStr += '</tbody></table>';
           $('#roundsLevelsTable').html(htmlStr);
+          $('#roundsLevelsTable').show();
         }
       });
     }
   });
-
 }
 
 var getCourses = function(){

@@ -3,7 +3,7 @@
   include('redir-notloggedin.php');
 
   if ($_SESSION['isInstructor']) {
-    $query = $dbcon->prepare("SELECT g.gameid, g.name
+    $query = $dbcon->prepare("SELECT g.gameid, g.gname
                             FROM game g
                             WHERE g.users_c_number = :c_number");
     $query->bindParam(':c_number', $_SESSION['c_number']);
