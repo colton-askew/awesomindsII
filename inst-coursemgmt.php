@@ -13,19 +13,26 @@
   <?php include 'inst-nav2.php' ?>
   <div class="container text-center">
     <h2>Course Management</h2><br>
-    <div class="card">
-      <p id="selectCourseText">Select a course to manage, or create a new course.</p>
-      <div id='selectCourseDiv' class="container" style="max-width: 400px">
-        <p><button class="btn btn-success" id='newCourseBtn' data-toggle="modal" data-target="#createCourseModal">Create New Course</button></p>
-        <div class="input-group">
-          <span class="input-group-addon">Course</span>
-          <select class="form-control" id='courseDropdown'>
-            <option value="null">Select an Existing Course</option>
-          </select>
-        </div>
-      </div>
-      <div id="selectedCourseOutput"></div>
-    </div>
+      <div class="row">
+          <div class="col-sm-10 offset-sm-1 text-center">
+              <div class="info-form">
+                    <p id="selectCourseText">Select a course to manage, or create a new course.</p> <br>
+                    <div class="form-group row" style="max-width: 600px;">
+                      <p>Create New Course> </p>
+                      <input class="form-control" type="text" name="courseID" id="courseIDinput" required placeholder="e.g. 'PSYC150'" pattern="[A-Za-z]{3,4}[0-9]{3}" title="3-4 letters followed by 3 numbers; no spaces.">
+                      <input class="form-control" type="text" name="courseName" id="courseNameinput" required placeholder="e.g. 'Psychology 150'">
+                      <p><button class="btn btn-success" id='newCourseBtn' data-toggle="modal" data-target="#createCourseModal">Create New Course</button></p>
+                    </div>
+              <div id='selectCourseDiv' class="container" style="max-width: 400px">
+                <div class="input-group">
+                  <span class="input-group-addon">Course</span>
+                  <select class="form-control" id='courseDropdown'>
+                    <option value="null">Select an Existing Course</option>
+                  </select>
+                </div>
+              </div>
+              <div id="selectedCourseOutput"></div>
+            </div>
 
     <div class='card selectChapterUI'>
       <div id='selectChapterDiv' class="container" style="max-width: 400px">
