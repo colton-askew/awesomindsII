@@ -15,6 +15,7 @@ var modeState = {
         console.log('new mode');
         game.global.questionsBackup = game.global.origQuestions.slice();
         game.global.questions = game.global.shuffleArray(game.global.origQuestions);
+        game.global.questionIDs = game.global.shuffleArray(game.global.origIds);
       } else {
         //returning on round 2 or higher
         if(game.global.questions.length <= 0){
@@ -193,6 +194,7 @@ var modeState = {
     var availChoices = [];
     var tweens = [];
     var question = this.question;
+    
     var shuffChoices = [];
     var answerText = '';
     for (var c in question.choices) {
