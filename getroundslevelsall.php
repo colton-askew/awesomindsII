@@ -3,8 +3,7 @@
   include('redir-notloggedin.php');
 
   if ($_SESSION['isInstructor']) {
-    $query = $dbcon->prepare("SELECT g.gameid, g.gname
-                            FROM game g");
+    $query = $dbcon->prepare("SELECT rl.roundlevelid FROM roundlevel rl");
     $query->execute();
   
     $result = $query->fetchAll(PDO::FETCH_ASSOC);

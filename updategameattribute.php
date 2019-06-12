@@ -1,17 +1,20 @@
 <?php
-require('../../conn.php');
-include('redir-notinstructor.php');
+  require('../../conn.php');
+  include('redir-notinstructor.php');
 
-$stmt = $dbcon->prepare('UPDATE gameattribute
-                        SET gavalue = :gaValue
-                        WHERE ganame = :gaName');
-                        $stmt->bindParam(':gaValue', $_POST["gaValue"]);
-                        $stmt->bindParam(':gaName', $_POST["gaName"]);
+  $gaValueToChange = $_POST["gaValueToChange"];
 
-if($stmt->execute()){
-  echo 'Question saved';
-}else{
-  print_r($stmt->errorInfo());
-}
+  $query = $dbcon->prepare("UPDATE gameattribute
+                          SET $gaValueToChange = :docValue
+                          WHERE users_c_number = :c_number");
+                          //$query->bindParam(':gaValue', $_POST["gaValue"]);
+                          //$query->bindParam(':gaValueToChange', $_POST["gaValueToChange"]);
+  $query->bindParam(':docValue', $_POST["docValue"]);
+  $query->bindParam(':c_number', $_SESSION['c_number']);
 
+  if($query->execute()){
+    echo 'gameattribute updated';
+  }else{
+    print_r($query->errorInfo());
+  }
 ?>

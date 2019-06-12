@@ -158,34 +158,37 @@ DEFAULT CHARACTER SET = latin1;
 -- -----------------------------------------------------
 -- Table `task`
 -- -----------------------------------------------------
+DROP TABLE IF EXISTS `task` ;
+
 CREATE TABLE IF NOT EXISTS `task` (
   `taskid` INT NOT NULL,
   `tname` VARCHAR(20) NOT NULL,
-  `enabledstatus` TINYINT NOT NULL,
-  `users_c_number` VARCHAR(11) NOT NULL,
-  PRIMARY KEY (`taskid`),
-  KEY `fk_task_users1_idx` (`users_c_number`),
-  CONSTRAINT `fk_task_users1`
-    FOREIGN KEY (`users_c_number`)
-    REFERENCES `users` (`c_number`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+  PRIMARY KEY (`taskid`))
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
 -- Table `taskattribute`
 -- -----------------------------------------------------
+DROP TABLE IF EXISTS `taskattribute` ;
+
 CREATE TABLE IF NOT EXISTS `taskattribute` (
   `taskattributeid` INT NOT NULL,
-  `taname` VARCHAR(45) NOT NULL,
-  `tavalue` INT NULL,
+  `ptsperq` INT NOT NULL,
+  `enabledstatus` TINYINT NOT NULL,
   `task_taskid` INT NOT NULL,
+  `users_c_number` VARCHAR(11) NOT NULL,
   PRIMARY KEY (`taskattributeid`),
   KEY `fk_taskattribute_task1_idx` (`task_taskid`),
+  KEY `fk_taskattribute_users1_idx` (`users_c_number`),
   CONSTRAINT `fk_taskattribute_task1`
     FOREIGN KEY (`task_taskid`)
     REFERENCES `task` (`taskid`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_taskattribute_users1`
+    FOREIGN KEY (`users_c_number`)
+    REFERENCES `users` (`c_number`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
@@ -194,13 +197,31 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `game`
 -- -----------------------------------------------------
+DROP TABLE IF EXISTS `game` ;
+
 CREATE TABLE IF NOT EXISTS `game` (
   `gameid` INT NOT NULL,
   `gname` VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`gameid`))
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `gameattribute`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `gameattribute` ;
+
+CREATE TABLE IF NOT EXISTS `gameattribute` (
+  `gameattributeid` INT NOT NULL,
+  `livespergame` INT NOT NULL,
+  `rowbonuscount` INT NOT NULL,
+  `rowbonuspts` INT NOT NULL,
+  `gametheme` INT NOT NULL,
+  `rndslvlspergame` INT NOT NULL,
   `users_c_number` VARCHAR(11) NOT NULL,
-  PRIMARY KEY (`gameid`),
-  KEY `fk_game_users1_idx` (`users_c_number`),
-  CONSTRAINT `fk_game_users1`
+  PRIMARY KEY (`gameattributeid`),
+  KEY `fk_gameattribute_users1_idx` (`users_c_number`),
+  CONSTRAINT `fk_gameattribute_users1`
     FOREIGN KEY (`users_c_number`)
     REFERENCES `users` (`c_number`)
     ON DELETE NO ACTION
@@ -209,39 +230,30 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `gameattribute`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `gameattribute` (
-  `gameattributeid` INT NOT NULL,
-  `ganame` VARCHAR(50) NOT NULL,
-  `gavalue` INT NULL,
-  `game_gameid` INT NOT NULL,
-  PRIMARY KEY (`gameattributeid`),
-   KEY `fk_gameattribute_game1_idx` (`game_gameid`),
-  CONSTRAINT `fk_gameattribute_game1`
-    FOREIGN KEY (`game_gameid`)
-    REFERENCES `game` (`gameid`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
 -- Table `roundlevel`
 -- -----------------------------------------------------
+DROP TABLE IF EXISTS `roundlevel` ;
+
 CREATE TABLE IF NOT EXISTS `roundlevel` (
-  `roundlevelid` INT NOT NULL,
+  `roundlevelid` INT NOT NULL AUTO_INCREMENT,
   `numofq` INT NOT NULL,
   `maxptsperq` INT NOT NULL,
   `goalpts` INT NOT NULL,
   `goalcompleteround` TINYINT NOT NULL,
   `goalbeatopponent` TINYINT NOT NULL,
   `game_gameid` INT NOT NULL,
+  `users_c_number` VARCHAR(11) NOT NULL,
   PRIMARY KEY (`roundlevelid`),
-   KEY `fk_roundlevel_game1_idx` (`game_gameid`),
+  KEY `fk_roundlevel_game1_idx` (`game_gameid`),
+  KEY `fk_roundlevel_users1_idx` (`users_c_number`),
   CONSTRAINT `fk_roundlevel_game1`
     FOREIGN KEY (`game_gameid`)
     REFERENCES `game` (`gameid`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_roundlevel_users1`
+    FOREIGN KEY (`users_c_number`)
+    REFERENCES `users` (`c_number`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
