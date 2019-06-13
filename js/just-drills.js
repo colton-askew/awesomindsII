@@ -41,15 +41,6 @@ playStateJD.btnClick = function(){
   }
 
   function btnClickHostFeedback(){
-    //set host's attitude based on right or wrong answer
-    //var speech = this.data.correct ? 'right' : 'wrong';
-    //var comment = game.global.hostComments[speech][Math.floor(Math.random() * game.global.hostComments[speech].length)];
-    
-    //game.global.jinnySpeech.destroy();
-    //game.global.jinnySpeech = game.world.add(new game.global.SpeechBubble(game, game.global.jinny.right + (game.global.borderFrameSize * 2), game.global.chapterText.bottom, game.world.width - (game.global.jinny.width*2), comment, true, false, null, false, null, true));
-    //game.global.jinny.alpha = 0;
-    //game.global.jinnySpeech.alpha = 0;
-
     //points graphic
     if(this.data.correct){
       //set the number of points earned here, use it to load the appropriate graphic and to update the score later
@@ -113,4 +104,4 @@ playStateJD.update = function(){ //updates points on screen
 };
 
 
-playStateJD.showAnswers = function(fromButton) {};//show AI's selected answers
+playStateJD.showAnswers = function(fromButton) {};//show AI's selected answers // overloaded as no AI in modess
