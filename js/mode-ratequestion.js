@@ -80,19 +80,10 @@ modeStateRQ.btnClick = function(){
     bTween.start();
     game.global.hardButton = bHard;
 
-    // create Stop
-    var bStop = game.world.add(new game.global.SpeechBubble(game, game.world.width + 1000, game.height, game.width, "STOP", false, true, stopClicked));
-    bStop.x = Math.floor(bStop.x - (bStop.bubblewidth/2));
-    bStop.y = Math.floor(prevHeights + 180 + (bStop.bubbleheight + 10 * dpr) * 4);
-    // animate button entrance
-    var bTween = game.add.tween(bStop).to({x: Math.floor(game.world.centerX - bStop.bubblewidth/2)}, 500, Phaser.Easing.Default, true, 250 * 4);
-    bTween.start();
-    game.global.stopButton = bStop;
+    
 
   }
-  function stopClicked(){
-    game.state.getCurrentState().nextQuestion(0);
-  }
+  
   function easyClicked(){
     console.log('easy clicked');
     rateSelected = true;
@@ -282,13 +273,13 @@ modeStateRQ.animateOut = function(didntAnswer){
   game.add.tween(game.global.easyButton).to({x: game.world.x - game.world.width}, 300, Phaser.Easing.Default, true, 0);
   game.add.tween(game.global.mediumButton).to({x: game.world.x - game.world.width}, 300, Phaser.Easing.Default, true, 0);
   game.add.tween(game.global.hardButton).to({x: game.world.x - game.world.width}, 300, Phaser.Easing.Default, true, 0);
-  game.add.tween(game.global.stopButton).to({x: game.world.x - game.world.width}, 300, Phaser.Easing.Default, true, 0);
+ 
   
   game.global.questionUI.destroy();
   game.global.easyButton.destroy();
   game.global.mediumButton.destroy();
   game.global.hardButton.destroy();
-  game.global.stopButton.destroy();
+  
 
   makeBars = function(correct, didntAnswer){
     

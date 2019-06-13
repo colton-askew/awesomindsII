@@ -105,3 +105,20 @@ playStateJD.update = function(){ //updates points on screen
 
 
 playStateJD.showAnswers = function(fromButton) {};//show AI's selected answers // overloaded as no AI in modess
+playStateJD.getStatLines = function(){
+  var percentage;
+  if (game.global.questionsAnswered == 0 || game.global.timesAnswered == 0){
+    percentage = 0;
+  } else {
+    percentage = Math.floor((game.global.questionsAnswered / game.global.timesAnswered) * 100);
+  }
+  var statLines = [
+    game.global.session.play_name,
+    "Percentage: " + percentage + "%",
+    "Score This Round: " + game.global.totalStats.score,
+    "Your Highest Score: " + game.global.totalStats.score,
+    "Total Points Earned: " + game.global.totalStats.score,
+  ];
+  return statLines;
+};
+

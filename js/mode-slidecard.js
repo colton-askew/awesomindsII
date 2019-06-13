@@ -211,22 +211,11 @@ modeStateSC.showQuestion = function(question){
       bTween.start();
       game.global.doesntWorkButton = bDoesntWork;
 
-      // create Stop
-      var bStop = game.world.add(new game.global.SpeechBubble(game, game.world.width + 1000, game.height, game.width, "STOP", false, true, stopClicked));
-      bStop.x = Math.floor(bStop.x - (bStop.bubblewidth/2));
-      bStop.y = Math.floor(prevHeights + 180 + (bStop.bubbleheight + 10 * dpr) * 4);
-      // animate button entrance
-      var bTween = game.add.tween(bStop).to({x: Math.floor(game.world.centerX - bStop.bubblewidth/2)}, 500, Phaser.Easing.Default, true, 250 * 4);
-      bTween.start();
-      game.global.stopButton = bStop;
-  
-  
-    }
-    // create buttons
-    function stopClicked(){
-      game.state.getCurrentState().animateOut(0);
       
+  
+  
     }
+    
     function tooEasyClicked(){
       
       
@@ -305,7 +294,7 @@ modeStateSC.animateOut = function(number){
   // game.add.tween(game.global.doesntWorkButton).to({x: game.world.x - game.world.width}, 300, Phaser.Easing.Default, true, 0)
   // game.add.tween(game.global.tooEasyButton).to({x: game.world.x - game.world.width}, 300, Phaser.Easing.Default, true, 0)
   
-  game.global.stopButton.destroy();
+  
   game.global.luckyButton.destroy();
   game.global.wrongButton.destroy();
   game.global.partialButton.destroy();
@@ -333,12 +322,6 @@ modeStateSC.nextQuestion = function(number){
   //switch case for different buttons pressed splice is number - 1
   console.log('number pressed' + number);
   switch (number){
-    case 0:
-      console.log('stop clicked');
-      endGame = game.add.audio('endGame');
-      endGame.play();
-      game.state.start(game.global.selectedMode.endstate, false, false);
-      break;
     case 1:
       console.log('doesnt work, mark for removal');
       break;
