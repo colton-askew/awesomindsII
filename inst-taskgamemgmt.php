@@ -98,8 +98,8 @@
                             </label>
                         </div>
                         <div class="form-row">
-                            <div class="col-sm-9"></div>
-                            <label class="col-sm-1" style="float: right; margin-right: -2.0em">GOAL</label>
+                            <div class="col-sm-8"></div>
+                            <div class="col-sm-4" style="text-align: center">GOAL</div>
                         </div>
                         <div id="roundsLevelsTable"> 
                     </div>
@@ -117,7 +117,7 @@
                 <div class="modal-header text-center">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                             aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title text-center" id="myModalLabel">Camosun College's <i>Awesominds</i></h4>
+                    <h4 class="modal-title text-center" id="myModalLabel">Camosun College's <i>Awesominds II</i></h4>
                 </div>
                 <div class="modal-body text-center" style="font-size: 14px">
 
@@ -475,7 +475,7 @@ var getRoundsLevels = function(){
 
           // Create table for roundsLevelsTable div
           // Table heading
-          var htmlStr = '<table id="table" class="display table table-hover table-bordered"><thead><tr><th scope="col">Number</th><th scope="col">Number of Questions</th><th scope="col" title="Click for more information">Type of Challenge<a class="btn"href="" name="story" data-toggle="modal"data-target="#challengeTypeInfoModal">[?]</a></th><th scope="col">Max Points Value per Question</th><th scope="col">Points</th><th scope="col">Complete Round</th><th scope="col">Beat Opponent</th></tr></thead><tbody>';
+          var htmlStr = '<table id="table" class="display table table-hover table-bordered"><thead><tr><th scope="col">#</th><th scope="col">Number of Questions</th><th scope="col" title="Click for more information">Type of Challenge<a class="btn"href="" name="story" data-toggle="modal"data-target="#challengeTypeInfoModal">[?]</a></th><th scope="col">Max Points Value per Question</th><th scope="col">Points</th><th scope="col">Complete Round</th><th scope="col">Beat Opponent</th></tr></thead><tbody>';
           for (var i = 0, k = 0; i < roundsLevels.length; i++, k += 6) {
             var id = roundsLevels[i].roundlevelid;
             var numofq = roundsLevels[i].numofq;
