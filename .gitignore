@@ -1,2 +1,4 @@
 #ignore file of variables just for dev mode
 devvars.js
+#ignore trash generated when deleting files in mounted folder (for development)
+.Trash-*

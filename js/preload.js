@@ -2,6 +2,10 @@
 
 var preloadState = {
   preload: function() {
+    //vars
+    var background;
+    var questionCard;
+    var answerCard;
     //prevents game breaking when zoomed below 100%
     if(dpr<=0){ dpr = 1};
     game.load.script('webfont', '//ajax.googleapis.com/ajax/libs/webfont/1.4.7/webfont.js');
@@ -33,6 +37,9 @@ var preloadState = {
     game.load.image('15pts', 'assets/15pts.png');
     game.load.image('25pts', 'assets/25pts.png');
     game.load.image('medal', assetPath + 'medal.png');
+    game.load.image('yellow', 'assets/yellow.png');
+    game.load.image('yellowSlider','assets/yellowSlider.png');
+    
 
     game.load.audio('play',['assets/music/Mushroom.m4a','assets/music/Mushroom.ogg']);
     game.load.audio('menu',['assets/music/Crystal.m4a','assets/music/Crystal.ogg']);

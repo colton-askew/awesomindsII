@@ -1,5 +1,5 @@
 //copy original playState and then modify it to create the state for Rate Questions
-var modeStateRQ = Object.create(playState);
+var modeStateRQ = Object.create(modeState);
 
 modeStateRQ.timesAnswered = 0;
 
@@ -15,9 +15,11 @@ modeStateRQ.btnClick = function(){
   game.state.getCurrentState().timesAnswered++;
   console.log(game.state.getCurrentState().timesAnswered);
 
+  /*
   function btnClickShowAnswers(){
     console.log("AI asleep");
   }
+  */
   
   function btnClickSymbolFeedback(){
     //Show answer is pressed, revealing the answer
@@ -78,19 +80,10 @@ modeStateRQ.btnClick = function(){
     bTween.start();
     game.global.hardButton = bHard;
 
-    // create Stop
-    var bStop = game.world.add(new game.global.SpeechBubble(game, game.world.width + 1000, game.height, game.width, "STOP", false, true, stopClicked));
-    bStop.x = Math.floor(bStop.x - (bStop.bubblewidth/2));
-    bStop.y = Math.floor(prevHeights + 180 + (bStop.bubbleheight + 10 * dpr) * 4);
-    // animate button entrance
-    var bTween = game.add.tween(bStop).to({x: Math.floor(game.world.centerX - bStop.bubblewidth/2)}, 500, Phaser.Easing.Default, true, 250 * 4);
-    bTween.start();
-    game.global.stopButton = bStop;
+    
 
   }
-  function stopClicked(){
-    game.state.getCurrentState().nextQuestion(0);
-  }
+  
   function easyClicked(){
     console.log('easy clicked');
     rateSelected = true;
@@ -107,6 +100,7 @@ modeStateRQ.btnClick = function(){
   }
   function hardClicked(){
     console.log('hard clicked');
+    game.state.getCurrentState().hardButton();
     
     game.global.choiceBubbles.forEach( function(item){ item.inputEnabled = false; } );
     game.global.timer.add(2500, game.state.getCurrentState().animateOut, this, false);
@@ -119,13 +113,42 @@ modeStateRQ.btnClick = function(){
   
   console.log('timer');
   game.global.timer.stop();
-  game.global.timer.add(100, btnClickShowAnswers, this);
+//  game.global.timer.add(100, btnClickShowAnswers, this);
   game.global.timer.add(100, btnClickSymbolFeedback, this);
   game.global.timer.add(500, btnClickHostFeedback, this);
   
   game.global.timer.start();
 };
+modeStateRQ.hardButton = function(){
+  //console.log(game.global.selectedChapter);
+  //console.log(game.global.selectedCourse);
+  var id = game.global.questionIDs.shift();
+  console.log(id);
+  
+  
+    game.global.questionData = {
+      courseid: game.global.selectedCourse,
+      questionid: id,
+      hard: 'no'
+    };
+    
 
+    game.global.questionData["questionid"] = id;
+    game.global.questionData["hard"] = 'yes';
+    console.log('ID is : ' + id);
+    $(function (){
+      $.ajax({
+        type: 'POST',
+        url: 'updatedifficulty.php',
+        data: { 'questionid': id },
+        success: function(data){
+          console.log('Success, set to hard');
+          console.log(game.global.questionData["hard"]);
+        }
+      });
+    });
+
+}
 modeStateRQ.showChoices = function(){
   console.log('inside mode-ratequestion show choices')
   this.inputEnabled = false;
@@ -153,12 +176,16 @@ modeStateRQ.showChoices = function(){
     var availChoices = [];
     var tweens = [];
     var question = this.question;
+    
     var shuffChoices = [];
     var answerText = '';
     for (var c in question.choices) {
       availChoices[i] = c;
       shuffChoices[i] = question.choices[c];
-      if(c == question.answer[0]) answerText = question.choices[c];
+      if(c == question.answer[0]){
+        answerText = question.choices[c];
+        game.global.answerText = answerText;
+      } 
       i++;
     }
     shuffChoices = game.global.shuffleArray(shuffChoices);
@@ -224,30 +251,21 @@ modeStateRQ.showChoices = function(){
     bTween.start();
     game.global.answerButton = bAnswer;
     game.global.answerPressed = true;
-    
-    
-   
-    
-   
-    
-    
+        
 };
 
 modeStateRQ.updateScores = function(answerCorrect, didntAnswer){
-  for(i = 1 ; i < game.global.chars.length; i++){
-    if(game.global.chars[i].correct){
-      game.global.chars[i].score += 1;
-    }
-  }
-
-  game.global.totalStats.numRight++;
-
   //update player score
+
+  game.global.pointsToAdd = 1;
   game.global.totalStats.score += game.global.pointsToAdd;
+  console.log("Points to add", game.global.pointsToAdd);
 
   game.state.getCurrentState().timesAnswered = 0;
   game.global.chars[0].score = game.global.totalStats.score;
+  game.state.getCurrentState().update();
 }
+
 modeStateRQ.animateOut = function(didntAnswer){
   console.log('animate out');
   game.state.getCurrentState().timerOn = false;
@@ -255,14 +273,22 @@ modeStateRQ.animateOut = function(didntAnswer){
   game.add.tween(game.global.easyButton).to({x: game.world.x - game.world.width}, 300, Phaser.Easing.Default, true, 0);
   game.add.tween(game.global.mediumButton).to({x: game.world.x - game.world.width}, 300, Phaser.Easing.Default, true, 0);
   game.add.tween(game.global.hardButton).to({x: game.world.x - game.world.width}, 300, Phaser.Easing.Default, true, 0);
+ 
   
+  game.global.questionUI.destroy();
+  game.global.easyButton.destroy();
+  game.global.mediumButton.destroy();
+  game.global.hardButton.destroy();
   
+
   makeBars = function(correct, didntAnswer){
-    /*
-     * create horizontal progress bars for each player
-     * and animate them
-     */
+    
+    // * create horizontal progress bars for each player
+    // * and animate them
+     
     game.state.getCurrentState().updateScores(correct, didntAnswer);
+  }
+    /*
     for (var i = 0; i < game.global.chars.length; i++) {
       if(game.global.questionsAnswered <= 1 && !game.global.isRehash){
         game.global.chars[i].gfx = game.add.graphics(0,0);
@@ -276,7 +302,7 @@ modeStateRQ.animateOut = function(didntAnswer){
     }
   }
   // makeBars();
-
+*/
 
   /*
    * remove answers from screen
@@ -298,17 +324,13 @@ modeStateRQ.createTimer = function(){}; //emptied to remove timer visuals
 modeStateRQ.updateTimer = function(){}; //emptied; not using this timer in this mode
 
 modeStateRQ.update = function(){ //animates scores and keeps score text and names positioned near their respective avatars
-  for (var i = 0; i < game.global.chars.length; i++) {
-    var n = parseInt(game.global.chars[i].scoreText.text);
-    if (n < game.global.chars[i].score){
+  var n = parseInt(game.global.chars[0].onScreenScore);
+  if (n < game.global.chars[0].score){
       n++;
-      game.global.chars[i].scoreText.text = n;
+      game.global.chars[0].onScreenScore = n;
+      game.global.chars[0].scoreText.setText("Points: " + game.global.chars[0].onScreenScore);
+      if (devmode) console.log("current points: ", game.global.chars[0].onScreenScore); 
     }
-    game.global.chars[i].scoreText.x = Math.floor(game.global.chars[i].sprite.right + game.global.borderFrameSize);
-    game.global.chars[i].scoreText.y = Math.floor(game.global.chars[i].sprite.centerY + (11*dpr));
-    game.global.chars[i].name.x = Math.floor(game.global.chars[i].sprite.centerX - game.global.chars[i].name.width/2);
-    game.global.chars[i].name.y = Math.floor(game.global.chars[i].sprite.bottom);
-  }
 };
 
 modeStateRQ.showAnswers = function(fromButton) { //show AI's selected answers
@@ -328,6 +350,8 @@ modeStateRQ.nextQuestion = function(){
     //still questions left, show the next one
     game.global.jinnySpeech.destroy();
     game.global.jinnySpeech = game.world.add(new game.global.SpeechBubble(game, game.global.jinny.right + (game.global.borderFrameSize * 2), game.global.chapterText.bottom, game.world.width - (game.global.jinny.width*2), "Next question...", true, false, null, false, null, true));
+    game.global.jinny.alpha = 0;
+    game.global.jinnySpeech.alpha = 0;
 
     game.state.getCurrentState().showQuestion(game.global.questions.shift());
   } else if (game.global.rehashQuestions.length > 0 && !game.global.isRehash) {

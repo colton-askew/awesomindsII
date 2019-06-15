@@ -1,8 +1,8 @@
-var endOfGameState = {
+var endOfModeState = {
   hostMindStates : [
     { min: 70, max: 100, mind: "You have earned a jewel for your crown!", label: "Achievement", gameOver: false, bonus: 0},
     { min: 50, max: 69, mind: "You may continue to the next village!", label: "Continue", gameOver: false, bonus: 0},
-    { min: 0, max: 49, mind: "You have been banished from the realm!", label: "Banishment", gameOver: true, bonus: 0}
+    { min: 0, max: 49, mind: "You have been banished from the realm!", label: "Banishment", gameOver: false, bonus: 0}
   ],
 
   optionButtons: function(gameOver){
@@ -12,10 +12,6 @@ var endOfGameState = {
       { text: 'Log Out', function: game.state.getCurrentState().logOutClick }
     ];
     var buttons = [];
-
-    if(!gameOver){
-      buttons.push({ text: 'Play Round ' + (game.global.roundNum + 1), function: game.state.getCurrentState().playAgainClick });
-    }
 
     for (var i = 0; i < buttonsTemplate.length; i++) {
       buttons.push(buttonsTemplate[i]);
@@ -27,24 +23,21 @@ var endOfGameState = {
   getStatLines: function(gameOver){
     var statLines = [
       game.global.session.play_name,
-      "Round " + game.global.roundNum + " Stats:",
       "Score This Round: " + game.global.totalStats.score,
       "Your Highest Score: " + game.global.scoreData["high_score"],
       "Total Points Earned: " + game.global.scoreData["total_score"],
     ];
-    if(!gameOver){
-      statLines.push("Round " + (game.global.roundNum + 1) + " Loaded and Ready");
-    }
     return statLines;
   },
 
   gameOver: false,
 
   create: function(){
-    console.log('state: endofgame');
+    console.log('state: endofmode');
 
     //create ui group to destroy when switching back to play state
     this.endGameUI = game.add.group();
+    
 
     $(function (){
       $.ajax({
@@ -79,6 +72,7 @@ var endOfGameState = {
             game.global.scoreData["total_score"] = parseInt(game.global.scoreData["total_score"]) + game.global.totalStats.score;
             game.global.scoreData["high_score"] = Math.max(parseInt(game.global.scoreData["high_score"]), game.global.totalStats.score);
             game.global.scoreData["times_played"] = parseInt(game.global.scoreData["times_played"]) + 1;
+            if (devmode) console.log(game.global.scoreData);
             $(function (){
               $.ajax({
                 type: 'POST',
@@ -98,12 +92,6 @@ var endOfGameState = {
 
   isGameOver: function(mindStateGameOver){
     var winnerFound = false;
-    for (var i = 0; i < game.global.chars.length; i++) {
-      if(game.global.chars[i].numJewels >= 5){
-        winnerFound = true;
-        break;
-      }
-    }
     return (mindStateGameOver || winnerFound);
   },
 
@@ -111,10 +99,12 @@ var endOfGameState = {
     var mindStates = game.state.getCurrentState().hostMindStates.slice();
     var score = Math.min(100, Math.floor(((game.global.totalStats.score) / (game.global.numOrigQuestions * game.global.selectedMode.maxPtsPerQ)) * 100));
 
+    /*
     if(score > mindStates[0].min){
       //if awesomind, be happy
       game.global.jinny.frame = 2;
     }
+    */
 
     var mindStateToUse = mindStates[mindStates.length];
     // set up visual areas for score ranges
@@ -124,7 +114,9 @@ var endOfGameState = {
         break;
       }
     }
+    
 
+    /*
     var winningScore = 0;
     for (var i = 0; i < game.global.chars.length; i++) { // calculate top score first for tie purposes
       winningScore = Math.max(winningScore, game.global.chars[i].score);
@@ -136,30 +128,38 @@ var endOfGameState = {
         }
       }
     }
+    */
 
     var gameOver = game.state.getCurrentState().isGameOver(mindStateToUse.gameOver);
     game.state.getCurrentState().buttons = game.state.getCurrentState().optionButtons(gameOver);
     game.state.getCurrentState().statLines = game.state.getCurrentState().getStatLines(gameOver);
     game.global.bonus = mindStateToUse.bonus;
 
+    
     var btns = [ {text: 'Stats', clickFunction: game.state.getCurrentState().viewStatsClick} ];
-    if(!gameOver) btns.push({text: 'Play Next Round', clickFunction: game.state.getCurrentState().playAgainClick});
-    btns.push({text: 'Quit', clickFunction: game.state.getCurrentState().chooseCourseClick});
+    //if(!gameOver) btns.push({text: 'Play Next Round', clickFunction: game.state.getCurrentState().playAgainClick});
+    //btns.push({text: 'Quit', clickFunction: game.state.getCurrentState().chooseCourseClick});
 
     var prevHeightsBtns = game.global.chapterText.bottom;
     var maxBtnWidth = 0;
     for (var b in btns) {
       var btn = game.world.add(new game.global.SpeechBubble(game, game.world.width, prevHeightsBtns, Math.floor(game.world.width - (game.global.jinny.width*2)), btns[b].text, false, true, btns[b].clickFunction));
       btn.x = Math.floor(game.world.width - (btn.bubblewidth + game.global.borderFrameSize));
+      btn.alpha = 0;
       game.state.getCurrentState().endGameUI.add(btn);
       prevHeightsBtns += btn.bubbleheight + 5;
       maxBtnWidth = Math.max(maxBtnWidth, btn.bubblewidth);
     };
+    
 
-    //game.global.jinnySpeech.destroy();
+    game.global.jinnySpeech.destroy();
     game.global.jinnySpeech = game.world.add(new game.global.SpeechBubble(game, game.global.jinny.right + (game.global.borderFrameSize * 2), game.global.chapterText.bottom, game.world.width - (game.global.jinny.width + maxBtnWidth + 10), mindStateToUse.mind, true, false, null, false, null, true));
+    game.global.jinny.alpha = 0;
+    game.global.jinnySpeech.alpha = 0;
+
     this.endGameUI.add(game.global.jinnySpeech);
 
+    /*
     // convert score + progress bars to percentage
     for (var i = 0; i < game.global.chars.length; i++) {
       this.endGameUI.add(game.global.chars[i].gfx);
@@ -172,7 +172,7 @@ var endOfGameState = {
       scorePercentLabel.y = Math.floor(((game.global.selectedMode.id == 0) ? game.global.chars[i].crown.y : game.global.chars[i].sprite.y) - (scorePercentLabel.height*2));
       scorePercentLabel.tint = 0x000044;
       this.endGameUI.add(scorePercentLabel);
-      game.add.tween(scorePercentLabel).to({y: y}, 500, Phaser.Easing.Default, true, 250); game.global.chars[i].numJewels
+      // game.add.tween(scorePercentLabel).to({y: y}, 500, Phaser.Easing.Default, true, 250); game.global.chars[i].numJewels
       game.add.tween(game.global.chars[i].barSprite).to({height: Math.max(((game.global.selectedMode.id == 0) ? game.global.chars[i].crown.y : game.global.chars[i].sprite.y) - y, 1)}, 500, Phaser.Easing.Default, true, 250);
       this.endGameUI.add(game.global.chars[i].barSprite);
       if(game.global.chars[i].score == winningScore){
@@ -183,11 +183,13 @@ var endOfGameState = {
         game.add.tween(medal).to({y: y + (scorePercentLabel.height*2)}, 500, Phaser.Easing.Default, true, 250);
       }
     }
+    */
 
     var lineGfx = game.add.graphics(0,0);
     this.endGameUI.add(lineGfx);
     lineGfx.lineStyle(1, 0x333333, 1);
 
+    /*
     //loop mindstates again to add the labels on top of the progress bars
     for (var i = 0; i < mindStates.length; i++) {
       var lineYposition = game.global.mapNum(mindStates[i].max, 0, 100, (game.global.selectedMode.id == 0) ? game.global.chars[0].crown.y : game.global.chars[0].sprite.y, prevHeightsBtns + 5);
@@ -200,9 +202,10 @@ var endOfGameState = {
       label.z++;
       this.endGameUI.add(label);
     }
+    */
 
     game.state.getCurrentState().statsUI = game.add.group();
-    game.state.getCurrentState().statsUI.visible = false;
+    game.state.getCurrentState().statsUI.visible = true;
     var statBG = game.add.graphics(0, 0);
     statBG.lineStyle(2, 0x000000, 1);
     statBG.beginFill(0x078EB7, 1);
@@ -241,7 +244,6 @@ var endOfGameState = {
     game.state.getCurrentState().endGameUI.destroy();
     game.global.isRehash = false;
     game.global.rehashQuestions = [];
-    game.global.roundNum++;
     game.state.start(game.global.selectedMode.gamestate, false, false);
   },
 

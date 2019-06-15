@@ -4,7 +4,7 @@
 // fill in your database credentials here
 // TODO: replace all mysqli code in the login/registration system with PDO statements and use conn.php, and delete this file
 $host = 'localhost';
-$user = '';
+$user = 'root';
 $pass = '';
 $db = 'awesominds';
 $mysqli = new mysqli($host,$user,$pass,$db) or die($mysqli->error);

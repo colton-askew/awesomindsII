@@ -12,6 +12,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST'){
 
     if($user['isInstructor']){ //instructor, check password
       //if ( password_verify($_POST['password'], $user['password']) ) {
+        // for testing purposes, to hack in create a new user with a password of awesominds
         if ($user['password'] == 'awesominds') {
         $_SESSION['c_number'] = $user['c_number'];
         $_SESSION['play_name'] = $user['play_name'];
