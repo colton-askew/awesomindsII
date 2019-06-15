@@ -1,4 +1,42 @@
 var modeState = {
+  //create stop button
+  getScores: function(){
+    //Get scores for stop button
+    //unused
+    console.log('in get scores');
+  },
+ 
+  getStatLines: function(){
+    //temp numbers to show user, not added to total
+    game.global.tempTotalScore = game.global.tempTotalScore + game.global.totalStats.score;
+    game.global.tempHighScore =  Math.max(game.global.tempHighScore, game.global.totalStats.score);
+    console.log('new total is: ' + game.global.tempTotalScore);
+
+    var statLines = [
+      game.global.session.play_name,
+      "Score This Round: " + game.global.totalStats.score,
+      "Your Highest Score: " + game.global.tempHighScore,
+      "Total Points Earned: " + game.global.tempTotalScore,
+    ];
+    game.global.tempTotalScore = game.global.tempTotalScore - game.global.totalStats.score;
+    return statLines;
+  },
+  
+  optionButtons: function(){
+    var buttonsTemplate = [
+      { text: 'Continue', function: game.state.getCurrentState().removeStopScreen},
+      { text: 'Select Different Course', function: game.state.getCurrentState().chooseCourseClick },
+      { text: 'Select Different Game', function: game.state.getCurrentState().chooseChapterClick },
+      { text: 'Log Out', function: game.state.getCurrentState().logOutClick }
+    ];
+    var buttons = [];
+
+    for (var i = 0; i < buttonsTemplate.length; i++) {
+      buttons.push(buttonsTemplate[i]);
+    }
+
+    return buttons;
+  },
 
   /*
    *sets up number of questions/game
@@ -7,6 +45,47 @@ var modeState = {
    */
   create: function(){
     console.log('state: mode');
+
+    //create end of mode state for stop button
+    this.endGameUI = game.add.group();
+    
+    //database call
+    console.log('selected course'  + game.global.selectedCourse);
+    console.log('selected chapter'  + game.global.selectedChapter);
+    console.log('selected gamemode'  + game.global.selectedMode.id);
+    $(function (){
+      $.ajax({
+        url: 'getscore.php',
+        data: 'courseid=' + game.global.selectedCourse + '&chapter=' + game.global.selectedChapter + '&game_mode=' + game.global.selectedMode.id,
+        success: function(data){
+          game.global.scoreData = $.parseJSON(data);
+          console.log('success!');
+          //if no data is returned, set up new data and insert it
+          if(game.global.scoreData == null){
+            game.global.scoreData = {
+              chapter: game.global.selectedChapter,
+              courseid: game.global.selectedCourse,
+              high_score: game.global.totalStats.score,
+              total_score: game.global.totalStats.score,
+              game_mode: game.global.selectedMode.id,
+              times_played: 1
+            };
+
+
+          }else{
+            //if we got data, it's in game.global.scoreData and can be updated
+            game.global.tempTotalScore = parseInt(game.global.scoreData["total_score"]) + game.global.totalStats.score;
+            game.global.tempHighScore =  Math.max(parseInt(game.global.scoreData["high_score"]), game.global.totalStats.score);
+            //game.global.scoreData["times_played"] = parseInt(game.global.scoreData["times_played"]) + 1;
+            if (devmode) console.log(game.global.scoreData);
+            
+          }
+          console.log('total score '  + game.global.tempTotalScore);
+          console.log('high score '  + game.global.tempHighScore);
+          
+        }
+      });
+    });
     if(game.global.isRehash){ //if in rehash round, use the array of questions that were answered incorrectly in the previous round
       game.global.questions = game.global.rehashQuestions;
     } else {
@@ -15,6 +94,7 @@ var modeState = {
         console.log('new mode');
         game.global.questionsBackup = game.global.origQuestions.slice();
         game.global.questions = game.global.shuffleArray(game.global.origQuestions);
+        game.global.questionIDs = game.global.shuffleArray(game.global.origIds);
       } else {
         //returning on round 2 or higher
         if(game.global.questions.length <= 0){
@@ -22,6 +102,10 @@ var modeState = {
         }
       }
     }
+    console.log('create stop button here?');
+    game.state.getCurrentState().createStopButton();
+    
+
     console.log('rehash: ' + game.global.isRehash);
     this.ticks = game.add.group();
     game.global.numQuestions = Math.min( (devmode ? devvars.numQ : game.global.questions.length), game.global.questions.length);
@@ -123,6 +207,92 @@ var modeState = {
   * creates new question
   * scores AI for new question
   */
+  stopClickedMain: function(number){
+    console.log('in mode.js, number is '+ number);
+    game.state.getCurrentState().getScores();
+    game.state.getCurrentState().buttons = game.state.getCurrentState().optionButtons();
+    game.state.getCurrentState().statLines = game.state.getCurrentState().getStatLines();
+
+    var btns = [ {text: 'Stats', clickFunction: game.state.getCurrentState().viewStatsClick} ];
+    var prevHeightsBtns = game.global.chapterText.bottom;
+    var maxBtnWidth = 0;
+    for (var b in btns) {
+      var btn = game.world.add(new game.global.SpeechBubble(game, game.world.width, prevHeightsBtns, Math.floor(game.world.width - (game.global.jinny.width*2)), btns[b].text, false, true, btns[b].clickFunction));
+      btn.x = Math.floor(game.world.width - (btn.bubblewidth + game.global.borderFrameSize));
+      btn.alpha = 0;
+      game.state.getCurrentState().endGameUI.add(btn);
+      prevHeightsBtns += btn.bubbleheight + 5;
+      maxBtnWidth = Math.max(maxBtnWidth, btn.bubblewidth);
+    };
+    var mindStateToUse = 70;
+    game.global.jinnySpeech.destroy();
+    game.global.jinnySpeech = game.world.add(new game.global.SpeechBubble(game, game.global.jinny.right + (game.global.borderFrameSize * 2), game.global.chapterText.bottom, game.world.width - (game.global.jinny.width + maxBtnWidth + 10), mindStateToUse.mind, true, false, null, false, null, true));
+    game.global.jinny.alpha = 0;
+    game.global.jinnySpeech.alpha = 0;
+
+    this.endGameUI.add(game.global.jinnySpeech);
+
+    var lineGfx = game.add.graphics(0,0);
+    this.endGameUI.add(lineGfx);
+    lineGfx.lineStyle(1, 0x333333, 1);
+    game.state.getCurrentState().statsUI = game.add.group();
+    game.state.getCurrentState().statsUI.visible = true;
+    var statBG = game.add.graphics(0, 0);
+    statBG.lineStyle(2, 0x000000, 1);
+    statBG.beginFill(0x078EB7, 1);
+    var rect = statBG.drawRoundedRect(game.world.x + 10, game.global.jinnySpeech.y + game.global.jinnySpeech.bubbleheight + 5, game.world.width - 20, game.world.height - game.global.jinny.height - 10, 10);
+    game.state.getCurrentState().statsUI.add(statBG);
+
+    var statLines = game.state.getCurrentState().statLines;
+
+    var prevHeights = game.global.jinnySpeech.y + game.global.jinnySpeech.bubbleheight + 5;
+    for (var i = 0; i < statLines.length; i++) {
+      var t = game.add.text(game.world.centerX, prevHeights, statLines[i], game.global.whiteFont);
+      t.x -= t.width/2;
+      t.y += t.height;
+      t.x = Math.round(t.x);
+      t.y = Math.round(t.y);
+      t.setShadow(2, 2, 'rgba(0,0,0,0.5)', 5);
+      t.padding.x = 5;
+      prevHeights += t.height;
+      game.state.getCurrentState().statsUI.add(t);
+    }
+    prevHeights += t.height;
+
+    var buttons = game.state.getCurrentState().buttons;
+
+    for (var i = 0; i < buttons.length; i++) {
+      var b = game.world.add(new game.global.SpeechBubble(game, game.world.centerX, prevHeights + game.global.borderFrameSize, Math.floor(game.world.width - (game.global.jinny.width*2)), buttons[i].text, false, true, buttons[i].function));
+      b.centerX -= Math.floor(b.bubblewidth/2);
+      prevHeights += b.bubbleheight + game.global.borderFrameSize;
+      game.state.getCurrentState().statsUI.add(b);
+    }
+  },
+  removeStopScreen: function(){
+    console.log('removing UI elements');
+    
+    game.state.getCurrentState().statsUI.visible = false;
+    
+  },
+  // create stop button
+  createStopButton: function(){
+    
+    var prevHeights = 150 *dpr;
+    // create Stop
+    var bStop = game.world.add(new game.global.SpeechBubble(game, game.world.width + 1000, game.height, game.width, "STOP", false, true, stopClicked));
+    bStop.x = Math.floor(bStop.x - (bStop.bubblewidth/2));
+    bStop.y = Math.floor(prevHeights + 180 + (bStop.bubbleheight + 10 * dpr) * 4);
+    // animate button entrance
+    var bTween = game.add.tween(bStop).to({x: Math.floor(game.world.centerX - bStop.bubblewidth/2)}, 500, Phaser.Easing.Default, true, 250 * 4);
+    bTween.start();
+    game.global.stopButton = bStop;
+    function stopClicked(){
+      console.log('stop clicked');
+      game.state.getCurrentState().stopClickedMain(0);
+    }
+  },
+  
+  
   showQuestion: function(question){
     if(devmode) console.log('questions left: ' + game.global.questions.length );
     if (game.global.questionShown){
@@ -193,6 +363,7 @@ var modeState = {
     var availChoices = [];
     var tweens = [];
     var question = this.question;
+    
     var shuffChoices = [];
     var answerText = '';
     for (var c in question.choices) {
@@ -496,5 +667,23 @@ var modeState = {
     this.timerOn = false;
     this.timeLabel.destroy();
     this.animateOut.call(dummy, true);
+  },
+  chooseCourseClick: function(){
+    game.global.music.stop();
+    game.state.start('menuCourse');
+  },
+
+  chooseChapterClick: function(){
+    game.global.music.stop();
+    game.global.music = game.add.audio('menu');
+    game.global.music.volume = 0.5;
+    game.global.music.play();
+    game.state.start('menuChapter');
+  },
+
+  logOutClick: function(){
+    window.location.href = "logout.php";
   }
+
+  
 };

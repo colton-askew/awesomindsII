@@ -41,15 +41,6 @@ playStateJD.btnClick = function(){
   }
 
   function btnClickHostFeedback(){
-    //set host's attitude based on right or wrong answer
-    //var speech = this.data.correct ? 'right' : 'wrong';
-    //var comment = game.global.hostComments[speech][Math.floor(Math.random() * game.global.hostComments[speech].length)];
-    
-    //game.global.jinnySpeech.destroy();
-    //game.global.jinnySpeech = game.world.add(new game.global.SpeechBubble(game, game.global.jinny.right + (game.global.borderFrameSize * 2), game.global.chapterText.bottom, game.world.width - (game.global.jinny.width*2), comment, true, false, null, false, null, true));
-    //game.global.jinny.alpha = 0;
-    //game.global.jinnySpeech.alpha = 0;
-
     //points graphic
     if(this.data.correct){
       //set the number of points earned here, use it to load the appropriate graphic and to update the score later
@@ -113,4 +104,28 @@ playStateJD.update = function(){ //updates points on screen
 };
 
 
-playStateJD.showAnswers = function(fromButton) {};//show AI's selected answers
+playStateJD.showAnswers = function(fromButton) {};//show AI's selected answers // overloaded as no AI in modess
+playStateJD.getStatLines = function(){
+  var percentage;
+  if (game.global.questionsAnswered == 0 || game.global.timesAnswered == 0){
+    percentage = 0;
+  } else {
+    percentage = Math.floor((game.global.questionsAnswered / game.global.timesAnswered) * 100);
+  }
+  //temp numbers to show user, not added to total in database
+  game.global.tempTotalScore = game.global.tempTotalScore + game.global.totalStats.score;
+  game.global.tempHighScore =  Math.max(game.global.tempHighScore, game.global.totalStats.score);
+  console.log('new total is: ' + game.global.tempTotalScore);
+  var statLines = [
+    game.global.session.play_name,
+    "Percentage: " + percentage + "%",
+    "Score This Round: " + game.global.totalStats.score,
+    "Your Highest Score: " + game.global.tempHighScore,
+    "Total Points Earned: " + game.global.tempTotalScore,
+  ];
+  game.global.tempTotalScore = game.global.tempTotalScore - game.global.totalStats.score;
+  return statLines;
+};
+
+
+

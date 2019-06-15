@@ -80,19 +80,10 @@ modeStateRQ.btnClick = function(){
     bTween.start();
     game.global.hardButton = bHard;
 
-    // create Stop
-    var bStop = game.world.add(new game.global.SpeechBubble(game, game.world.width + 1000, game.height, game.width, "STOP", false, true, stopClicked));
-    bStop.x = Math.floor(bStop.x - (bStop.bubblewidth/2));
-    bStop.y = Math.floor(prevHeights + 180 + (bStop.bubbleheight + 10 * dpr) * 4);
-    // animate button entrance
-    var bTween = game.add.tween(bStop).to({x: Math.floor(game.world.centerX - bStop.bubblewidth/2)}, 500, Phaser.Easing.Default, true, 250 * 4);
-    bTween.start();
-    game.global.stopButton = bStop;
+    
 
   }
-  function stopClicked(){
-    game.state.getCurrentState().nextQuestion(0);
-  }
+  
   function easyClicked(){
     console.log('easy clicked');
     rateSelected = true;
@@ -109,6 +100,7 @@ modeStateRQ.btnClick = function(){
   }
   function hardClicked(){
     console.log('hard clicked');
+    game.state.getCurrentState().hardButton();
     
     game.global.choiceBubbles.forEach( function(item){ item.inputEnabled = false; } );
     game.global.timer.add(2500, game.state.getCurrentState().animateOut, this, false);
@@ -127,7 +119,36 @@ modeStateRQ.btnClick = function(){
   
   game.global.timer.start();
 };
+modeStateRQ.hardButton = function(){
+  //console.log(game.global.selectedChapter);
+  //console.log(game.global.selectedCourse);
+  var id = game.global.questionIDs.shift();
+  console.log(id);
+  
+  
+    game.global.questionData = {
+      courseid: game.global.selectedCourse,
+      questionid: id,
+      hard: 'no'
+    };
+    
 
+    game.global.questionData["questionid"] = id;
+    game.global.questionData["hard"] = 'yes';
+    console.log('ID is : ' + id);
+    $(function (){
+      $.ajax({
+        type: 'POST',
+        url: 'updatedifficulty.php',
+        data: { 'questionid': id },
+        success: function(data){
+          console.log('Success, set to hard');
+          console.log(game.global.questionData["hard"]);
+        }
+      });
+    });
+
+}
 modeStateRQ.showChoices = function(){
   console.log('inside mode-ratequestion show choices')
   this.inputEnabled = false;
@@ -155,12 +176,16 @@ modeStateRQ.showChoices = function(){
     var availChoices = [];
     var tweens = [];
     var question = this.question;
+    
     var shuffChoices = [];
     var answerText = '';
     for (var c in question.choices) {
       availChoices[i] = c;
       shuffChoices[i] = question.choices[c];
-      if(c == question.answer[0]) answerText = question.choices[c];
+      if(c == question.answer[0]){
+        answerText = question.choices[c];
+        game.global.answerText = answerText;
+      } 
       i++;
     }
     shuffChoices = game.global.shuffleArray(shuffChoices);
@@ -248,8 +273,14 @@ modeStateRQ.animateOut = function(didntAnswer){
   game.add.tween(game.global.easyButton).to({x: game.world.x - game.world.width}, 300, Phaser.Easing.Default, true, 0);
   game.add.tween(game.global.mediumButton).to({x: game.world.x - game.world.width}, 300, Phaser.Easing.Default, true, 0);
   game.add.tween(game.global.hardButton).to({x: game.world.x - game.world.width}, 300, Phaser.Easing.Default, true, 0);
+ 
   
+  game.global.questionUI.destroy();
+  game.global.easyButton.destroy();
+  game.global.mediumButton.destroy();
+  game.global.hardButton.destroy();
   
+
   makeBars = function(correct, didntAnswer){
     
     // * create horizontal progress bars for each player

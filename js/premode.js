@@ -95,8 +95,10 @@ var preModeState = {
       success: function(data){
         game.global.questions = [];
         game.global.origQuestions = [];
+        game.global.origIds = [];
         for (var i = 0; i < data.length; i++) {
           game.global.origQuestions[i] = $.parseJSON(data[i]["question"]);
+          game.global.origIds[i] = $.parseJSON(data[i]["questionid"]);
         }
         //once the questions are successfully loaded, move to the play state
         game.state.getCurrentState().pregameUI.destroy();
