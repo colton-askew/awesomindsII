@@ -320,7 +320,7 @@ var modeState = {
   // create stop button
   createStopButton: function(){
     
-    var prevHeights = 150 *dpr;
+    var prevHeights = 275 *dpr;
     // create Stop
     var bStop = game.world.add(new game.global.SpeechBubble(game, game.world.width + 1000, game.height, game.width, "STOP", false, true, stopClicked));
     bStop.x = Math.floor(bStop.x - (bStop.bubblewidth/2));

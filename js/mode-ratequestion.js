@@ -54,27 +54,29 @@ modeStateRQ.btnClick = function(){
     var prevHeights = game.global.prevHeights;
     //easy
     // create Easy
-    var bEasy = game.world.add(new game.global.SpeechBubble(game, game.world.width + 1000, game.height, game.width, "Easy", false, true, easyClicked));
+    
+    var bEasy = game.world.add(new game.global.SpeechBubble(game, game.world.width + 1000, game.global.bubble.y + game.global.bubble.bubbleheight, game.width, "Easy", false, true, easyClicked));
     bEasy.x = Math.floor(bEasy.x - (bEasy.bubblewidth/2) - 150);
-    bEasy.y = Math.floor(prevHeights + (bEasy.bubbleheight + 10 * dpr) * 4);
+    bEasy.y += Math.floor(prevHeights);
+    
     // animate button entrance
     var bTween = game.add.tween(bEasy).to({x: Math.floor(game.world.centerX - bEasy.bubblewidth/2 - 150)}, 500, Phaser.Easing.Default, true, 250 * 4);
     bTween.start();
     game.global.easyButton = bEasy;
 
     // create Medium
-    var bMedium = game.world.add(new game.global.SpeechBubble(game, game.world.width + 1000, game.height, game.width, "Medium", false, true, mediumClicked));
+    var bMedium = game.world.add(new game.global.SpeechBubble(game, game.world.width + 1000, game.global.bubble.y + game.global.bubble.bubbleheight, game.width, "Medium", false, true, mediumClicked));
     bMedium.x = Math.floor(bMedium.x - (bMedium.bubblewidth/2));
-    bMedium.y = Math.floor(prevHeights + (bMedium.bubbleheight + 10 * dpr) * 4);
+    bMedium.y += Math.floor(prevHeights);
     // animate button entrance
     var bTween = game.add.tween(bMedium).to({x: Math.floor(game.world.centerX - bMedium.bubblewidth/2)}, 500, Phaser.Easing.Default, true, 250 * 4);
     bTween.start();
     game.global.mediumButton = bMedium;
 
     // create Hard
-    var bHard = game.world.add(new game.global.SpeechBubble(game, game.world.width + 1000, game.height, game.width, "Hard", false, true, hardClicked));
+    var bHard = game.world.add(new game.global.SpeechBubble(game, game.world.width + 1000, game.global.bubble.y + game.global.bubble.bubbleheight, game.width, "Hard", false, true, hardClicked));
     bHard.x = Math.floor(bHard.x - (bHard.bubblewidth/2) + 150);
-    bHard.y = Math.floor(prevHeights + (bHard.bubbleheight + 10 * dpr) * 4);
+    bHard.y += Math.floor(prevHeights);
     // animate button entrance
     var bTween = game.add.tween(bHard).to({x: Math.floor(game.world.centerX - bHard.bubblewidth/2 + 150)}, 500, Phaser.Easing.Default, true, 250 * 4);
     bTween.start();
@@ -209,10 +211,10 @@ modeStateRQ.showChoices = function(){
       game.global.choiceBubbles.add(cb);
       availChoices[i] = c;
       i++;
-      console.log(prevHeights);
+      console.log("Button heights: " + prevHeights);
     }
     tweens[tweens.length-1].onComplete.add(setupTimer, this);
-    console.log(prevHeights);
+    console.log("After choices: " + prevHeights);
     game.global.prevHeights = prevHeights;
     game.global.questionUI.add(game.global.choiceBubbles);
     
@@ -243,16 +245,20 @@ modeStateRQ.showChoices = function(){
       game.global.answerBubbles.add(game.global.chars[i].answerBubble);
     }
   //show answer button
-    console.log('show answer here');
+    console.log('show answer here, prevHeight is: ' + prevHeights);
     // create a button to show answer selection
-    var bAnswer = game.world.add(new game.global.SpeechBubble(game, game.world.width + 1000, game.height, game.width, "Show Answer", false, true, game.state.getCurrentState().btnClick));
+    
+    
+    var bAnswer = game.world.add(new game.global.SpeechBubble(game, game.world.width + 1000, game.global.bubble.y + game.global.bubble.bubbleheight, game.width, "Show Answer", false, true, game.state.getCurrentState().btnClick));
     bAnswer.x = Math.floor(bAnswer.x - (bAnswer.bubblewidth/2));
-    bAnswer.y = Math.floor(prevHeights + (bAnswer.bubbleheight + 10 * dpr) * 4);
+    bAnswer.y += Math.floor(prevHeights);
+    
     // animate button entrance
     var bTween = game.add.tween(bAnswer).to({x: Math.floor(game.world.centerX - bAnswer.bubblewidth/2)}, 500, Phaser.Easing.Default, true, 250 * 4);
     bTween.start();
     game.global.answerButton = bAnswer;
     game.global.answerPressed = true;
+    game.global.prevHeights = prevHeights;
         
 };
 
