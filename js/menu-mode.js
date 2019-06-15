@@ -21,15 +21,14 @@ var menuModeState = {
 
     var modes = [
       { name: 'Countdown Crown', desc: 'The faster you respond, the more points you get', prestate: 'pregame', gamestate: 'play', id: 0, endstate: 'endOfGame', maxPtsPerQ: 25, totalTime: 25},
-      { name: 'Wild Wild Guess', desc: 'Keep guessing until you get it right\n(Best for beginners)', prestate: 'pregameSU', gamestate: 'playSU', id: 1, endstate: 'endOfGameWWG', maxPtsPerQ: 15, totalTime: 25},
-      { name: 'Time Bonus', desc: 'The faster you respond, the more points you get', prestate: 'pregameTB', gamestate: 'playTB', id: 2, endstate: 'endOfGameTB', maxPtsPerQ: 25, totalTime: 10},
-      { name: 'One Crack', desc: 'You only get one choice\n 15 points if you are correct', prestate: 'pregameOC', gamestate: 'playOC', id: 3, endstate: 'endOfGameOC', maxPtsPerQ: 15, totalTime: 25},
-      { name: 'Big Money', desc: 'Keep choosing until you get the right answer', prestate: 'pregameBM', gamestate: 'playBM', id: 4, endstate: 'endOfGameBM', maxPtsPerQ: 100, totalTime: 25},
-      { name: 'Choose 1, 2, or 3', desc: 'Choose up to 3 of the options displayed', prestate: 'pregameC123', gamestate: 'playC123', id: 5, endstate: 'endOfGameC123', maxPtsPerQ: 15, totalTime: 25},
-      { name: 'Keep Choosing', desc: 'Keep selecting options until you find the right one.\n(Best for beginners)', prestate: 'pregameKC', gamestate: 'playKC', id: 6, endstate: 'endOfGameKC', maxPtsPerQ: 15, totalTime: 25},
-      { name: 'Just Drills', desc: 'Studying Mode!\n 5 points if you are correct', prestate: 'pregameJD', gamestate: 'playJD', id: 7, endstate: 'endOfGameJD', maxPtsPerQ: 5, totalTime: 25}, 
-      { name: 'Rate Question', desc: 'Rate Question based on difficulty', prestate: 'premodeRQ', gamestate: 'modeRQ', id: 8, endstate: 'endOfModeRQ', maxPtsPerQ: 1, totalTime: 10},
-      { name: 'Slide Cards', desc: 'Slide question to reveal answer', prestate: 'premodeSC', gamestate: 'modeSC', id: 9, endstate: 'endOfModeSC', maxPtsPerQ:2, totalTime:25}
+      { name: 'Time Bonus', desc: 'The faster you respond, the more points you get', prestate: 'pregameTB', gamestate: 'playTB', id: 1, endstate: 'endOfGameTB', maxPtsPerQ: 25, totalTime: 10},
+      { name: 'One Crack', desc: 'You only get one choice\n 15 points if you are correct', prestate: 'pregameOC', gamestate: 'playOC', id: 2, endstate: 'endOfGameOC', maxPtsPerQ: 15, totalTime: 25},
+      { name: 'Big Money', desc: 'Keep choosing until you get the right answer', prestate: 'pregameBM', gamestate: 'playBM', id: 3, endstate: 'endOfGameBM', maxPtsPerQ: 100, totalTime: 25},
+      { name: 'Choose 1, 2, or 3', desc: 'Choose up to 3 of the options displayed', prestate: 'pregameC123', gamestate: 'playC123', id: 4, endstate: 'endOfGameC123', maxPtsPerQ: 15, totalTime: 25},
+      { name: 'Keep Choosing', desc: 'Keep selecting options until you find the right one.\n(Best for beginners)', prestate: 'pregameKC', gamestate: 'playKC', id: 5, endstate: 'endOfGameKC', maxPtsPerQ: 15, totalTime: 25},
+      { name: 'Just Drills', desc: 'Studying Mode!\n 5 points if you are correct', prestate: 'pregameJD', gamestate: 'playJD', id: 6, endstate: 'endOfGameJD', maxPtsPerQ: 5, totalTime: 25}, 
+      { name: 'Rate Question', desc: 'Rate Question based on difficulty', prestate: 'premodeRQ', gamestate: 'modeRQ', id: 7, endstate: 'endOfModeRQ', maxPtsPerQ: 1, totalTime: 10},
+      { name: 'Slide Cards', desc: 'Slide question to reveal answer', prestate: 'premodeSC', gamestate: 'modeSC', id: 8, endstate: 'endOfModeSC', maxPtsPerQ:2, totalTime:25}
       ];
     var prevHeights = 10 * dpr;
     for (var i = 0; i < modes.length; i++) { //create a button and text for each game mode

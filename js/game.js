@@ -23,7 +23,6 @@ game.state.add('menuMode', menuModeState);
 //pregame and premode states with master being at the top
 game.state.add('pregame', preGameState);
 game.state.add('premode', preModeState);
-game.state.add('pregameSU', preGameStateSU);
 game.state.add('pregameTB', preGameStateTB);
 game.state.add('pregameOC', preGameStateOC);
 game.state.add('pregameJD', preGameStateJD);
@@ -36,7 +35,6 @@ game.state.add('pregameTB', preGameStateTB);
 //game and mode states with masters being at the top
 game.state.add('play', playState);
 game.state.add('mode', modeState);
-game.state.add('playSU', playStateSU);
 game.state.add('playC123', playStateC123);
 game.state.add('playKC', playStateKC);
 game.state.add('playTB', playStateTB);
@@ -49,7 +47,6 @@ game.state.add('playBM', playStateBM);
 //end of game and mode state with masters being at the top
 game.state.add('endOfGame', endOfGameState);
 game.state.add('endOfMode', endOfModeState);
-game.state.add('endOfGameWWG', endOfGameStateWWG);
 game.state.add('endOfGameTB', endOfGameStateTB);
 game.state.add('endOfGameOC', endOfGameStateOC);
 game.state.add('endOfGameJD', endOfGameStateJD);
