@@ -17,7 +17,84 @@
         <h2>Task/Game Management</h2><br>
         <div class="card">
             <form style="font-size: 14px">
-                <div id="taskMgmt">
+                <div id="tasksMgmt">
+                    <div class="form-group">
+                        <div class="form-row" style="margin-top: 1.0em">
+                            <label for="taskMgmt" class="col-sm-3"
+                                style="font-weight: bold; font-size: 24px; margin-left: -2.6em">Tasks
+                            </label>
+                        </div>
+                        <div>
+                          <div class="form-row" style="margin-top: 0.5em">
+                              <label class="col-sm-2" style="font-weight: bold; text-align: left; margin-left: 3.0em">Rate Questions</label>
+                          </div>
+                          <div class="form-row">
+                              <div class="col-sm-1"></div>
+                              <div class="form-check">
+                                <label class="form-check-label mr-sm-4" for="form-check" style="margin-left: -1.5em">
+                                  Enabled:
+                                </label>
+                                <input class="form-check-input mr-sm-1" type="checkbox" value="0" id='taskAttributeControl0' onchange="changeTasksCheck(0); changeTaskAttribute()">
+                              </div>
+                                <label style="col-sm-2; margin-left: 2.0em">Point(s) per Question:</label>
+                                <select class="custom-select mr-sm-4" id='taskAttributeControl1'
+                                    style="margin-left: 1em" onchange="changeTaskAttribute()">
+                                </select> 
+                          </div>
+                        </div>
+                        <div>
+                          <div class="form-row" style="margin-top: 0.5em">
+                              <label class="col-sm-2" style="font-weight: bold; text-align: left; margin-left: 3.0em">Slide Cards</label>
+                          </div>
+                          <div class="form-row">
+                              <div class="col-sm-1"></div>
+                              <div class="form-check">
+                                <label class="form-check-label mr-sm-4" for="form-check" style="margin-left: -1.5em">
+                                  Enabled:
+                                </label>
+                                <input class="form-check-input mr-sm-1" type="checkbox" value="0" id='taskAttributeControl2' onchange="changeTasksCheck(2); changeTaskAttribute()">
+                              </div>
+                                <label style="col-sm-2; margin-left: 2.0em">Point(s) per Question:</label>
+                                <select class="custom-select mr-sm-4"id='taskAttributeControl3'
+                                    style="margin-left: 1em" onchange="changeTaskAttribute()">
+                                </select> 
+                          </div>
+                        </div>
+                        <div>
+                          <div class="form-row" style="margin-top: 0.5em">
+                              <label class="col-sm-2" style="font-weight: bold; text-align: left; margin-left: 3.0em">Just Drills</label>
+                          </div>
+                          <div class="form-row">
+                              <div class="col-sm-1"></div>
+                              <div class="form-check">
+                                <label class="form-check-label mr-sm-4" for="form-check" style="margin-left: -1.5em">
+                                  Enabled:
+                                </label>
+                                <input class="form-check-input mr-sm-1" type="checkbox" value="0" id='taskAttributeControl4' onchange="changeTasksCheck(4); changeTaskAttribute()">
+                              </div>
+                                <label style="col-sm-2; margin-left: 2.0em">Max Points per Question:</label>
+                                <select class="custom-select mr-sm-4" id='taskAttributeControl5'
+                                    style="margin-left: 1em" onchange="changeTaskAttribute()">
+                                </select> 
+                          </div>
+                        </div>
+                        <div>
+                          <div class="form-row" style="margin-top: 0.5em">
+                              <label class="col-sm-2" style="font-weight: bold; text-align: left; margin-left: 3.0em">Game</label>
+                          </div>
+                          <div class="form-row">
+                              <div class="col-sm-1"></div>
+                              <div class="form-check">
+                                <label class="form-check-label mr-sm-4" for="form-check" style="margin-left: -1.5em">
+                                  Enabled:
+                                </label>
+                                <input class="form-check-input mr-sm-1" type="checkbox" value="0" id='taskAttributeControl6' onchange="changeTasksCheck(6); changeTaskAttribute()">
+                              </div>
+                          </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- <div id="taskMgmt">
                     <div class="form-group">
                         <div class="form-row" style="margin-top: 1.0em">
                             <label for="taskMgmt" class="col-sm-3"
@@ -47,17 +124,17 @@
                                 question</label>
                         </div>
                     </div>
-                </div>
+                </div> -->
                 <div id="gameAttributesMgmt">
                     <div class="form-group">
-                        <div class="form-row">
+                        <div class="form-row" style="margin-top: 2.0em">
                             <label for="gameAttributesMgmt" class="col-sm-3"
                                 style="font-weight: bold; font-size: 24px">Game Attributes</label>
                         </div>
                         <div class="form-row" style="margin-top: 1.0em">
                             <div class="col-sm-1"></div>
                             <label style="col-sm-2">Number of lives per game:</label>
-                            <select class="custom-select mr-sm-4" id='gameAttributeValueDropdown0'
+                            <select class="custom-select mr-sm-4" id='gameAttributeControl0'
                                 style="margin-left: 1em" onchange="changeGameAttribute()">
                             </select>
                             <label class="col-sm-3">If you lose a round, you lose a life and have to repeat a
@@ -66,11 +143,11 @@
                         <div class="form-row" style="margin-top: 1.0em">
                             <div class="col-sm-1"></div>
                             <label style="col-sm-2">'In a row' bonus:</label>
-                            <select class="custom-select mr-sm-4" id='gameAttributeValueDropdown1'
+                            <select class="custom-select mr-sm-4" id='gameAttributeControl1'
                                 style="margin-left: 1em" onchange="changeGameAttribute()">
                             </select>
                             <label class="col-sm-3">Correct answers 'In a row' earns:</label>
-                            <select class="custom-select mr-sm-4" id='gameAttributeValueDropdown2'
+                            <select class="custom-select mr-sm-4" id='gameAttributeControl2'
                                 style="margin-left: 1em" onchange="changeGameAttribute()">
                             </select>
                             <label class="col-sm-1" style="margin-left: -20px">points</label>
@@ -78,13 +155,13 @@
                         <div class="form-row" style="margin-top: 1.0em">
                             <div class="col-sm-1"></div>
                             <label style="col-sm-2">Game theme:</label>
-                            <select class="custom-select mr-sm-4" id="gameAttributeValueDropdown3" style="margin-left: 1em">
+                            <select class="custom-select mr-sm-4" id="gameAttributeControl3" style="margin-left: 1em">
                             </select>
                         </div>
                         <div class="form-row" style="margin-top: 1.0em">
                             <div class="col-sm-1"></div>
                             <label style="col-sm-2">Number of rounds/levels per game:</label>
-                            <select class="custom-select mr-sm-4" id='gameAttributeValueDropdown4'
+                            <select class="custom-select mr-sm-4" id='gameAttributeControl4'
                                 style="margin-left: 1em" onchange="changeGameAttribute()">
                             </select>
                         </div>
@@ -92,7 +169,7 @@
                 </div>
                 <div id="roundLevelMgmt">
                     <div class="form-group">
-                        <div class="form-row" style="margin-top: 1.0em">
+                        <div class="form-row" style="margin-top: 2.0em">
                             <label for="taskSelection" class="col-sm-3"
                                 style="font-weight: bold; font-size: 24px">Rounds/Levels
                             </label>
@@ -139,7 +216,7 @@
                                 Fewer selections = more points.</td>
                         </tr>
                         <tr>
-                            <td><label style="font-weight: bold">One Crack:</label><br>Choose 1 answer. Correct answer = 15 points.</td>
+                            <td><label style="font-weight: bold">One Crack:</label><br>Choose 1 answer. Correct answer = earn points.</td>
                         </tr>
                     </table>
                 </div>
@@ -148,85 +225,150 @@
     </div>
 
     
-
 <script>
-var selectedCourse = "";
-var courses = [];
-var selectedChapter = 0;
-var thingToDelete = "";
-var questions = [];
-var questionid = 0;
 var table = null;
-var games = [];
+var tasks = [];
+var taskAttributes = [];
 var gameAttributes = [];
+var games = [];
 var roundsLevels =  [];
 var roundLevelID = [];
 
-function nextLetter(s){
-  return s.replace(/([A-Z])[^A-Z]*$/, function(a){
-    var c = a.charCodeAt(0);
-    switch(c){
-      case 90: return 'A';
-      default: return String.fromCharCode(++c);
-    }
-  });
-}
 
-var optionLimit = 6
-var numTotal = 1;
+// Update database - Task Attributes
+function changeTaskAttribute() {
+var taFieldNameArr = [ "enabledstatus", "ptsperq", "enabledstatus", "ptsperq", "enabledstatus", "ptsperq", "enabledstatus" ];
+var taFieldValArr = [ taskAttributes[0].enabledstatus, taskAttributes[0].ptsperq, taskAttributes[1].enabledstatus, taskAttributes[1].ptsperq, taskAttributes[2].enabledstatus, taskAttributes[2].ptsperq, taskAttributes[3].enabledstatus ];
 
-function deleteOption(thing){ //delete an option, then reletter all options to stick to ABC pattern
-  if($('div[id^="optionRow"]').length > 1){
-    var rowsBefore = thing.parents();
-    rowsBefore[1].remove();
-    numTotal = $('div[id^="optionRow"]').length;
-    if (numTotal < optionLimit){
-      $("#addOptionBtn").prop("disabled", false);
-      $("#limitMessage").empty();
-    }
-    var row = $('div[id^="optionRow"]')[0];
-    $(row).find('#optionLetter').val('A');
-    $(row).find('#optionLetter').html('A');
-    $(row).find('#optionLetterHidden').val('A');
-    $(row).find('#answerRadio').val('A');
-    for (var i = 1; i < $('div[id^="optionRow"]').length; i++) {
-      var row = $('div[id^="optionRow"]')[i];
-      var prevRow = $('div[id^="optionRow"]')[i-1];
-      var letter = $(prevRow).find('#optionLetter').val();
-      $(row).find('#optionLetter').val(nextLetter(letter));
-      $(row).find('#optionLetter').html(nextLetter(letter));
-      $(row).find('#optionLetterHidden').val(nextLetter(letter));
-      $(row).find('#answerRadio').val(nextLetter(letter));
-    }
-    //if answer was deleted, mark the last option as the answer to avoid having an undefined answer
-    if (!$("input[name='answer']:checked").val()) $("input[name='answer']:last").prop("checked", true);
-    //disable delete button if there's only one option left
-    if($('div[id^="optionRow"]').length <= 1) $('.deleteOptionBtn').prop("disabled", true);
-  }
-}
+    if (document.getElementById('taskAttributeControl0').value != taFieldValArr[0]) {
+      console.log("!=");
+      console.log("taskAttributeControl0");
+      
+      // Debugging
+      console.log("taValueToChange: " , taFieldNameArr[0]);
+      console.log("docValue: " , document.getElementById('taskAttributeControl0').value);
+      console.log("taValue: " , taFieldValArr[0]);
 
-function addOption(){
-  numTotal = $('div[id^="optionRow"]').length;
-  if(numTotal < optionLimit){
-    var $div = $('div[id^="optionRow"]:last');
-    var newRow = $div.clone().prop('id', 'optionRow' + numTotal );
-    var letter = newRow.find('#optionLetterHidden').val().toUpperCase();
-    newRow.find('#optionLetter').html(nextLetter(letter));
-    newRow.find('#optionLetterHidden').val(nextLetter(letter));
-    newRow.find('#answerRadio').val(nextLetter(letter));
-    newRow.find('#optionText').val('');
-    $("#addOption").before(newRow);
-    numTotal++;
-    if($('div[id^="optionRow"]').length > 1) $('.deleteOptionBtn').prop("disabled", false);
-    $(".deleteOptionBtn").off('click');
-    $(".deleteOptionBtn").click(function(){
-      deleteOption($(this));
-    });
-    if(numTotal >= optionLimit){
-      $("#addOptionBtn").prop("disabled", true);
-      $("#limitMessage").html('<p><small>Limit ' + optionLimit + ' options per question</small></p>');
+      $.ajax({
+        type: 'POST',
+        url: 'updatetaskattribute.php',
+        data: { taValue: taFieldValArr[0], taValueToChange: taFieldNameArr[0], docValue: document.getElementById('taskAttributeControl0').value, taskID: 1 },
+        success: function(data) {
+          getTaskAttributes();
+          console.log("taskattributes updated");
+        }
+      });
+    } else if (document.getElementById('taskAttributeControl1').value != taFieldValArr[1]) {
+      console.log("!=");
+      console.log("taskAttributeControl1");
+      
+      // Debugging
+      console.log("taValueToChange: " , taFieldNameArr[1]);
+      console.log("docValue: " , document.getElementById('taskAttributeControl1').value);
+      console.log("taValue: " , taFieldValArr[1]);
+
+      $.ajax({
+        type: 'POST',
+        url: 'updatetaskattribute.php',
+        data: { taValue: taFieldValArr[1], taValueToChange: taFieldNameArr[1], docValue: document.getElementById('taskAttributeControl1').value, taskID: 1 },
+        success: function(data) {
+          getTaskAttributes();
+          console.log("taskattributes updated");
+        }
+      });
+    } else if (document.getElementById('taskAttributeControl2').value != taFieldValArr[2]) {
+      console.log("!=");
+      console.log("taskAttributeControl2");
+      
+      // Debugging
+      console.log("taValueToChange: " , taFieldNameArr[2]);
+      console.log("docValue: " , document.getElementById('taskAttributeControl2').value);
+      console.log("taValue: " , taFieldValArr[2]);
+
+      $.ajax({
+        type: 'POST',
+        url: 'updatetaskattribute.php',
+        data: { taValue: taFieldValArr[2], taValueToChange: taFieldNameArr[2], docValue: document.getElementById('taskAttributeControl2').value, taskID: 2 },
+        success: function(data) {
+          getTaskAttributes();
+          console.log("taskattributes updated");
+        }
+      });
+    } else if (document.getElementById('taskAttributeControl3').value != taFieldValArr[3]) {
+      console.log("!=");
+      console.log("taskAttributeControl3");
+      
+      // Debugging
+      console.log("taValueToChange: " , taFieldNameArr[3]);
+      console.log("docValue: " , document.getElementById('taskAttributeControl3').value);
+      console.log("taValue: " , taFieldValArr[3]);
+
+      $.ajax({
+        type: 'POST',
+        url: 'updatetaskattribute.php',
+        data: { taValue: taFieldValArr[3], taValueToChange: taFieldNameArr[3], docValue: document.getElementById('taskAttributeControl3').value, taskID: 2 },
+        success: function(data) {
+          getTaskAttributes();
+          console.log("taskattributes updated");
+        }
+      });
+    } else if (document.getElementById('taskAttributeControl4').value != taFieldValArr[4]) {
+      console.log("!=");
+      console.log("taskAttributeControl4");
+      
+      // Debugging
+      console.log("taValueToChange: " , taFieldNameArr[4]);
+      console.log("docValue: " , document.getElementById('taskAttributeControl4').value);
+      console.log("taValue: " , taFieldValArr[4]);
+
+      $.ajax({
+        type: 'POST',
+        url: 'updatetaskattribute.php',
+        data: { taValue: taFieldValArr[4], taValueToChange: taFieldNameArr[4], docValue: document.getElementById('taskAttributeControl4').value, taskID: 3 },
+        success: function(data) {
+          getTaskAttributes();
+          console.log("taskattributes updated");
+        }
+      });
+    } else if (document.getElementById('taskAttributeControl5').value != taFieldValArr[5]) {
+      console.log("!=");
+      console.log("taskAttributeControl5");
+      
+      // Debugging
+      console.log("taValueToChange: " , taFieldNameArr[5]);
+      console.log("docValue: " , document.getElementById('taskAttributeControl5').value);
+      console.log("taValue: " , taFieldValArr[5]);
+
+      $.ajax({
+        type: 'POST',
+        url: 'updatetaskattribute.php',
+        data: { taValue: taFieldValArr[5], taValueToChange: taFieldNameArr[5], docValue: document.getElementById('taskAttributeControl5').value, taskID: 3 },
+        success: function(data) {
+          getTaskAttributes();
+          console.log("taskattributes updated");
+        }
+      });
+    } else if (document.getElementById('taskAttributeControl6').value != taFieldValArr[6]) {
+      console.log("!=");
+      console.log("taskAttributeControl6");
+      
+      // Debugging
+      console.log("taValueToChange: " , taFieldNameArr[6]);
+      console.log("docValue: " , document.getElementById('taskAttributeControl6').value);
+      console.log("taValue: " , taFieldValArr[6]);
+
+      $.ajax({
+        type: 'POST',
+        url: 'updatetaskattribute.php',
+        data: { taValue: taFieldValArr[6], taValueToChange: taFieldNameArr[6], docValue: document.getElementById('taskAttributeControl6').value, taskID: 4 },
+        success: function(data) {
+          getTaskAttributes();
+          console.log("taskattributes updated");
+        }
+      });
+    } else {
+      console.log("==");
     }
-  }
 };
 
 // Update database - Game Attributes (and Rounds/Levels)
@@ -236,22 +378,22 @@ var gaFieldValArr = [ gameAttributes[0].livespergame, gameAttributes[0].rowbonus
 var newRoundLevelCount = 0;
 
   for (var i = 0; i < gaFieldNameArr.length; i++) {
-    if (document.getElementById('gameAttributeValueDropdown' + i).value != gaFieldValArr[i]) {
+    if (document.getElementById('gameAttributeControl' + i).value != gaFieldValArr[i]) {
       console.log("!=");
       console.log("i: " , i);
       console.log("gaFieldNameArr.length - 1: " , gaFieldNameArr.length - 1);
 
       if (i == gaFieldNameArr.length - 1) {
-        newRoundLevelCount = document.getElementById('gameAttributeValueDropdown' + i).value - gameAttributes[0].rndslvlspergame;
+        newRoundLevelCount = document.getElementById('gameAttributeControl' + i).value - gameAttributes[0].rndslvlspergame;
         console.log("newRoundLevelCount: " , newRoundLevelCount);
         console.log("typeof: newRoundLevelCount: " , typeof(newRoundLevelCount));        
       }
       
-      // Debugging leftovers
+      // Debugging
       //console.log("gaValueToChange: " , gaFieldNameArr[i]);
       //console.log("typeof: gaValueToChange: " , typeof(gaFieldNameArr[i]));
-      //console.log("docValue: " , document.getElementById('gameAttributeValueDropdown' + i).value);
-      //console.log("typeof: docValue: " , typeof(document.getElementById('gameAttributeValueDropdown' + i).value));
+      //console.log("docValue: " , document.getElementById('gameAttributeControl' + i).value);
+      //console.log("typeof: docValue: " , typeof(document.getElementById('gameAttributeControl' + i).value));
       //console.log("gaValue: " , gaFieldValArr[i]);
       //console.log("typeof: gaValue: " , typeof(gaFieldValArr[i]));        
       //console.log("roundLevelID[roundsLevels.length - 1]: " , roundLevelID[roundsLevels.length - 1])
@@ -259,11 +401,10 @@ var newRoundLevelCount = 0;
       $.ajax({
         type: 'POST',
         url: 'updategameattribute.php',
-        data: { gaValue: gaFieldValArr[i], gaValueToChange: gaFieldNameArr[i], docValue: document.getElementById('gameAttributeValueDropdown' + i).value },
+        data: { gaValue: gaFieldValArr[i], gaValueToChange: gaFieldNameArr[i], docValue: document.getElementById('gameAttributeControl' + i).value },
         success: function(data) {
           getGameAttributes();
           console.log("gameattributes updated");
-
         }
       });
 
@@ -302,82 +443,82 @@ var newRoundLevelCount = 0;
       console.log("==");
     }
   } 
-}
+};
 
 // Update database - Rounds/Levels
 function changeRoundLevel() {
   for (var i = 0, j = 0; i < roundsLevels.length; i++, j += 6) {
-    if (document.getElementById('roundLevelDropdown' + j).value != roundsLevels[i].numofq) {
+    if (document.getElementById('roundLevelControl' + j).value != roundsLevels[i].numofq) {
       console.log("numofq !=");
 
       $.ajax({
         type: 'POST',
         url: 'updateroundlevel.php',
-        data: { rlValue: roundLevelID[i], rlValueToChange: 'numofq', docValue: document.getElementById('roundLevelDropdown' + j).value },
+        data: { rlValue: roundLevelID[i], rlValueToChange: 'numofq', docValue: document.getElementById('roundLevelControl' + j).value },
         success: function(data) {
           getRoundsLevels();
           console.log("roundslevels+0 updated");
         }
       });
-    } else if (document.getElementById('roundLevelDropdown' + (j + 1)).value != roundsLevels[i].game_gameid) {
+    } else if (document.getElementById('roundLevelControl' + (j + 1)).value != roundsLevels[i].game_gameid) {
       console.log("gname !=");
 
       console.log("rlValue: " , i + 1);
       console.log("rlValueToChange: game_gameid");
-      console.log("docValue: " , document.getElementById('roundLevelDropdown' + (j + 1)).value);
+      console.log("docValue: " , document.getElementById('roundLevelControl' + (j + 1)).value);
 
       $.ajax({
         type: 'POST',
         url: 'updateroundlevel.php',
-        data: { rlValue: roundLevelID[i], rlValueToChange: 'game_gameid', docValue: document.getElementById('roundLevelDropdown' + (j + 1)).value },
+        data: { rlValue: roundLevelID[i], rlValueToChange: 'game_gameid', docValue: document.getElementById('roundLevelControl' + (j + 1)).value },
         success: function(data) {
           getRoundsLevels();
           console.log("roundslevels+1 updated");
         }
       });
-    }else if (document.getElementById('roundLevelDropdown' + (j + 2)).value != roundsLevels[i].maxptsperq) {
+    }else if (document.getElementById('roundLevelControl' + (j + 2)).value != roundsLevels[i].maxptsperq) {
       console.log("maxptsperq !=");
 
       $.ajax({
         type: 'POST',
         url: 'updateroundlevel.php',
-        data: { rlValue: roundLevelID[i], rlValueToChange: 'maxptsperq', docValue: document.getElementById('roundLevelDropdown' + (j + 2)).value },
+        data: { rlValue: roundLevelID[i], rlValueToChange: 'maxptsperq', docValue: document.getElementById('roundLevelControl' + (j + 2)).value },
         success: function(data) {
           getRoundsLevels();
           console.log("roundslevels+2 updated");
         }
       });
-    } else if (document.getElementById('roundLevelDropdown' + (j + 3)).value != roundsLevels[i].goalpts) {
+    } else if (document.getElementById('roundLevelControl' + (j + 3)).value != roundsLevels[i].goalpts) {
       console.log("goalpts !=");
 
       $.ajax({
         type: 'POST',
         url: 'updateroundlevel.php',
-        data: { rlValue: roundLevelID[i], rlValueToChange: 'goalpts', docValue: document.getElementById('roundLevelDropdown' + (j + 3)).value },
+        data: { rlValue: roundLevelID[i], rlValueToChange: 'goalpts', docValue: document.getElementById('roundLevelControl' + (j + 3)).value },
         success: function(data) {
           getRoundsLevels();
           console.log("roundslevels+3 updated");
         }
       });
-    } else if (document.getElementById('roundLevelDropdown' + (j + 4)).value != roundsLevels[i].goalcompleteround) {
+    } else if (document.getElementById('roundLevelControl' + (j + 4)).value != roundsLevels[i].goalcompleteround) {
       console.log("goalcompleteround !=");
 
       $.ajax({
         type: 'POST',
         url: 'updateroundlevel.php',
-        data: { rlValue: roundLevelID[i], rlValueToChange: 'goalcompleteround', docValue: document.getElementById('roundLevelDropdown' + (j + 4)).value },
+        data: { rlValue: roundLevelID[i], rlValueToChange: 'goalcompleteround', docValue: document.getElementById('roundLevelControl' + (j + 4)).value },
         success: function(data) {
           getRoundsLevels();
           console.log("roundslevels+4 updated");
         }
       });
-    } else if (document.getElementById('roundLevelDropdown' + (j + 5)).value != roundsLevels[i].goalbeatopponent) {
+    } else if (document.getElementById('roundLevelControl' + (j + 5)).value != roundsLevels[i].goalbeatopponent) {
         console.log("goalbeatopponent !=");
 
         $.ajax({
           type: 'POST',
           url: 'updateroundlevel.php',
-          data: { rlValue: roundLevelID[i], rlValueToChange: 'goalbeatopponent', docValue: document.getElementById('roundLevelDropdown' + (j + 5)).value },
+          data: { rlValue: roundLevelID[i], rlValueToChange: 'goalbeatopponent', docValue: document.getElementById('roundLevelControl' + (j + 5)).value },
           success: function(data) {
             getRoundsLevels();
             console.log("roundslevels+5 updated");
@@ -389,23 +530,99 @@ function changeRoundLevel() {
       console.log("dropdownValue: " , (j + 5));
     }
   }
-}
+};
 
 // Set checkboxes in Rounds/Levels table
-function changeColCheck(dropdownValue) {
-  if (document.getElementById('roundLevelDropdown' + dropdownValue).checked) {
-    document.getElementById('roundLevelDropdown' + dropdownValue).value = 1;
+function changeColCheck(checkValue) {
+  if (document.getElementById('roundLevelControl' + checkValue).checked) {
+    document.getElementById('roundLevelControl' + checkValue).value = 1;
   } else {
-    document.getElementById('roundLevelDropdown' + dropdownValue).value = 0;
+    document.getElementById('roundLevelControl' + checkValue).value = 0;
   }
-}
+};
 
-// Create and populate Tasks section
-var getTasks = function(){
+// Set checkboxes in Tasks section
+function changeTasksCheck(checkValue) {
+  if (document.getElementById('taskAttributeControl' + checkValue).checked) {
+    document.getElementById('taskAttributeControl' + checkValue).value = 1;
+  } else {
+    document.getElementById('taskAttributeControl' + checkValue).value = 0;
+  }
+};
+
+// Populate Tasks section
+var getTaskAttributes = function(){
   $.ajax({
-    url: 'gettasks.php',
+    url: 'gettaskattributes.php',
     success: function(data){
-      tasks = $.parseJSON(data);
+      taskAttributes = $.parseJSON(data);
+      
+      console.log("taskAttributes: " , taskAttributes);
+
+      // Empty taskAttributeControl divs
+      $('#taskAttributeControl0').empty();
+      $('#taskAttributeControl1').empty();
+      $('#taskAttributeControl2').empty();
+      $('#taskAttributeControl3').empty();
+      $('#taskAttributeControl4').empty();
+      $('#taskAttributeControl5').empty();
+      $('#taskAttributeControl6').empty();
+
+      if (taskAttributes[0].enabledstatus == 0) {
+        document.getElementById("taskAttributeControl0").checked = false;
+        document.getElementById("taskAttributeControl0").value = 0;
+      } else {
+        document.getElementById("taskAttributeControl0").checked = true;
+        document.getElementById("taskAttributeControl0").value = 1;
+      }
+      $('#taskAttributeControl1').append('<option value="' + taskAttributes[0].ptsperq + '">' + taskAttributes[0].ptsperq + '</option>');
+      for (var i = 1; i <= 10; i++) {
+        if (i != taskAttributes[0].ptsperq) {
+          $('#taskAttributeControl1').append('<option value="' + i + '">' + i + '</option>');
+        }
+      }
+      if (taskAttributes[1].enabledstatus == 0) {
+        document.getElementById("taskAttributeControl2").checked = false;
+        document.getElementById("taskAttributeControl2").value = 0;
+      } else {
+        document.getElementById("taskAttributeControl2").checked = true;
+        document.getElementById("taskAttributeControl2").value = 1;
+      }
+      $('#taskAttributeControl3').append('<option value="' + taskAttributes[1].ptsperq + '">' + taskAttributes[1].ptsperq + '</option>');
+      for (var i = 1; i <= 10; i++) {
+        if (i != taskAttributes[1].ptsperq) {
+          $('#taskAttributeControl3').append('<option value="' + i + '">' + i + '</option>');
+        }
+      }
+      if (taskAttributes[2].enabledstatus == 0) {
+        document.getElementById("taskAttributeControl4").checked = false;
+        document.getElementById("taskAttributeControl4").value = 0;
+      } else {
+        document.getElementById("taskAttributeControl4").checked = true;
+        document.getElementById("taskAttributeControl4").value = 1;
+      }
+      $('#taskAttributeControl5').append('<option value="' + taskAttributes[2].ptsperq + '">' + taskAttributes[2].ptsperq + '</option>');
+      for (var i = 1; i <= 10; i++) {
+        if (i != taskAttributes[2].ptsperq) {
+          $('#taskAttributeControl5').append('<option value="' + i + '">' + i + '</option>');
+        }
+      }
+      if (taskAttributes[3].enabledstatus == 0) {
+        document.getElementById("taskAttributeControl6").checked = false;
+        document.getElementById("taskAttributeControl6").value = 0;
+      } else {
+        document.getElementById("taskAttributeControl6").checked = true;
+        document.getElementById("taskAttributeControl6").value = 1;
+      }
+
+      // Show taskAttributeControl divs
+      $('#taskAttributeControl0').show();
+      $('#taskAttributeControl1').show();
+      $('#taskAttributeControl2').show();
+      $('#taskAttributeControl3').show();
+      $('#taskAttributeControl4').show();
+      $('#taskAttributeControl5').show();
+      $('#taskAttributeControl6').show();
     }
   });
 }
@@ -419,35 +636,49 @@ var getGameAttributes = function(){
       
       console.log("gameAttributes: " , gameAttributes);
 
-      $('#gameAttributeValueDropdown0').append('<option value="' + gameAttributes[0].livespergame + '">' + gameAttributes[0].livespergame + '</option>');
+      // Empty gameAttributeControl divs
+      $('#gameAttributeControl0').empty();
+      $('#gameAttributeControl1').empty();
+      $('#gameAttributeControl2').empty();
+      $('#gameAttributeControl3').empty();
+      $('#gameAttributeControl4').empty();
+
+      $('#gameAttributeControl0').append('<option value="' + gameAttributes[0].livespergame + '">' + gameAttributes[0].livespergame + '</option>');
       for (var i = 1; i <= 10; i++) {
         if (i != gameAttributes[0].livespergame) {
-          $('#gameAttributeValueDropdown0').append('<option value="' + i + '">' + i + '</option>');
+          $('#gameAttributeControl0').append('<option value="' + i + '">' + i + '</option>');
         }
       }
-      $('#gameAttributeValueDropdown1').append('<option value="' + gameAttributes[0].rowbonuscount + '">' + gameAttributes[0].rowbonuscount + '</option>');
+      $('#gameAttributeControl1').append('<option value="' + gameAttributes[0].rowbonuscount + '">' + gameAttributes[0].rowbonuscount + '</option>');
       for (var i = 1; i <= 10; i++) {
         if (i != gameAttributes[0].rowbonuscount) {
-          $('#gameAttributeValueDropdown1').append('<option value="' + i + '">' + i + '</option>');
+          $('#gameAttributeControl1').append('<option value="' + i + '">' + i + '</option>');
         }
       }
-      $('#gameAttributeValueDropdown2').append('<option value="' + gameAttributes[0].rowbonuspts + '">' + gameAttributes[0].rowbonuspts + '</option>');
+      $('#gameAttributeControl2').append('<option value="' + gameAttributes[0].rowbonuspts + '">' + gameAttributes[0].rowbonuspts + '</option>');
       for (var i = 0; i <= 100; i++) {
         if (i != gameAttributes[0].rowbonuspts) {
-          $('#gameAttributeValueDropdown2').append('<option value="' + i + '">' + i + '</option>');
+          $('#gameAttributeControl2').append('<option value="' + i + '">' + i + '</option>');
         }
       }
       if (gameAttributes[0].gametheme == -1) {
-        $('#gameAttributeValueDropdown3').append('<option value="' + gameAttributes[0].gametheme + '">Currently Unavailable</option>');
+        $('#gameAttributeControl3').append('<option value="' + gameAttributes[0].gametheme + '">Currently Unavailable</option>');
       } else {
-        $('#gameAttributeValueDropdown3').append('<option value="' + gameAttributes[0].gametheme + '">' + gameAttributes[0].gametheme + '</option>');
+        $('#gameAttributeControl3').append('<option value="' + gameAttributes[0].gametheme + '">' + gameAttributes[0].gametheme + '</option>');
       }
-      $('#gameAttributeValueDropdown4').append('<option value="' + gameAttributes[0].rndslvlspergame + '">' + gameAttributes[0].rndslvlspergame + '</option>');
+      $('#gameAttributeControl4').append('<option value="' + gameAttributes[0].rndslvlspergame + '">' + gameAttributes[0].rndslvlspergame + '</option>');
       for (var i = 1; i <= 25; i++) {
         if (i != gameAttributes[0].rndslvlspergame) {
-          $('#gameAttributeValueDropdown4').append('<option value="' + i + '">' + i + '</option>');
+          $('#gameAttributeControl4').append('<option value="' + i + '">' + i + '</option>');
         }
       }
+
+      // Show gameAttributeControl divs
+      $('#gameAttributeControl0').show();
+      $('#gameAttributeControl1').show();
+      $('#gameAttributeControl2').show();
+      $('#gameAttributeControl3').show();
+      $('#gameAttributeControl4').show();
     }
   });
 }
@@ -470,7 +701,7 @@ var getRoundsLevels = function(){
           console.log("roundsLevels: " , roundsLevels);
           console.log("roundsLevels.length: " , roundsLevels.length);
 
-          // Empty and show roundsLevelsTable div
+          // Empty roundsLevelsTable div
           $('#roundsLevelsTable').empty();
 
           // Create table for roundsLevelsTable div
@@ -491,30 +722,30 @@ var getRoundsLevels = function(){
             htmlStr += '<tr id="row' + (i + 1) + '"><td>' + (i + 1) + '</td>';
 
             // Column 2 (Number of Questions)
-            htmlStr += '<td><select class="custom-select mr-sm-4" id="roundLevelDropdown' + k + '" onchange="changeRoundLevel()" style="margin-left: 1em"><option value="' + numofq + '">' + numofq + '</option>';
+            htmlStr += '<td><select class="custom-select mr-sm-4" id="roundLevelControl' + k + '" onchange="changeRoundLevel()" style="margin-left: 1em"><option value="' + numofq + '">' + numofq + '</option>';
             for (var j = 1; j <= 25; j++) {
                 if (j != numofq) {
                     htmlStr += '<option value="' + j + '">' + j + '</option>';
                 }
             }
             // Column 3 (Type of Challenge)
-            htmlStr += '</select></td><td><select class="custom-select mr-sm-4" id="roundLevelDropdown' + (k + 1) + '" onchange="changeRoundLevel()" style="margin-left: 1em"><option value=' +  gameid + '>' + games[gameid - 1].gname + '</option>';
-            console.log("gameid: " , gameid);
-            console.log("games[gameid - 1]: " , games[gameid - 1].gname);
+            htmlStr += '</select></td><td><select class="custom-select mr-sm-4" id="roundLevelControl' + (k + 1) + '" onchange="changeRoundLevel()" style="margin-left: 1em"><option value=' +  gameid + '>' + games[gameid - 1].gname + '</option>';
+            //console.log("gameid: " , gameid);
+            //console.log("games[gameid - 1]: " , games[gameid - 1].gname);
             for (var j = 1; j <= games.length; j++) {
                 if (j != gameid) {
                     htmlStr += '<option value=' + (j) + '>' + games[j - 1].gname + '</option>';
                 }
             }
             // Column 4 (Max Point Value per Question)
-            htmlStr += '</select></td><td><select class="custom-select mr-sm-4" id="roundLevelDropdown' + (k + 2) + '" onchange="changeRoundLevel()" style="margin-left: 1em"><option value="' + maxptsperq + '">' + maxptsperq + '</option>';
+            htmlStr += '</select></td><td><select class="custom-select mr-sm-4" id="roundLevelControl' + (k + 2) + '" onchange="changeRoundLevel()" style="margin-left: 1em"><option value="' + maxptsperq + '">' + maxptsperq + '</option>';
             for (var j = 0; j <= 500; j += 5) {
                 if (j != maxptsperq) {
                     htmlStr += '<option value="' + j + '">' + j + '</option>';
                 }
             }
             // Column 5 ([Goal] Points)
-            htmlStr += '</select></td><td><select class="custom-select mr-sm-4" id="roundLevelDropdown' + (k + 3) + '" onchange="changeRoundLevel()" style="margin-left: 1em">';
+            htmlStr += '</select></td><td><select class="custom-select mr-sm-4" id="roundLevelControl' + (k + 3) + '" onchange="changeRoundLevel()" style="margin-left: 1em">';
             if (goalpts == null) {
                 htmlStr += '<option value=""></option>';
                 for (var j = 0; j <= 500; j += 5) {
@@ -531,16 +762,16 @@ var getRoundsLevels = function(){
             // Column 6 ([Goal] Complete Round)
             htmlStr += '</select></td><td>';
             if (goalcompleteround == 0) {
-              htmlStr += '<input class="form-check-input" type="checkbox" id="roundLevelDropdown' + (k + 4) + '" onchange="changeColCheck(' + (k + 4) + ');changeRoundLevel()" value=0>';
+              htmlStr += '<input class="form-check-input" type="checkbox" id="roundLevelControl' + (k + 4) + '" onchange="changeColCheck(' + (k + 4) + ');changeRoundLevel()" value=0>';
             } else {
-              htmlStr += '<input class="form-check-input" type="checkbox" id="roundLevelDropdown' + (k + 4) + '" onchange="changeColCheck(' + (k + 4) + ');changeRoundLevel()" value=1 checked>';
+              htmlStr += '<input class="form-check-input" type="checkbox" id="roundLevelControl' + (k + 4) + '" onchange="changeColCheck(' + (k + 4) + ');changeRoundLevel()" value=1 checked>';
             }
             // Column 7 ([Goal] Beat Opponent)
             htmlStr += '</td><td>';
             if (goalbeatopponent == 0) {
-                htmlStr += '<input class="form-check-input" type="checkbox" id="roundLevelDropdown' + (k + 5) + '" onchange="changeColCheck(' + (k + 5) + ');changeRoundLevel()" value=0>';
+                htmlStr += '<input class="form-check-input" type="checkbox" id="roundLevelControl' + (k + 5) + '" onchange="changeColCheck(' + (k + 5) + ');changeRoundLevel()" value=0>';
             } else {
-                htmlStr += '<input class="form-check-input" type="checkbox" id="roundLevelDropdown' + (k + 5) + '" onchange="changeColCheck(' + (k + 5) + ');changeRoundLevel()" value=1 checked>';
+                htmlStr += '<input class="form-check-input" type="checkbox" id="roundLevelControl' + (k + 5) + '" onchange="changeColCheck(' + (k + 5) + ');changeRoundLevel()" value=1 checked>';
             }
             htmlStr += '</td></tr>';
           }
@@ -554,465 +785,9 @@ var getRoundsLevels = function(){
   });
 }
 
-var getCourses = function(){
-  $.ajax({
-    url: 'getcourses.php',
-    success: function(data){
-      $('#courseDropdown').empty();
-      $('#courseDropdown').append('<option value="null">Select a Course</option>');
-      $("#selectedCourseOutput").empty();
-      courses = $.parseJSON(data);
-      for (var i = 0; i < courses.length; i++) {
-        $('#courseDropdown').append('<option value="' + courses[i].courseid + '">' + courses[i].courseid + ' - ' + courses[i].name + '</option>');
-      }
-      <?php
-        if(isset($_GET["courseid"])){
-          $c = $_GET["courseid"];
-          echo "if ($('#courseDropdown option[value=\"$c\"]').length > 0){
-                  selectedCourse = '$c';
-                  $('.selectChapterUI').show();
-                  $.ajax({
-                    type: 'POST',
-                    url: 'setcourse.php',
-                    data: { course: selectedCourse },
-                    success: function(data){
-                      $('#courseDropdown').val(selectedCourse);
-                      getChapters(selectedCourse);
-                    }
-                  });
-                }";
-        }
-      ?>
-    }
-  });
-}
-
-var getChapters = function(course){
-  $('#chapterDropdown').empty();
-  $('#selectedChapterText').empty();
-  $('#output').empty();
-  $('#output').hide();
-  $.ajax({
-    url: 'api-getchapters-chaptertable.php',
-    data: 'courseid=' + course,
-    success: function(data){
-      var chapters = $.parseJSON(data);
-      $('#chapterDropdown').empty();
-      $('#chapterDropdown').append('<option value="null">Select a Chapter</option>');
-      for (var i = 0; i < chapters.length; i++) {
-        $('#chapterDropdown').append('<option value="' + chapters[i].chapterid + '">' + chapters[i].chapterid + ' - ' + chapters[i].chaptername + '</option>');
-      }
-      $('#selectChapterDiv').show();
-      // $('#selectChapterText').show();
-      $('.newChapterBtn').html('Create New Chapter in Course "' + selectedCourse + '"');
-      $("#selectedCourseOutput").html('<br><p><button id="inviteStudentsBtn" data-toggle="modal" data-target="#inviteStudentsModal" class="btn btn-primary">Invite Students</button> <button id="deleteCourseBtn" data-toggle="modal" data-target="#confirmDelete" class="btn btn-danger">Delete Course "'+ selectedCourse +'"</button></p>');
-      $('#deleteCourseBtn').click(function(){
-        $('#modalBody2').html('Are you sure you want to delete the course "' + selectedCourse + '"?');
-        thingToDelete = 'course';
-      });
-      <?php
-      if(isset($_GET["chapter"])){
-        $ch = $_GET["chapter"];
-        echo "if($('#chapterDropdown option[value=\"$ch\"]').length > 0){
-                selectedChapter = '$ch';
-                $('#chapterDropdown').val(selectedChapter);
-                $.ajax({
-                  type: 'POST',
-                  url: 'setchapter.php',
-                  data: { chapterid: selectedChapter },
-                  success: function(data){
-                    getQuestions();
-                  }
-                });
-              }";
-      }
-      ?>
-      $('#inviteStudentsBtn').off('click');
-      $('#inviteStudentsBtn').click(function(){
-        for (var i = 0; i < courses.length; i++) { //find this course's regcode and make the link
-          if(courses[i].courseid === selectedCourse){
-            var url = window.location.href.substring(0, window.location.href.indexOf("inst-coursemgmt.php"));
-            $('#studentReglink').val(url + '?regcode=' + courses[i].regcode);
-          } 
-        }
-        $('#studentReglink').off('click');
-        $('#studentReglink').click(function(){ this.select(); });
-        $('#inviteStudentsModalLabel').html('Invite Students to ' + selectedCourse);
-      });
-
-      $("#editChapterBtn").off('click');
-      $('#editChapterBtn').click(function(){
-        $('#createChapterBtn').hide();
-        $('#updateChapterBtn').show();
-        $('#chapterIDinput').prop('readonly', true);
-        $('#createChapterModalLabel').html('Edit Chapter ' + selectedCourse + ' - ' + selectedChapter);
-        $('#createChapterModalDesc').html('You may edit the name and dates of the selected chapter here');
-        $.ajax({
-          type: 'GET',
-          url: 'api-getonechapter.php?chapter=' + selectedChapter,
-          dataType: 'json',
-          success: function(data){
-            $('#chapterIDinput').val(data.chapterid);
-            $('#chapterNameinput').val(data.chaptername);
-            $('#date_start_input').val(data.date_start);
-            $('#date_end_input').val(data.date_end);
-          }
-        });
-      });
-    }
-  });
-}
-
-var getQuestions = function(){
-  $.ajax({
-    type: 'GET',
-    url: 'getquestion.php',
-    data: { 'courseid': selectedCourse, 'chapter': selectedChapter },
-    dataType: 'json',
-    success: function(data){
-      questions = [];
-      $('#output').empty();
-      $('#output').show();
-      var htmlStr = '<h3>'+ selectedCourse + ' - Chapter ' + selectedChapter + ' Questions</h3><p><button class="btn btn-success addQuestionBtn" data-toggle="modal" data-target="#editModal">Add Question</button> <button class="btn btn-success uploadQuestionsBtn" data-toggle="modal" data-target="#uploadModal">Upload .doc File of Questions</button></p><table id="table" class="display table table-hover table-bordered text-left"><thead><tr><th>ID#</th><th>Question Text</th><th>Choices</th><th>Answer</th><th>Options</th></tr></thead><tbody>';
-      for (var i = 0; i < data.length; i++) {
-        var q = $.parseJSON(data[i]["question"]);
-        var id = $.parseJSON(data[i]["questionid"]);
-        htmlStr += '<tr id="row' + id + '"><td>' + id +'</td><td>' + q.question + '</td><td>'
-        Object.keys(q.choices).forEach(function(key){
-          htmlStr += key + ': ' + q.choices[key] + '<br>';
-        });
-        htmlStr += '</td><td>' + q.answer + '</td><td><button class="btn btn-primary editBtn" data-toggle="modal" data-target="#editModal" id="' + id + '"">Edit</button><br><button class="btn btn-danger deleteQuestionBtn" data-toggle="modal" data-target="#confirmDelete" id="' + id + '">Delete</button></td></tr>';
-      }
-      htmlStr += '</tbody></table>';
-      $('#output').html(htmlStr);
-      $('#selectedChapterOutput').show();
-
-      $('.uploadQuestionsBtn').click(function(){
-        $('#uploadModalLabel').html('Upload Questions to "' + selectedCourse + ' - '+ selectedChapter + '"');
-      });
-
-      $("#deleteChapterBtn").click(function(){
-        $('#modalBody2').html('Are you sure you want to delete Chapter ' + selectedChapter + ' from ' + selectedCourse + '?');
-        thingToDelete = 'chapter';
-      });
-      table = $('#table').DataTable({ paging: false, "order": [[0, 'asc']] });
-
-      $('.deleteQuestionBtn').click(function(){
-        $('#modalBody2').html('Are you sure you want to delete question #' + $(this).attr('id') + '?');
-        thingToDelete = 'question';
-        questionid = $(this).attr('id');
-      });
-
-      $(".editBtn").off('click');
-      $('.editBtn').click(function(){
-        $('#saveQuestionBtn').show();
-        $('#newQuestionBtn').hide();
-        questionid = $(this).attr('id');
-        $('#editModalLabel').html('Edit Question #' + questionid);
-        $.ajax({
-          type: 'GET',
-          url: 'api-getonequestion.php?qid=' + questionid,
-          dataType: 'json',
-          success: function(data){
-            var q = $.parseJSON(data['question']);
-            $('#questionText').val(q.question);
-            var keys = Object.keys(q.choices);
-            for (var i = 0; i < keys.length; i++) {
-              if(i < keys.length-1) addOption();
-              $('#optionRow' + i).children('#optionText').val(q.choices[keys[i]]);
-            }
-            if($('div[id^="optionRow"]').length <= 1) $('.deleteOptionBtn').prop("disabled", true);
-            $('#answerRadio[value='+ q.answer +']').prop("checked", true);
-            numTotal = $('div[id^="optionRow"]').length;
-            if (numTotal < optionLimit){
-              $("#addOptionBtn").prop("disabled", false);
-              $("#limitMessage").empty();
-            }
-          }
-        });
-      });
-
-      $(".addQuestionBtn").off('click');
-      $('.addQuestionBtn').click(function(){
-        $('#saveQuestionBtn').hide();
-        $('#newQuestionBtn').show();
-        $('#editModalLabel').html('Add Question');
-        $('.question').val('');
-        $("input[name='answer']:last").prop("checked", true);
-        $('.deleteOptionBtn').prop("disabled", true);
-        $("#addOptionBtn").prop("disabled", false);
-        $("#limitMessage").empty();
-      });
-
-      function prepQuestion(){
-        var formArray = $('#editQuestionForm').serializeArray();
-        var questionBank = {};
-        questionBank.choices = {};
-        for (var i = 0; i < formArray.length; i++) {
-          switch (formArray[i].name) {
-            case 'optionText':
-              questionBank.choices[formArray[i-1].value] = formArray[i].value;
-              break;
-            case 'questionText':
-              questionBank.question = formArray[i].value;
-              break;
-            case 'answer':
-              questionBank.answer = formArray[i].value;
-              break;
-            default:
-              break;
-          }
-        }
-        return questionBank;
-      };
-
-      $("#saveQuestionBtn").off('click');
-      $('#saveQuestionBtn').click(function(){
-        var questionBank = prepQuestion();
-        $.ajax({
-          type: 'POST',
-          url: 'api-updatequestion.php',
-          data: { questionBank: prepQuestion(), questionid: questionid },
-          success: function(data) {
-            getQuestions();
-            $('div[id^="optionRow"]').not(':first').remove();
-            numTotal = 1;
-          }
-        });
-      });
-
-      $("#newQuestionBtn").off('click');
-      $('#newQuestionBtn').click(function(){
-        var questionBank = prepQuestion();
-        $.ajax({
-          type: 'POST',
-          url: 'api-insert.php',
-          data: { questionBank: prepQuestion(), chapter: selectedChapter, courseid: selectedCourse },
-          success: function(data) {
-            getQuestions();
-            $('div[id^="optionRow"]').not(':first').remove();
-            numTotal = 1;
-          }
-        });
-      });
-    }
-  });
-}
-
-var createForm = $('#createCourseForm');
-createForm.submit(function (e) {
-  e.preventDefault();
-  $.ajax({
-    type: createForm.attr('method'),
-    url: createForm.attr('action'),
-    data: createForm.serialize(),
-    success: function(data) {
-      window.location.href = "inst-coursemgmt.php?courseid=" + $('#courseIDinput').val().toUpperCase();
-    }
-  });
-});
-
-var createChapterForm = $('#createChapterForm');
-createChapterForm.submit(function (e) {
-  e.preventDefault();
-  var postData = {
-    courseid : selectedCourse,
-    chapterid : $('#chapterIDinput').val(),
-    chaptername: $('#chapterNameinput').val(),
-    date_start: $('#date_start_input').val(),
-    date_end: $('#date_end_input').val()
-  };
-  var url = createChapterForm.attr('action');
-  if(document.activeElement.id == 'updateChapterBtn') url = 'api-updatechapter.php';
-  $.ajax({
-    type: createChapterForm.attr('method'),
-    url: url,
-    data: postData,
-    success: function(data) {
-      if(data.includes('successfully')){
-        window.location.href = "inst-coursemgmt.php?courseid=" + selectedCourse + "&chapter=" + $('#chapterIDinput').val();
-      } else if(data.includes('Duplicate')){
-        $('#createChapterOutput').html('Error creating chapter - chapter number already exists!');
-      }
-    }
-  });
-});
-
-//configuration
-var max_file_size           = 1048576 * 3; //allowed file size. (1 MB = 1048576)
-var result_output           = '#uploadOutput'; //ID of an element for response output
-var total_files_allowed     = 1; //Number files allowed to upload
-
-//on form submit
-$('#uploadForm').submit(function(e) {
-  e.preventDefault();
-  var proceed = true; //set proceed flag
-  var error = []; //errors
-  var total_files_size = 0;
-
-  if(!window.File && window.FileReader && window.FileList && window.Blob){ //if browser doesn't supports File API
-    error.push("Your browser does not support new File API! Please upgrade."); //push error text
-  }else{
-    var total_selected_files = this.elements['fileToUpload'].files.length; //number of files
-
-    //limit number of files allowed
-    if(total_selected_files > total_files_allowed){
-      error.push( "You have selected "+total_selected_files+" file(s), " + total_files_allowed +" is maximum!"); //push error text
-      proceed = false; //set proceed flag to false
-    }
-     //iterate files in file input field
-    $(this.elements['fileToUpload'].files).each(function(i, ifile){
-      if(ifile.value !== ""){ //continue only if file(s) are selected
-        total_files_size = total_files_size + ifile.size; //add file size to total size
-      }
-    });
-
-    //if total file size is greater than max file size
-    if(total_files_size > max_file_size){
-      error.push( "You have "+total_selected_files+" file(s) with total size "+total_files_size+", Allowed size is " + max_file_size +", Try smaller file!"); //push error text
-      proceed = false; //set proceed flag to false
-    }
-
-    var submit_btn  = $('#uploadSubmitBtn'); //form submit button
-
-    //if everything looks good, proceed with jQuery Ajax
-    if(proceed){
-      submit_btn.val("Please Wait...").prop( "disabled", true); //disable submit button
-      var form_data = new FormData(this); //Creates new FormData object
-      var post_url = $(this).attr("action"); //get action URL of form
-
-      //jQuery Ajax to Post form data
-      $.ajax({
-        url : post_url,
-        type: "POST",
-        data : form_data,
-        contentType: false,
-        cache: false,
-        processData:false,
-        mimeType:"multipart/form-data"
-      }).done(function(res){ //
-        $('#uploadForm')[0].reset(); //reset form
-        $(result_output).html(res + '<p><a href="inst-coursemgmt.php?courseid=' + selectedCourse + '&chapter=' + selectedChapter + '">View Questions</a></p>'); //output response from server
-        submit_btn.val("Upload file").prop( "disabled", false); //enable submit button once ajax is done
-      });
-    }
-  }
-
-  $(result_output).empty(); //reset output
-
-});
-
-$('.newChapterBtn').click(function(){
-  $('#createChapterBtn').show();
-  $('#updateChapterBtn').hide();
-  $('#createChapterForm').trigger('reset');
-  $('#chapterIDinput').prop('readonly', false);
-  $('#createChapterModalLabel').html('Create Chapter in Course "' + selectedCourse + '"');
-  $('#createChapterModalDesc').html('Enter a chapter number, chapter name, and availability dates to create a new chapter.');
-  $('#date_start_input').val(moment().format("YYYY-MM-DDTHH:mm"));
-  $('#date_end_input').val(moment().add(14, 'days').format("YYYY-MM-DDTHH:mm"));
-});
-
+// "Main" function
 $(function (){
-  $('.selectChapterUI').hide();
-  $('#selectChapterDiv').hide();
-  // $('#selectChapterText').hide();
-  $('#output').hide();
-
-  $('#editModal').on('hide.bs.modal', function () {
-    $('div[id^="optionRow"]').not(':first').remove();
-    numTotal = 1;
-  })
-
-  $('#uploadModal').on('hide.bs.modal', function () {
-    getQuestions();
-  })
-
-  $("#courseDropdown").change(function(){
-    $('#output').empty();
-    if($('#courseDropdown').find(":selected").val() != 'null'){
-      $('.selectChapterUI').show();
-      selectedCourse = $('#courseDropdown').find(":selected").val();
-      $.ajax({
-        type: 'POST',
-        url: 'setcourse.php',
-        data: { course: selectedCourse },
-        success: function(data){
-          getChapters(selectedCourse);
-        }
-      });
-    } else {
-      $('.selectChapterUI').hide();
-      $('#selectedCourseOutput').empty();
-      $('#selectChapterDiv').hide();
-      // $('#selectChapterText').hide();
-      $('#output').hide();
-    }
-    $('#selectedChapterOutput').hide();
-  });
-
-  $("#chapterDropdown").change(function(){
-    if($('#chapterDropdown').find(":selected").val() != 'null'){
-      selectedChapter = $('#chapterDropdown').find(":selected").val();
-      $.ajax({
-        type: 'POST',
-        url: 'setchapter.php',
-        data: { chapterid: selectedChapter },
-        success: function(data){
-          getQuestions();
-        }
-      });
-    } else {
-      $('#output').empty();
-      $('#output').hide();
-    }
-  });
-
-  $('#deleteBtn').click(function(){
-    switch (thingToDelete) {
-      case 'question':
-        $.ajax({
-          type: 'POST',
-          url: 'api-deletequestion.php',
-          data: { questionid : questionid },
-          success: function(data){
-            getQuestions();
-          }
-        });
-        break;
-      case 'course':
-        $.ajax({
-          type: 'POST',
-          url: 'db-deletecourse.php',
-          data: { courseid: selectedCourse, deletingCourse: true },
-          success: function(data){
-            getCourses();
-            $('#selectChapterDiv').hide();
-            $('.selectChapterUI').hide();
-          }
-        });
-        break;
-      case 'chapter':
-        $.ajax({
-          type: 'POST',
-          url: 'db-deletecourse.php',
-          data: { courseid: selectedCourse, deletingCourse: false, chapter: selectedChapter },
-          success: function(data){
-            getChapters(selectedCourse);
-            $('#selectedChapterOutput').hide();
-          }
-        });
-        break;
-      default:
-        break;
-    }
-  });
-
-  $("#addOptionBtn").click(function(){
-    addOption();
-  });
-
-  getCourses();
+  getTaskAttributes();
   getGameAttributes();
   getRoundsLevels();
 });
