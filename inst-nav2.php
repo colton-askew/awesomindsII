@@ -47,7 +47,18 @@
         <h4 class="modal-title text-center" id="myModalLabel">About Awesominds</h4>
       </div>
       <div class="modal-body text-center">
-
+      
+      <h5>Camosun College's <i>Awesominds II</i></h5>
+        <table class="table table-sm text-left">
+          <tr><td>Concept, Project Manager, Visual Assets: Marty Donatelli</td></tr>
+          <tr><td>Programmer: Colton Askew</td></tr>
+          <tr><td>Programmer: Jordon Dueck</td></tr>
+          <tr><td>Programmer: David Hicks</td></tr>
+          <tr><td>Financial Support: Camosun College Innovation Fund</td></tr>
+          <tr><td>Additional Support: Camosun College Centre for Excellence in Teaching and Learning</td></tr>
+          <tr><td>License:<br><a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/80x15.png" /></a><br />This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>.</td></tr>
+          <tr><td>Terms of use:<br>By using this program the user agrees to the following. This program is presented on an as is basis. Camosun College and the people involved with this project make no guarantees nor assurances, and are not responsible for any incident that may occur from its use. The user uses this program at their own risk.</td></tr>
+        </table>
         <h5>Camosun College's <i>Awesominds</i></h5>
         <table class="table table-sm text-left">
           <tr><td>Concept, Project Manager, Visual Assets: Marty Donatelli</td></tr>

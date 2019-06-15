@@ -26,9 +26,10 @@
       </div>
       <div id="selectedCourseOutput"></div>
     </div>
+    <br>
 
     <div class='card selectChapterUI'>
-      <div id='selectChapterDiv' class="container" style="max-width: 400px">
+      <div id='selectChapterDiv' class="container" style="max-width: 600px">
         <p><button class="btn btn-success newChapterBtn" data-toggle="modal" data-target="#createChapterModal"></button></p>
         <div class="input-group">
           <span class="input-group-addon">Chapter</span>
@@ -37,7 +38,7 @@
           </select>
         </div>
         <div id="selectedChapterOutput">
-          <br><p><button id="editChapterBtn" data-toggle="modal" data-target="#createChapterModal" class="btn btn-primary">Edit Chapter</button> <button id="deleteChapterBtn" data-toggle="modal" data-target="#confirmDelete" class="btn btn-danger">Delete Chapter</button></p>
+          <br><p><button id="editChapterBtn" data-toggle="modal" data-target="#createChapterModal" class="btn btn-primary">Edit Chapter</button> <button id="deleteChapterBtn" data-toggle="modal" data-target="#confirmDelete" class="btn btn-danger">Delete Chapter</button> <button id="hideChapterBtn" data-toggle="modal" data-target="#confirmHide" class="btn btn-primary">Hide Chapter</button></p>
         </div>
       </div>
     </div><br>
@@ -57,6 +58,23 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-danger btn-ok" data-dismiss="modal" id="deleteBtn">Delete</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade" id="confirmHide" tabindex="-1" role="dialog" aria-labelledby="myModalLabel3">
+    <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-header text-center">
+          <h4 class="modal-title text-center" id="myModalLabel3">Are you sure?</h4>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        </div>
+        <div class="modal-body text-center" id='modalBody3'>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger btn-ok" data-dismiss="modal" id="hideBtn">Hide</button>
           <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
         </div>
       </div>
@@ -227,6 +245,7 @@ var selectedCourse = "";
 var courses = [];
 var selectedChapter = 0;
 var thingToDelete = "";
+var thingToHide = "";
 var questions = [];
 var questionid = 0;
 var table = null;
@@ -349,11 +368,16 @@ var getChapters = function(course){
       $('#selectChapterDiv').show();
       // $('#selectChapterText').show();
       $('.newChapterBtn').html('Create New Chapter in Course "' + selectedCourse + '"');
-      $("#selectedCourseOutput").html('<br><p><button id="inviteStudentsBtn" data-toggle="modal" data-target="#inviteStudentsModal" class="btn btn-primary">Invite Students</button> <button id="deleteCourseBtn" data-toggle="modal" data-target="#confirmDelete" class="btn btn-danger">Delete Course "'+ selectedCourse +'"</button></p>');
+      $("#selectedCourseOutput").html('<br><p><button id="inviteStudentsBtn" data-toggle="modal" data-target="#inviteStudentsModal" class="btn btn-primary">Invite Students</button> <button id="deleteCourseBtn" data-toggle="modal" data-target="#confirmDelete" class="btn btn-danger">Delete Course "'+ selectedCourse +'"</button> <button id="hideCourseBtn" data-toggle="modal" data-target="#confirmHide" class="btn btn-primary">Hide Course "'+ selectedCourse +'"</button></p>');
       $('#deleteCourseBtn').click(function(){
         $('#modalBody2').html('Are you sure you want to delete the course "' + selectedCourse + '"?');
         thingToDelete = 'course';
       });
+      $('#hideCourseBtn').click(function(){
+        $('#modalBody3').html('Are you sure you want to hide the course "' + selectedCourse + '"?');
+        thingToHide = 'course';
+      });
+
       <?php
       if(isset($_GET["chapter"])){
         $ch = $_GET["chapter"];
@@ -438,6 +462,11 @@ var getQuestions = function(){
       $("#deleteChapterBtn").click(function(){
         $('#modalBody2').html('Are you sure you want to delete Chapter ' + selectedChapter + ' from ' + selectedCourse + '?');
         thingToDelete = 'chapter';
+      });
+
+      $('#hideChapterBtn').click(function(){
+        $('#modalBody3').html('Are you sure you want to hide Chapter ' +selectedChapter + ' from ' +  selectedCourse + '?');
+        thingToHide = 'chapter';
       });
       table = $('#table').DataTable({ paging: false, "order": [[0, 'asc']] });
 
@@ -751,6 +780,37 @@ $(function (){
         break;
     }
   });
+
+
+  $('#hideBtn').click(function(){
+    console.log("hide button clicked with " + thingToHide + " data: " + selectedCourse);
+    switch (thingToHide) {
+      case 'course':
+        $.ajax({
+          type: 'POST',
+          url: 'db-hidecourse.php',
+          data: { courseid: selectedCourse, hideCourse: true },
+          success: function(data){
+            alert("Successfully hid course");
+            console.log("Successfully hid course")
+          }
+        });
+        break;
+      case 'chapter':
+        $.ajax({
+          type: 'POST',
+          url: 'db-hidecourse.php',
+          data: { courseid: selectedCourse, hideChapter: true, chapter: selectedChapter },
+          success: function(data){
+            alert("Successfully hid chapter");
+          }
+        });
+        break;
+      default:
+        break;
+    }
+  });
+
 
   $("#addOptionBtn").click(function(){
     addOption();
