@@ -428,8 +428,8 @@ modeStateSC.nextQuestion = function(number){
     game.global.questionsRemoved++;
     
     console.log('questions removed' + game.global.questionsRemoved);
-    console.log('numQuestions' + game.global.numQuestions);
-    if (game.global.questionsRemoved == game.global.numQuestions){
+    console.log('Number of original questions' + game.global.origNumQuestions);
+    if (game.global.questionsRemoved == game.global.origNumQuestions){
       console.log('question removed equal to numQuestions, ending session');
       game.global.jinnySpeech.destroy();
       game.state.getCurrentState().ticks.destroy();

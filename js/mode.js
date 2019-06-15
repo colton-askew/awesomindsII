@@ -37,7 +37,7 @@ var modeState = {
 
     return buttons;
   },
-  
+ 
 
   /*
    *sets up number of questions/game
@@ -151,6 +151,7 @@ var modeState = {
     console.log('rehash: ' + game.global.isRehash);
     this.ticks = game.add.group();
     game.global.numQuestions = Math.min( (devmode ? devvars.numQ : game.global.questions.length), game.global.questions.length);
+    game.global.origNumQuestions = game.global.numQuestions;
     game.global.questionsAnswered = 0;
     game.global.timesAnswered = 0;
     game.global.questionShown = false;
