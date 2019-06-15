@@ -37,6 +37,7 @@ var modeState = {
 
     return buttons;
   },
+  
 
   /*
    *sets up number of questions/game
@@ -46,9 +47,14 @@ var modeState = {
   create: function(){
     console.log('state: mode');
 
+    //variable so slide cards doesn't go infinite/ends
+    game.global.questionsRemoved = 0;
     //create end of mode state for stop button
     this.endGameUI = game.add.group();
-    
+    // set up seed for array
+    var time = new Date();
+    game.global.seed = time.getHours();
+    console.log('hours seed' + game.global.seed);
     //database call
     console.log('selected course'  + game.global.selectedCourse);
     console.log('selected chapter'  + game.global.selectedChapter);
@@ -80,6 +86,11 @@ var modeState = {
             if (devmode) console.log(game.global.scoreData);
             
           }
+          if (!game.global.tempTotalScore || !game.global.tempHighScore){
+            console.log('no score set, setting to 0');
+            game.global.tempHighScore = 0;
+            game.global.tempTotalScore = 0;
+          }
           console.log('total score '  + game.global.tempTotalScore);
           console.log('high score '  + game.global.tempHighScore);
           
@@ -90,15 +101,46 @@ var modeState = {
       game.global.questions = game.global.rehashQuestions;
     } else {
       if(game.global.roundNum == 1){
+        
         //new game, first round
         console.log('new mode');
+        
+        //Question shuffle
         game.global.questionsBackup = game.global.origQuestions.slice();
-        game.global.questions = game.global.shuffleArray(game.global.origQuestions);
-        game.global.questionIDs = game.global.shuffleArray(game.global.origIds);
+        game.global.questionIDs = game.global.origIds;
+        game.global.questions = game.global.origQuestions;
+        console.log('array length: ' + game.global.origQuestions.length);
+        
+        
+         
+          for (var i = game.global.origQuestions.length - 1; i > 0; i--)
+          {
+            var j = Math.floor(Math.random() * (i + 1));
+            console.log('j is ' + j);
+            var temp = game.global.origQuestions[i];
+            game.global.origQuestions[i] = game.global.origQuestions[j];
+            game.global.origQuestions[j] = temp;
+
+            var temp2 = game.global.origIds[i];
+            game.global.origIds[i] = game.global.origIds[j];
+            game.global.origIds[j] = temp2;
+            
+          }
+
+          console.log('question order and IDs');
+          game.global.questionIDs = game.global.origIds;
+          game.global.questions = game.global.origQuestions;
+
+          console.log(game.global.questions);
+          console.log(game.global.questionIDs);
+          
+
+      
+       
       } else {
         //returning on round 2 or higher
         if(game.global.questions.length <= 0){
-          game.global.questions = game.global.shuffleArray(game.global.questionsBackup.slice());
+          game.global.questions = game.global.shuffleArray(game.global.questionsBackup.slice(),game.global.seed);
         }
       }
     }

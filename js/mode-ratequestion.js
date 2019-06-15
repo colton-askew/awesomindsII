@@ -122,28 +122,30 @@ modeStateRQ.btnClick = function(){
 modeStateRQ.hardButton = function(){
   //console.log(game.global.selectedChapter);
   //console.log(game.global.selectedCourse);
+  //sets hard to 1 in database, marked as hard question
   var id = game.global.questionIDs.shift();
-  console.log(id);
+  
   
   
     game.global.questionData = {
       courseid: game.global.selectedCourse,
       questionid: id,
-      hard: 'no'
+      hard: 1
     };
     
 
     game.global.questionData["questionid"] = id;
-    game.global.questionData["hard"] = 'yes';
-    console.log('ID is : ' + id);
+    game.global.questionData["hard"] = 1;
+    console.log('ID is : ' + game.global.questionData["questionid"]);
     $(function (){
       $.ajax({
         type: 'POST',
         url: 'updatedifficulty.php',
-        data: { 'questionid': id },
+        data: { 'questionid': game.global.questionData["questionid"], 'hard': game.global.questionData["hard"] },
         success: function(data){
           console.log('Success, set to hard');
           console.log(game.global.questionData["hard"]);
+          console.log(game.global.questionData["questionid"]);
         }
       });
     });

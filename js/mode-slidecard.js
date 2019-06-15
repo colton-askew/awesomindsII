@@ -152,7 +152,7 @@ modeStateSC.showQuestion = function(question){
       bNoIdea.x = Math.floor(bNoIdea.x - (bNoIdea.bubblewidth/2 - 60 ));
       bNoIdea.y = Math.floor(prevHeights + (bNoIdea.bubbleheight + 10 * dpr) * 4);
       // animate button entrance
-      var bTween = game.add.tween(bNoIdea).to({x: Math.floor(game.world.centerX - bNoIdea.bubblewidth/2 - 600)}, 500, Phaser.Easing.Default, true, 250 * 4);
+      var bTween = game.add.tween(bNoIdea).to({x: Math.floor(game.world.centerX - bNoIdea.bubblewidth/2 - 200)}, 500, Phaser.Easing.Default, true, 250 * 4);
       bTween.start();
       game.global.noIdeaButton = bNoIdea;
 
@@ -317,13 +317,59 @@ modeStateSC.animateOut = function(number){
   
 };
 
+// create stop button
+modeStateSC.createStopButton = function(){
+  
+  var prevHeights = 250 *dpr;
+  // create Stop
+  var bStop = game.world.add(new game.global.SpeechBubble(game, game.world.width + 1000, game.height, game.width, "STOP", false, true, stopClicked));
+  bStop.x = Math.floor(bStop.x - (bStop.bubblewidth/2));
+  bStop.y = Math.floor(prevHeights + 180 + (bStop.bubbleheight + 10 * dpr) * 4);
+  // animate button entrance
+  var bTween = game.add.tween(bStop).to({x: Math.floor(game.world.centerX - bStop.bubblewidth/2)}, 500, Phaser.Easing.Default, true, 250 * 4);
+  bTween.start();
+  game.global.stopButton = bStop;
+  function stopClicked(){
+    console.log('stop clicked');
+    game.state.getCurrentState().stopClickedMain(0);
+  }
+},
 modeStateSC.nextQuestion = function(number){
   game.state.getCurrentState().removeQuestion();
   //switch case for different buttons pressed splice is number - 1
   console.log('number pressed' + number);
   switch (number){
+    case 0:
+      console.log('stop button, pressed continue');
+      break;
     case 1:
       console.log('doesnt work, mark for removal');
+      var id = game.global.questionIDs.shift();
+    
+  
+  
+      game.global.questionData = {
+        courseid: game.global.selectedCourse,
+        questionid: id,
+        slidecard: 0
+      };
+      
+  
+      game.global.questionData["questionid"] = id;
+      game.global.questionData["slidecard"] = 0;
+      console.log('ID is : ' + game.global.questionData["questionid"]);
+      $(function (){
+        $.ajax({
+          type: 'POST',
+          url: 'update-slidecard-doesnt-work.php',
+          data: { 'questionid': game.global.questionData["questionid"], 'slidecard': game.global.questionData["slidecard"] },
+          success: function(data){
+            console.log('Success, set to doesnt work');
+            console.log(game.global.questionData["slidecard"]);
+            console.log(game.global.questionData["questionid"]);
+          }
+        });
+      });
       break;
     case 3:
       if ((game.global.numQuestions - game.global.questionsAnswered) > 3){
@@ -378,7 +424,24 @@ modeStateSC.nextQuestion = function(number){
       }
       break;
   }
-  if (number != 0){
+  if (number == 1){
+    game.global.questionsRemoved++;
+    
+    console.log('questions removed' + game.global.questionsRemoved);
+    console.log('numQuestions' + game.global.numQuestions);
+    if (game.global.questionsRemoved == game.global.numQuestions){
+      console.log('question removed equal to numQuestions, ending session');
+      game.global.jinnySpeech.destroy();
+      game.state.getCurrentState().ticks.destroy();
+      endGame = game.add.audio('endGame');
+      endGame.play();
+      game.state.start(game.global.selectedMode.endstate, false, false);
+    } else {
+      game.global.questionsAnswered++;
+      
+      game.state.getCurrentState().showQuestion(game.global.questions.shift());
+    }
+  } else {
     game.global.questionsAnswered++;
     game.global.numQuestions = Math.min( (devmode ? devvars.numQ : 10), game.global.questions.length);
     game.state.getCurrentState().showQuestion(game.global.questions.shift());
