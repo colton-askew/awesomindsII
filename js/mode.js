@@ -37,6 +37,19 @@ var modeState = {
 
     return buttons;
   },
+  shuffleArray: function (array, seed) {
+    console.log('seed is: ' + seed);
+    for (var i = array.length - 1; i > 0; i--)
+    {
+        var j = Math.floor(Math.random(seed) * (i + 1));
+        var temp = array[i];
+        array[i] = array[j];
+        array[j] = temp;
+    }
+
+    return array;
+
+},
 
   /*
    *sets up number of questions/game
@@ -48,7 +61,10 @@ var modeState = {
 
     //create end of mode state for stop button
     this.endGameUI = game.add.group();
-    
+    // set up seed for array
+    var time = new Date();
+    game.global.seed = time.getHours();
+    console.log('hours seed' + game.global.seed);
     //database call
     console.log('selected course'  + game.global.selectedCourse);
     console.log('selected chapter'  + game.global.selectedChapter);
@@ -93,12 +109,12 @@ var modeState = {
         //new game, first round
         console.log('new mode');
         game.global.questionsBackup = game.global.origQuestions.slice();
-        game.global.questions = game.global.shuffleArray(game.global.origQuestions);
-        game.global.questionIDs = game.global.shuffleArray(game.global.origIds);
+        game.global.questions = game.global.shuffleArray(game.global.origQuestions,game.global.seed);
+        game.global.questionIDs = game.global.shuffleArray(game.global.origIds,game.global.seed);
       } else {
         //returning on round 2 or higher
         if(game.global.questions.length <= 0){
-          game.global.questions = game.global.shuffleArray(game.global.questionsBackup.slice());
+          game.global.questions = game.global.shuffleArray(game.global.questionsBackup.slice(),game.global.seed);
         }
       }
     }
@@ -372,7 +388,7 @@ var modeState = {
       if(c == question.answer[0]) answerText = question.choices[c];
       i++;
     }
-    shuffChoices = game.global.shuffleArray(shuffChoices);
+    shuffChoices = game.global.shuffleArray(shuffChoices, game.global.seed);
     console.log(shuffChoices);
     i = 0;
     for (var c in question.choices) { //create buttons for each choice from the question

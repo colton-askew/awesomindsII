@@ -2,9 +2,11 @@
   require('../../conn.php');
   include('redir-notinstructor.php');
 
-  $query = $dbcon->prepare("UPDATE question SET hard = '1' WHERE question = :question");
-  //match with questionid
-  $query->bindParam(':question', $_POST["question"] );
+  $query = $dbcon->prepare("UPDATE question SET hard = :hard WHERE questionid = :questionid");
+  
+  
+  $query->bindParam(':questionid', $_POST["questionid"] );
+  $query->bindParam(':hard', $_POST["hard"] );
   $result = $query->execute();
   if($result){
     echo json_encode($result);
