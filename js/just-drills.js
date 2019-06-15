@@ -112,13 +112,20 @@ playStateJD.getStatLines = function(){
   } else {
     percentage = Math.floor((game.global.questionsAnswered / game.global.timesAnswered) * 100);
   }
+  //temp numbers to show user, not added to total in database
+  game.global.tempTotalScore = game.global.tempTotalScore + game.global.totalStats.score;
+  game.global.tempHighScore =  Math.max(game.global.tempHighScore, game.global.totalStats.score);
+  console.log('new total is: ' + game.global.tempTotalScore);
   var statLines = [
     game.global.session.play_name,
     "Percentage: " + percentage + "%",
     "Score This Round: " + game.global.totalStats.score,
-    "Your Highest Score: " + game.global.totalStats.score,
-    "Total Points Earned: " + game.global.totalStats.score,
+    "Your Highest Score: " + game.global.tempHighScore,
+    "Total Points Earned: " + game.global.tempTotalScore,
   ];
+  game.global.tempTotalScore = game.global.tempTotalScore - game.global.totalStats.score;
   return statLines;
 };
+
+
 

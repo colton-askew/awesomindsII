@@ -1,68 +1,24 @@
 var modeState = {
-  //create stop button and get data
-  
+  //create stop button
   getScores: function(){
     //Get scores for stop button
-    $(function (){
-      $.ajax({
-        url: 'getscore.php',
-        data: 'courseid=' + game.global.selectedCourse + '&chapter=' + game.global.selectedChapter + '&game_mode=' + game.global.selectedMode.id,
-        success: function(data){
-          game.global.scoreData = $.parseJSON(data);
-          //if no data is returned, set up new data and insert it
-          if(game.global.scoreData == null){
-            game.global.scoreData = {
-              chapter: game.global.selectedChapter,
-              courseid: game.global.selectedCourse,
-              high_score: game.global.totalStats.score,
-              total_score: game.global.totalStats.score,
-              game_mode: game.global.selectedMode.id,
-              times_played: 1
-            };
-
-            $(function (){
-              $.ajax({
-                type: 'POST',
-                url: 'insertscore.php',
-                data: game.global.scoreData,
-                success: function(data){
-                  console.log('insertscore.php success');
-                  game.state.getCurrentState().makeStatUI();
-                }
-              });
-            });
-
-          }else{
-            //if we got data, it's in game.global.scoreData and can be updated
-            game.global.scoreData["total_score"] = parseInt(game.global.scoreData["total_score"]) + game.global.totalStats.score;
-            game.global.scoreData["high_score"] = Math.max(parseInt(game.global.scoreData["high_score"]), game.global.totalStats.score);
-            game.global.scoreData["times_played"] = parseInt(game.global.scoreData["times_played"]) + 1;
-            if (devmode) console.log(game.global.scoreData);
-            $(function (){
-              $.ajax({
-                type: 'POST',
-                url: 'updatescore.php',
-                data: game.global.scoreData,
-                success: function(data){
-                  console.log('updatescore.php success');
-                  game.state.getCurrentState().makeStatUI();
-                }
-              });
-            });
-          }
-
-        }
-      });
-    });
+    //unused
+    console.log('in get scores');
   },
+ 
   getStatLines: function(){
-    game.state.getCurrentState().getScores;
+    //temp numbers to show user, not added to total
+    game.global.tempTotalScore = game.global.tempTotalScore + game.global.totalStats.score;
+    game.global.tempHighScore =  Math.max(game.global.tempHighScore, game.global.totalStats.score);
+    console.log('new total is: ' + game.global.tempTotalScore);
+
     var statLines = [
       game.global.session.play_name,
       "Score This Round: " + game.global.totalStats.score,
-      "Your Highest Score: " + game.global.totalStats.score,
-      "Total Points Earned: " + game.global.totalStats.score,
+      "Your Highest Score: " + game.global.tempHighScore,
+      "Total Points Earned: " + game.global.tempTotalScore,
     ];
+    game.global.tempTotalScore = game.global.tempTotalScore - game.global.totalStats.score;
     return statLines;
   },
   
@@ -93,6 +49,43 @@ var modeState = {
     //create end of mode state for stop button
     this.endGameUI = game.add.group();
     
+    //database call
+    console.log('selected course'  + game.global.selectedCourse);
+    console.log('selected chapter'  + game.global.selectedChapter);
+    console.log('selected gamemode'  + game.global.selectedMode.id);
+    $(function (){
+      $.ajax({
+        url: 'getscore.php',
+        data: 'courseid=' + game.global.selectedCourse + '&chapter=' + game.global.selectedChapter + '&game_mode=' + game.global.selectedMode.id,
+        success: function(data){
+          game.global.scoreData = $.parseJSON(data);
+          console.log('success!');
+          //if no data is returned, set up new data and insert it
+          if(game.global.scoreData == null){
+            game.global.scoreData = {
+              chapter: game.global.selectedChapter,
+              courseid: game.global.selectedCourse,
+              high_score: game.global.totalStats.score,
+              total_score: game.global.totalStats.score,
+              game_mode: game.global.selectedMode.id,
+              times_played: 1
+            };
+
+
+          }else{
+            //if we got data, it's in game.global.scoreData and can be updated
+            game.global.tempTotalScore = parseInt(game.global.scoreData["total_score"]) + game.global.totalStats.score;
+            game.global.tempHighScore =  Math.max(parseInt(game.global.scoreData["high_score"]), game.global.totalStats.score);
+            //game.global.scoreData["times_played"] = parseInt(game.global.scoreData["times_played"]) + 1;
+            if (devmode) console.log(game.global.scoreData);
+            
+          }
+          console.log('total score '  + game.global.tempTotalScore);
+          console.log('high score '  + game.global.tempHighScore);
+          
+        }
+      });
+    });
     if(game.global.isRehash){ //if in rehash round, use the array of questions that were answered incorrectly in the previous round
       game.global.questions = game.global.rehashQuestions;
     } else {
@@ -109,6 +102,7 @@ var modeState = {
         }
       }
     }
+    console.log('create stop button here?');
     game.state.getCurrentState().createStopButton();
     
 
@@ -215,6 +209,7 @@ var modeState = {
   */
   stopClickedMain: function(number){
     console.log('in mode.js, number is '+ number);
+    game.state.getCurrentState().getScores();
     game.state.getCurrentState().buttons = game.state.getCurrentState().optionButtons();
     game.state.getCurrentState().statLines = game.state.getCurrentState().getStatLines();
 
@@ -275,12 +270,14 @@ var modeState = {
   },
   removeStopScreen: function(){
     console.log('removing UI elements');
+    
     game.state.getCurrentState().statsUI.visible = false;
     
   },
   // create stop button
   createStopButton: function(){
-    var prevHeights = 250 *dpr;
+    
+    var prevHeights = 150 *dpr;
     // create Stop
     var bStop = game.world.add(new game.global.SpeechBubble(game, game.world.width + 1000, game.height, game.width, "STOP", false, true, stopClicked));
     bStop.x = Math.floor(bStop.x - (bStop.bubblewidth/2));
@@ -291,7 +288,7 @@ var modeState = {
     game.global.stopButton = bStop;
     function stopClicked(){
       console.log('stop clicked');
-    game.state.getCurrentState().stopClickedMain(0);
+      game.state.getCurrentState().stopClickedMain(0);
     }
   },
   
@@ -686,5 +683,7 @@ var modeState = {
 
   logOutClick: function(){
     window.location.href = "logout.php";
-  },
+  }
+
+  
 };

@@ -115,7 +115,7 @@ modeStateSC.showQuestion = function(question){
     //set up for question card text ('yellow' is an asset and can be switched out as needed)
     
 
-    sprite = game.add.sprite(game.world.centerX - TmpImg.width/2.0,game.world.centerY - TmpImg.height/2.0 - 100, 'yellowSlider');
+    sprite = game.add.sprite(game.world.centerX - TmpImg.width/2.0,game.world.centerY - TmpImg.height/2.0 - 100, 'yellow');
     sprite.inputEnabled = true;
     sprite.input.enableDrag();
     sprite.input.allowVerticalDrag = false;
@@ -149,7 +149,7 @@ modeStateSC.showQuestion = function(question){
       //console.log('create rate buttons')
       // create no idea
       var bNoIdea = game.world.add(new game.global.SpeechBubble(game, game.world.width + 1000, game.height, game.width, " Had No Idea", false, true, noIdeaClicked));
-      bNoIdea.x = Math.floor(bNoIdea.x - (bNoIdea.bubblewidth/2 - 600 ));
+      bNoIdea.x = Math.floor(bNoIdea.x - (bNoIdea.bubblewidth/2 - 60 ));
       bNoIdea.y = Math.floor(prevHeights + (bNoIdea.bubbleheight + 10 * dpr) * 4);
       // animate button entrance
       var bTween = game.add.tween(bNoIdea).to({x: Math.floor(game.world.centerX - bNoIdea.bubblewidth/2 - 600)}, 500, Phaser.Easing.Default, true, 250 * 4);
