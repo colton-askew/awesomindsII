@@ -20,9 +20,13 @@
 <script type="text/javascript" src="js/menucourse.js"></script>
 
 <script type="text/javascript" src="js/play.js"></script>
+<<<<<<< HEAD
 <script type="text/javascript" src="js/mode.js"></script>
 <script type="text/javascript" src="js/play-selectuntil.js"></script>
 <script type="text/javascript" src="js/play-choose123.js"></script>
+=======
+<script type="text/javascript" src="js/play-keepchoosing.js"></script>
+>>>>>>> origin/keep-choosing
 <script type="text/javascript" src="js/play-timebonus.js"></script>
 <script type="text/javascript" src="js/play-onecrack.js"></script>
 <script type="text/javascript" src="js/just-drills.js"></script>
@@ -31,9 +35,13 @@
 
 <script type="text/javascript" src="js/play-bigmoney.js"></script>
 <script type="text/javascript" src="js/endofgame.js"></script>
+<<<<<<< HEAD
 <script type="text/javascript" src="js/endofmode.js"></script>
 <script type="text/javascript" src="js/endofgame-wwg.js"></script>
 <script type="text/javascript" src="js/endofgame-c123.js"></script>
+=======
+<script type="text/javascript" src="js/endofgame-kc.js"></script>
+>>>>>>> origin/keep-choosing
 <script type="text/javascript" src="js/endofgame-tb.js"></script>
 <script type="text/javascript" src="js/endofgame-oc.js"></script>
 <script type="text/javascript" src="js/endofgame-just-drills.js"></script>
@@ -42,9 +50,13 @@
 
 <script type="text/javascript" src="js/endofgame-bm.js"></script>
 <script type="text/javascript" src="js/pregame.js"></script>
+<<<<<<< HEAD
 <script type="text/javascript" src="js/premode.js"></script>
 <script type="text/javascript" src="js/pregame-selectuntil.js"></script>
 <script type="text/javascript" src="js/pregame-choose123.js"></script>
+=======
+<script type="text/javascript" src="js/pregame-keepchoosing.js"></script>
+>>>>>>> origin/keep-choosing
 <script type="text/javascript" src="js/pregame-timebonus.js"></script>
 <script type="text/javascript" src="js/pregame-onecrack.js"></script>
 <script type="text/javascript" src="js/pregame-bigmoney.js"></script>

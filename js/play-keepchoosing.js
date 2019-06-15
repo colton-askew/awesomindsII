@@ -1,9 +1,9 @@
 //copy original playState and then modify it to create the state for Wild Wild Guess mode
-var playStateSU = Object.create(playState);
+var playStateKC = Object.create(playState);
 
-playStateSU.timesAnswered = 0;
+playStateKC.timesAnswered = 0;
 
-playStateSU.btnClick = function(){
+playStateKC.btnClick = function(){
   //set cursor back to default; gets stuck as 'hand' otherwise
   game.canvas.style.cursor = "default";
   //disable this button
@@ -81,7 +81,7 @@ playStateSU.btnClick = function(){
   game.global.timer.start();
 };
 
-playStateSU.updateScores = function(answerCorrect, didntAnswer){
+playStateKC.updateScores = function(answerCorrect, didntAnswer){
   for(i = 1 ; i < game.global.chars.length; i++){
     if(game.global.chars[i].correct){
       game.global.chars[i].score += 15;
@@ -97,11 +97,11 @@ playStateSU.updateScores = function(answerCorrect, didntAnswer){
   game.global.chars[0].score = game.global.totalStats.score;
 }
 
-playStateSU.createTimer = function(){}; //emptied to remove timer visuals
+playStateKC.createTimer = function(){}; //emptied to remove timer visuals
 
-playStateSU.updateTimer = function(){}; //emptied; not using this timer in this mode
+playStateKC.updateTimer = function(){}; //emptied; not using this timer in this mode
 
-playStateSU.update = function(){ //animates scores and keeps score text and names positioned near their respective avatars
+playStateKC.update = function(){ //animates scores and keeps score text and names positioned near their respective avatars
   for (var i = 0; i < game.global.chars.length; i++) {
     var n = parseInt(game.global.chars[i].scoreText.text);
     if (n < game.global.chars[i].score){
@@ -115,7 +115,7 @@ playStateSU.update = function(){ //animates scores and keeps score text and name
   }
 };
 
-playStateSU.showAnswers = function(fromButton) { //show AI's selected answers
+playStateKC.showAnswers = function(fromButton) { //show AI's selected answers
   if((!game.global.answersShown) && game.global.questionShown){
     for(i=1;i<game.global.chars.length;i++){
       game.add.tween(game.global.chars[i].answerBubble).to({width: game.global.answerBubbleWidth }, 100, Phaser.Easing.Default, true, 250 * i);
