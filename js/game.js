@@ -29,6 +29,8 @@ game.state.add('pregameOC', preGameStateOC);
 game.state.add('pregameJD', preGameStateJD);
 game.state.add('premodeRQ', preModeStateRQ);
 game.state.add('premodeSC', preModeStateSC);
+game.state.add('pregameBM', preGameStateBM);
+
 
 //game and mode states with masters being at the top
 game.state.add('play', playState);
@@ -39,7 +41,7 @@ game.state.add('playOC', playStateOC);
 game.state.add('playJD', playStateJD);
 game.state.add('modeRQ', modeStateRQ);
 game.state.add('modeSC', modeStateSC);
-
+game.state.add('playBM', playStateBM);
 
 //end of game and mode state with masters being at the top
 game.state.add('endOfGame', endOfGameState);
@@ -50,8 +52,7 @@ game.state.add('endOfGameOC', endOfGameStateOC);
 game.state.add('endOfGameJD', endOfGameStateJD);
 game.state.add('endOfModeRQ', endOfModeStateRQ);
 game.state.add('endOfModeSC', endOfModeStateSC);
-
-
+game.state.add('endOfGameBM', endOfGameStateBM);
 
 
 game.global.session = phpSession;
