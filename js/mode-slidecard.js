@@ -110,7 +110,8 @@ modeStateSC.showQuestion = function(question){
     var style2 = { font: "16px Arial", fill: "#000000", wordWrap: true, wordWrapWidth: sprite2.width, align: "center" };
     answerCard = game.add.text(game.world.centerX - TmpImg.width/2.0,game.world.centerY - TmpImg.height/2.0 - 100, answerText, style2);
     answerCard.anchor.set(0.5);
-    
+    game.global.answerCard = answerCard;
+    game.global.sprite2 = sprite2;
     
     //set up for question card text ('yellow' is an asset and can be switched out as needed)
     
@@ -124,7 +125,8 @@ modeStateSC.showQuestion = function(question){
 
     questionCard = game.add.text(game.world.centerX - TmpImg.width/2.0,game.world.centerY - TmpImg.height/2.0 - 100, question.question, style);
     questionCard.anchor.set(0.5);
-    
+    game.global.questionCard = questionCard;
+    game.global.sprite = sprite;
 
     //animation
     
@@ -140,8 +142,12 @@ modeStateSC.showQuestion = function(question){
 
     
     game.global.questionShown = true;
+    //timer - the phaser way
+    game.global.timer = game.time.create(false);
+    game.global.timer.add(50, game.state.getCurrentState().showChoices, this);
+    game.global.timer.start();
     createButtons();
-    game.state.getCurrentState().showChoices;
+    //game.state.getCurrentState().showChoices;
     
     function createButtons(){
       var TmpImg = game.cache.getImage('yellow');
@@ -255,10 +261,35 @@ modeStateSC.showQuestion = function(question){
       
       game.state.getCurrentState().animateOut(1);
     }
+    
 };
 modeStateSC.showChoices = function(){
   console.log('inside mode-ratequestion show choices, nothing happens here')
 };
+modeStateSC.optionButtons = function(){
+  var buttonsTemplate = [
+    { text: 'Continue', function: game.state.getCurrentState().removeStopScreen},
+    { text: 'End Session', function: game.state.getCurrentState().endSession},
+    { text: 'Select Different Course', function: game.state.getCurrentState().chooseCourseClick },
+    { text: 'Select Different Game', function: game.state.getCurrentState().chooseChapterClick },
+    { text: 'Log Out', function: game.state.getCurrentState().logOutClick }
+  ];
+  var buttons = [];
+
+  for (var i = 0; i < buttonsTemplate.length; i++) {
+    buttons.push(buttonsTemplate[i]);
+  }
+
+  return buttons;
+},
+modeStateSC.endSession = function(){
+  //out of questions, and everything was right OR this was a rehash round? end the game
+  game.global.jinnySpeech.destroy();
+  game.state.getCurrentState().ticks.destroy();
+  endGame = game.add.audio('endGame');
+  endGame.play();
+  game.state.start(game.global.selectedMode.endstate, false, false);
+},
 modeStateSC.updateScores = function(){
   console.log('in updatescores')
   game.global.pointsToAdd = 2;
@@ -277,43 +308,52 @@ modeStateSC.animateOut = function(number){
   game.add.tween(game.global.questionUI).to({x: game.world.x - game.world.width}, 300, Phaser.Easing.Default, true, 0);
   //destory sprites
   //console.log('destroying sprites');
-  questionCard.destroy();
-  answerCard.destroy();
-  sprite2.destroy();
-  sprite.destroy();
+  game.add.tween(game.global.questionCard).to({x: game.world.x - game.world.width}, 300, Phaser.Easing.Default, true, 0);
+  game.add.tween(game.global.answerCard).to({x: game.world.x - game.world.width}, 300, Phaser.Easing.Default, true, 0);
+  game.add.tween(game.global.sprite2).to({x: game.world.x - game.world.width}, 300, Phaser.Easing.Default, true, 0);
+  game.add.tween(game.global.sprite).to({x: game.world.x - game.world.width}, 300, Phaser.Easing.Default, true, 0);
+  
   
 
   //destroy buttons
  // console.log('destroying buttons');
-  // game.add.tween(game.global.stopButton).to({x: game.world.x - game.world.width}, 300, Phaser.Easing.Default, true, 0);
-  // game.add.tween(game.global.luckyButton).to({x: game.world.x - game.world.width}, 300, Phaser.Easing.Default, true, 0);
-  // game.add.tween(game.global.wrongButton).to({x: game.world.x - game.world.width}, 300, Phaser.Easing.Default, true, 0);
-  // game.add.tween(game.global.partialButton).to({x: game.world.x - game.world.width}, 300, Phaser.Easing.Default, true, 0);
-  // game.add.tween(game.global.gotItButton).to({x: game.world.x - game.world.width}, 300, Phaser.Easing.Default, true, 0);
-  // game.add.tween(game.global.noIdeaButton).to({x: game.world.x - game.world.width}, 300, Phaser.Easing.Default, true, 0);
-  // game.add.tween(game.global.doesntWorkButton).to({x: game.world.x - game.world.width}, 300, Phaser.Easing.Default, true, 0)
-  // game.add.tween(game.global.tooEasyButton).to({x: game.world.x - game.world.width}, 300, Phaser.Easing.Default, true, 0)
+  
+  game.add.tween(game.global.luckyButton).to({x: game.world.x - game.world.width}, 300, Phaser.Easing.Default, true, 0);
+  game.add.tween(game.global.wrongButton).to({x: game.world.x - game.world.width}, 300, Phaser.Easing.Default, true, 0);
+  game.add.tween(game.global.partialButton).to({x: game.world.x - game.world.width}, 300, Phaser.Easing.Default, true, 0);
+  game.add.tween(game.global.gotItButton).to({x: game.world.x - game.world.width}, 300, Phaser.Easing.Default, true, 0);
+  game.add.tween(game.global.noIdeaButton).to({x: game.world.x - game.world.width}, 300, Phaser.Easing.Default, true, 0);
+  game.add.tween(game.global.doesntWorkButton).to({x: game.world.x - game.world.width}, 300, Phaser.Easing.Default, true, 0)
+  game.add.tween(game.global.tooEasyButton).to({x: game.world.x - game.world.width}, 300, Phaser.Easing.Default, true, 0)
   
   
-  game.global.luckyButton.destroy();
-  game.global.wrongButton.destroy();
-  game.global.partialButton.destroy();
-  game.global.gotItButton.destroy();
-  game.global.noIdeaButton.destroy();
-  game.global.doesntWorkButton.destroy();
-  game.global.tooEasyButton.destroy();
-  console.log('finished destroying');
+  
+  
+
+  
   game.state.getCurrentState().updateScores();
-
-  
-  
   removeAnswers = function(){
-    game.global.answersShown = false;
-    game.global.answerBubbles.destroy();
-    game.global.answerBubbles = game.add.group();
+    questionCard.destroy();
+    answerCard.destroy();
+    sprite2.destroy();
+    sprite.destroy();
   };
-
-  game.state.getCurrentState().nextQuestion(number);
+  removeElse = function(){
+    game.global.luckyButton.destroy();
+    game.global.wrongButton.destroy();
+    game.global.partialButton.destroy();
+    game.global.gotItButton.destroy();
+    game.global.noIdeaButton.destroy();
+    game.global.doesntWorkButton.destroy();
+    game.global.tooEasyButton.destroy();
+    console.log('finished destroying');
+  };
+  
+  game.global.timer.stop();
+  game.global.timer.add(500, removeAnswers, game.state.getCurrentState());
+  game.global.timer.add(1500, removeElse, game.state.getCurrentState());
+  game.global.timer.add(2000, game.state.getCurrentState().nextQuestion(number),this);
+  game.global.timer.start();
   
 };
 
@@ -336,7 +376,16 @@ modeStateSC.createStopButton = function(){
 },
 modeStateSC.nextQuestion = function(number){
   game.state.getCurrentState().removeQuestion();
-  //switch case for different buttons pressed splice is number - 1
+  game.global.questionsAnswered++;
+  if (game.global.questionsAnswered == game.global.numQuestions){
+    console.log('question removed equal to numQuestions, ending session');
+    game.global.jinnySpeech.destroy();
+    game.state.getCurrentState().ticks.destroy();
+    endGame = game.add.audio('endGame');
+    endGame.play();
+    game.state.start(game.global.selectedMode.endstate, false, false);
+  } else {
+    //switch case for different buttons pressed splice is number - 1
   console.log('number pressed' + number);
   switch (number){
     case 0:
@@ -437,17 +486,19 @@ modeStateSC.nextQuestion = function(number){
       endGame.play();
       game.state.start(game.global.selectedMode.endstate, false, false);
     } else {
-      game.global.questionsAnswered++;
+      
       
       game.state.getCurrentState().showQuestion(game.global.questions.shift());
     }
   } else {
-    game.global.questionsAnswered++;
+    
     game.global.numQuestions = Math.min( (devmode ? devvars.numQ : 10), game.global.questions.length);
     game.state.getCurrentState().showQuestion(game.global.questions.shift());
   }
   
 
+  }
+  
   
 };
 modeStateSC.createTimer = function(){}; //emptied to remove timer visuals

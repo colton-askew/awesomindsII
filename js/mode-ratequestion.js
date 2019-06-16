@@ -272,7 +272,7 @@ modeStateRQ.updateScores = function(answerCorrect, didntAnswer){
   game.state.getCurrentState().timesAnswered = 0;
   game.global.chars[0].score = game.global.totalStats.score;
   game.state.getCurrentState().update();
-}
+},
 
 modeStateRQ.animateOut = function(didntAnswer){
   console.log('animate out');
@@ -283,10 +283,10 @@ modeStateRQ.animateOut = function(didntAnswer){
   game.add.tween(game.global.hardButton).to({x: game.world.x - game.world.width}, 300, Phaser.Easing.Default, true, 0);
  
   
-  game.global.questionUI.destroy();
-  game.global.easyButton.destroy();
-  game.global.mediumButton.destroy();
-  game.global.hardButton.destroy();
+  //game.global.questionUI.destroy();
+  //game.global.easyButton.destroy();
+  //game.global.mediumButton.destroy();
+  //game.global.hardButton.destroy();
   
 
   makeBars = function(correct, didntAnswer){
@@ -320,9 +320,16 @@ modeStateRQ.animateOut = function(didntAnswer){
     game.global.answerBubbles.destroy();
     game.global.answerBubbles = game.add.group();
   };
+  removeElse = function(){
+    game.global.questionUI.destroy();
+    game.global.easyButton.destroy();
+    game.global.mediumButton.destroy();
+    game.global.hardButton.destroy();
+  };
 
   game.global.timer.stop();
   game.global.timer.add(200, removeAnswers, game.state.getCurrentState());
+  game.global.timer.add(200, removeElse, game.state.getCurrentState());
   game.global.timer.add(600, makeBars, game.state.getCurrentState(), this.data.correct, didntAnswer);
   game.global.timer.add(2000, game.state.getCurrentState().nextQuestion, game.state.getCurrentState());
   game.global.timer.start();
