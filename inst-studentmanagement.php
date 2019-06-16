@@ -92,7 +92,7 @@ $(function (){
   $('.selectChapterUI').hide();
   $('#output').hide();
   var modes = ['Countdown Crown', 'Wild Wild Guess'];
-
+  
   $("#courseDropdown").change(function(){ //whenever a course is selected from the dropdown, this function fires
     $('#output').empty();
     $('#output').show();
