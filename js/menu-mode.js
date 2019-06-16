@@ -21,9 +21,9 @@ var menuModeState = {
 
     var modes = [
       { name: 'Just Drills', desc: 'Study Mode!\n Earn points if you are correct', prestate: 'pregameJD', gamestate: 'playJD', id: 5, endstate: 'endOfGameJD', maxPtsPerQ: 5, totalTime: 25 }, 
-      { name: 'Rate Question', desc: 'Rate questions based on difficulty', prestate: 'premodeRQ', gamestate: 'modeRQ', id: 6, endstate: 'endOfModeRQ', maxPtsPerQ: 1, totalTime: 10 },
+      { name: 'Rate Questions', desc: 'Rate questions based on difficulty', prestate: 'premodeRQ', gamestate: 'modeRQ', id: 6, endstate: 'endOfModeRQ', maxPtsPerQ: 1, totalTime: 10 },
       { name: 'Slide Cards', desc: 'Slide the question to reveal the answer', prestate: 'premodeSC', gamestate: 'modeSC', id: 7, endstate: 'endOfModeSC', maxPtsPerQ:2, totalTime:25 },
-      { name: 'Gameshow', desc: 'Play through each round\nScore as many points as possible' }
+      { name: 'Game Show', desc: 'Play through each round\nScore as many points as possible' }
       ];
     var prevHeights = 10 * dpr;
     for (var i = 0; i < modes.length; i++) { //create a button and text for each game mode
@@ -45,7 +45,7 @@ var menuModeState = {
   },
   btnClick: function(){
     game.global.selectedMode = this.data;
-    if (this.data.name == 'Gameshow') {
+    if (this.data.name == 'Game Show') {
       game.state.start('menuGame');
     } else {
       game.state.start(this.data.prestate);

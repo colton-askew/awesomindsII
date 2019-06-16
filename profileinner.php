@@ -39,19 +39,21 @@
       unset($_SESSION['regcode']);
     } 
     ?>
+    <!-- Populate greeting page after user logs in, depending on instructor status -->
+    <!-- Instructors have several options available to them, such as manage courses, manage tasks/games, etc. -->
     <?php if (!$_SESSION['isInstructor']) { ?>
       <h4>You are logged in as</h4><br>
       <?php echo '<img src="assets/opp2/oppon' . $_SESSION['avatarnum'] . '.png" width=120/>'; ?>
       <h3><?php echo $_SESSION['play_name']; ?></h3><h5><?php echo $_SESSION['c_number']; ?></h5><br>
     <?php } else { ?>
-      <h4 style="display: inline-block; font-size: 24px"><div style="display: inline-block"><div style="display: inline-block">You are logged in as <?php echo $_SESSION['play_name']; ?></div><div style="display: inline-block; margin-left: 0.4em"><?php echo $_SESSION['c_number']; ?></div></div><div style="display: inline-block; text-align: right"><?php echo '<img src="assets/opp2/oppon' . $_SESSION['avatarnum'] . '.png" width=60 height=80/>'; ?></div></h4><br>
+      <h4 style="display: inline-block; font-size: 24px"><div style="display: inline-block"><div style="display: inline-block">You are logged in as <?php echo $_SESSION['play_name']; ?></div><div style="display: inline-block; margin-left: 0.4em"><?php echo $_SESSION['c_number']; ?></div>&nbsp;</div><div style="display: inline-block; text-align: right"><?php echo '<img src="assets/opp2/oppon' . $_SESSION['avatarnum'] . '.png" width=60 height=80/>'; ?></div></h4><br>
     <?php } ?>
   <?php
      if ($_SESSION['isInstructor']){
       echo '
       </p>
          <div>
-          <a href="inst-coursemgmt.php" class="btn btn-info" role="button">Manage Courses Button</a> <p>Create/hide/delete a course or chapter, add/edit/remove questions, etc. </p>
+          <a href="inst-coursemgmt.php" class="btn btn-info" role="button">Manage Courses</a> <p>Create/hide/delete a course or chapter, add/edit/remove questions, etc. </p>
           <a href="inst-taskgamemgmt.php" class="btn btn-info" role="button">Manage Tasks/Games</a> <p>Customize students experience</p>
           <a href="inst-inviteinstructor.php" class="btn btn-info" role="button">Invite Instructor</a> <p>Send an email to an instructor to use Awesominds</p>
           <a href="inst-stats.php" class="btn btn-info" role="button">View Student Progress</a> <p>View students scores/analytics</p>

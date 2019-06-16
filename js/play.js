@@ -74,9 +74,9 @@ var playState = {
     //animate avatars to the bottom; needed in case this state was skipped to before animation finished in pregame
     var image = game.global.imagecheck;
     for (var i = 0; i < game.global.chars.length; i++) {
-      //game.add.tween(game.global.chars[i].sprite).to({x: Math.floor(((game.width/game.global.chars.length)*(i+1) -game.width/game.global.chars.length)+(game.width/25))}, 250, Phaser.Easing.Default, true);
+      game.add.tween(game.global.chars[i].sprite).to({x: Math.floor(((game.width/game.global.chars.length)*(i+1) -game.width/game.global.chars.length)+(game.width/25))}, 250, Phaser.Easing.Default, true);
     }
-    
+
     //show the rehash splash or the first question
     if(game.global.isRehash){
       function playBtnClick(){
@@ -193,8 +193,7 @@ var playState = {
     game.global.winThreshold = Math.floor(Math.random() * 100) + 1;
     console.log('ai wins if over ' + game.global.winThreshold);
     for(i = 1; i < game.global.chars.length; i++){
-      console.log('ai loses');
-      //game.global.chars[i].correct = (game.global.winThreshold <= game.global.chars[i].chance);
+      game.global.chars[i].correct = (game.global.winThreshold <= game.global.chars[i].chance);
     }
 
     game.global.promptShown = false;
