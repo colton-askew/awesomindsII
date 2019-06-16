@@ -37,12 +37,29 @@
               </div>';
       }
       unset($_SESSION['regcode']);
-    }
+    } 
     ?>
-    </p>
     <h4>You are logged in as</h4><br>
-    <?php echo '<img src="assets/opp2/oppon' . $_SESSION['avatarnum'] . '.png" width=120/>'; ?>
-    <h3><?php echo $_SESSION['play_name']; ?></h3><h5><?php echo $_SESSION['c_number']; ?></h5><br>
-    <p><a class="btn btn-success" href="questiongame.php">Play Game</a></p>
-  </div>
-</body>
+  <?php echo '<img src="assets/opp2/oppon' . $_SESSION['avatarnum'] . '.png" width=120/>'; ?>
+  <h3><?php echo $_SESSION['play_name']; ?></h3><h5><?php echo $_SESSION['c_number']; ?></h5><br>
+  <?php
+     if ($_SESSION['isInstructor']){
+      echo '
+      </p>
+         <div>
+          <a href="#link" class="btn btn-info" role="button">Manage Courses Button</a> <p>Create/hide/delete a course or chapter, add/edit/remove questions, etc. </p>
+          <a href="#link" class="btn btn-info" role="button">Manage Tasks/Games</a> <p>Customize students experience</p>
+          <a href="#link" class="btn btn-info" role="button">Invite Instructor</a> <p>Send an email to an instructor to use Awesominds</p>
+          <a href="#link" class="btn btn-info" role="button">View Student Progress</a> <p>View students scores/analytics</p>
+          <a href="#link" class="btn btn-info" role="button">Change Password</a> <p>Change your password </p>
+        </div>
+      </div>
+    </body>'; 
+      } else {
+        echo '
+        </p>
+          <p><a class="btn btn-success" href="questiongame.php">Play Game</a></p>
+        </div>
+      </body>';
+      }
+  ?> 
