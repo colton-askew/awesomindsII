@@ -19,6 +19,7 @@ game.state.add('preload', preloadState);
 game.state.add('menuCourse', menuCourseState);
 game.state.add('menuChapter', menuChapterState);
 game.state.add('menuMode', menuModeState);
+game.state.add('menuGame', menuGameState);
 
 //pregame and premode states with master being at the top
 game.state.add('pregame', preGameState);
@@ -31,6 +32,7 @@ game.state.add('premodeSC', preModeStateSC);
 game.state.add('pregameBM', preGameStateBM);
 game.state.add('pregameC123', preGameStateC123);
 game.state.add('pregameTB', preGameStateTB);
+game.state.add('pregameKC', preGameStateKC);
 
 //game and mode states with masters being at the top
 game.state.add('play', playState);

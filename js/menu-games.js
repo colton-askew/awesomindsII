@@ -1,4 +1,4 @@
-var menuModeState = {
+var menuGameState = {
   create: function(){
     var back = game.world.add(new game.global.SpeechBubble(game, game.world.x, game.world.y, game.world.width, 'Back', false, true, menuModeState.backButton));
 
@@ -12,7 +12,7 @@ var menuModeState = {
     chapterText.setShadow(2, 2, 'rgba(0,0,0,0.5)', 5);
     chapterText.padding.x = 5;
 
-    var text = game.add.text(game.world.centerX + 1000, Math.floor(chapterText.bottom), 'Select a task', game.global.whiteFont);
+    var text = game.add.text(game.world.centerX + 1000, Math.floor(chapterText.bottom), 'Which type of game would you like to play?', game.global.whiteFont);
     game.add.tween(text).to({x: Math.floor(game.world.centerX - (text.width/2))}, 100, Phaser.Easing.Default, true, 0);
     text.setShadow(2, 2, 'rgba(0,0,0,0.5)', 5);
     text.padding.x = 5;
@@ -20,13 +20,15 @@ var menuModeState = {
     text.style.wordWrapWidth = game.world.width - (game.global.borderFrameSize * 2);
 
     var modes = [
-      { name: 'Just Drills', desc: 'Study Mode!\n Earn points if you are correct', prestate: 'pregameJD', gamestate: 'playJD', id: 5, endstate: 'endOfGameJD', maxPtsPerQ: 5, totalTime: 25 }, 
-      { name: 'Rate Question', desc: 'Rate questions based on difficulty', prestate: 'premodeRQ', gamestate: 'modeRQ', id: 6, endstate: 'endOfModeRQ', maxPtsPerQ: 1, totalTime: 10 },
-      { name: 'Slide Cards', desc: 'Slide the question to reveal the answer', prestate: 'premodeSC', gamestate: 'modeSC', id: 7, endstate: 'endOfModeSC', maxPtsPerQ:2, totalTime:25 },
-      { name: 'Gameshow', desc: 'Play through each round\nScore as many points as possible' }
+      { name: 'Countdown Crown', desc: 'The faster you respond, the more points you earn', prestate: 'pregame', gamestate: 'play', id: 0, endstate: 'endOfGame', maxPtsPerQ: 25, totalTime: 25},
+     // { name: 'Time Bonus', desc: 'The faster you respond, the more points you earn', prestate: 'pregameTB', gamestate: 'playTB', id: 1, endstate: 'endOfGameTB', maxPtsPerQ: 25, totalTime: 10},
+     { name: 'Keep Choosing', desc: 'Keep choosing until the right answer is selected\n(Best for beginners)', prestate: 'pregameKC', gamestate: 'playKC', id: 1, endstate: 'endOfGameKC', maxPtsPerQ: 15, totalTime: 25},
+     { name: 'Choose 1, 2, or 3', desc: 'Choose up to 3 of the options displayed', prestate: 'pregameC123', gamestate: 'playC123', id: 2, endstate: 'endOfGameC123', maxPtsPerQ: 15, totalTime: 25},
+     { name: 'Big Money', desc: 'Keep choosing until the right answer is selected\nGame over on 4th attempt', prestate: 'pregameBM', gamestate: 'playBM', id: 3, endstate: 'endOfGameBM', maxPtsPerQ: 100, totalTime: 25},
+     { name: 'One Crack', desc: 'You only get one choice', prestate: 'pregameOC', gamestate: 'playOC', id: 5, endstate: 'endOfGameOC', maxPtsPerQ: 15, totalTime: 25}
       ];
     var prevHeights = 10 * dpr;
-    for (var i = 0; i < modes.length; i++) { //create a button and text for each game mode
+    for (var i = 1; i < modes.length; i++) { //create a button and text for each game mode
       var b = game.world.add(new game.global.SpeechBubble(game, game.world.width + 1000, text.bottom, game.world.width * .8, modes[i].name, false, true, this.btnClick));
       b.y += prevHeights;
       prevHeights += b.bubbleheight + (10 * dpr);
@@ -45,13 +47,9 @@ var menuModeState = {
   },
   btnClick: function(){
     game.global.selectedMode = this.data;
-    if (this.data.name == 'Gameshow') {
-      game.state.start('menuGame');
-    } else {
-      game.state.start(this.data.prestate);
-    }
+    game.state.start(this.data.prestate);
   },
   backButton: function(){
-    game.state.start('menuChapter');
+    game.state.start('menuMode');
   }
 }
