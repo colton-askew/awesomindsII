@@ -39,9 +39,14 @@
       unset($_SESSION['regcode']);
     } 
     ?>
-    <h4>You are logged in as</h4><br>
-  <?php echo '<img src="assets/opp2/oppon' . $_SESSION['avatarnum'] . '.png" width=120/>'; ?>
-  <h3><?php echo $_SESSION['play_name']; ?></h3><h5><?php echo $_SESSION['c_number']; ?></h5><br>
+    <?php
+    if (!$_SESSION['isInstructor']) { ?>
+      <h4>You are logged in as</h4><br>
+    <?php echo '<img src="assets/opp2/oppon' . $_SESSION['avatarnum'] . '.png" width=120/>'; ?>
+    <h3><?php echo $_SESSION['play_name']; ?></h3><h5><?php echo $_SESSION['c_number']; ?></h5><br>
+    <?php } else { ?>
+      <h4 style="display: inline-block; font-size: 24px"><div style="display: inline-block"><div style="display: inline-block">You are logged in as <?php echo $_SESSION['play_name']; ?></div><div style="display: inline-block; margin-left: 0.4em"><?php echo $_SESSION['c_number']; ?></div></div><div style="display: inline-block; text-align: right"><?php echo '<img src="assets/opp2/oppon' . $_SESSION['avatarnum'] . '.png" width=60 height=80/>'; ?></div></h4><br>
+    <?php } ?>
   <?php
      if ($_SESSION['isInstructor']){
       echo '
