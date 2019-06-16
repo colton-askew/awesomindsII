@@ -13,6 +13,22 @@
   <?php include 'inst-nav2.php' ?>
   <div class="container text-center">
   <div class="card">
+      <p>Remove All Student from course:</p>
+      <p>Select a course</p>
+      <div id='selectCourseDiv2' class="container" style="max-width: 400px">
+        <div class="input-group">
+          <span class="input-group-addon">Course</span>
+          <select class="form-control" id='courseDropdown2'>
+            <option value="null">Select a Course</option>
+          </select>
+        </div>
+      </div>
+      <br>
+      <br>
+      <div id="selectedCourseOutput"></div>
+    </div>
+    <br>
+  <div class="card">
       <p>Adjust Student Stats:</p>
       <p>Select a course</p>
       <div id='selectCourseDiv' class="container" style="max-width: 400px">
@@ -72,6 +88,20 @@ var getCourses = function(){ //loads list of courses from the database and popul
     }
   });
 }
+var getCourses2 = function(){ //loads list of courses from the database and populates the course dropdown
+  $.ajax({
+    url: 'getcourses.php',
+    success: function(data){
+      $('#courseDropdown2').empty();
+      $('#courseDropdown2').append('<option value="null">Select a Course</option>');
+      $("#selectedCourseOutput").empty();
+      var courses = $.parseJSON(data);
+      for (var i = 0; i < courses.length; i++) {
+        $('#courseDropdown2').append('<option value="' + courses[i].courseid + '">' + courses[i].courseid + ' - ' + courses[i].name + '</option>');
+      }
+    }
+  });
+}
 
 var getChapters = function(){ //loads list of chapters for the selected course from the database and populates the chapter dropdown
   $('#chapterDropdown').empty();
@@ -84,6 +114,21 @@ var getChapters = function(){ //loads list of chapters for the selected course f
       for (var i = 0; i < chapters.length; i++) {
         $('#chapterDropdown').append('<option value="' + chapters[i].chapter + '">' + chapters[i].chapter + '</option>');
       }
+    }
+  });
+}
+var getChapters2 = function(){ //loads list of chapters for the selected course from the database and populates the chapter dropdown
+  $('#chapterDropdown2').empty();
+  $('#chapterDropdown2').append('<option value="null">Select a Chapter</option>');
+  $.ajax({
+    url: 'getchapters-forstats.php',
+    data: 'courseid=' + $('#courseDropdown2').find(":selected").val(),
+    success: function(data){
+      var chapters = $.parseJSON(data);
+      for (var i = 0; i < chapters.length; i++) {
+        $('#chapterDropdown2').append('<option value="' + chapters[i].chapter + '">' + chapters[i].chapter + '</option>');
+      }
+      $("#selectedCourseOutput").html('<br><p><button id="deleteCourseBtn" data-toggle="modal" data-target="#confirmDelete" class="btn btn-danger">Remove All Students</button></p>');
     }
   });
 }
@@ -139,7 +184,7 @@ $(function (){
                       url: 'delete-studentfromcourse.php',
                       data: { courseid : cid, studentid : sid},
                       success: function(data){
-                        console.log('deleted student '+ sid + ' from course: ' + cid);;
+                        console.log('deleted student '+ sid + ' from course: ' + cid);
                       }
                     });
                     break;
@@ -149,10 +194,88 @@ $(function (){
                       url: 'remove-allstudentscores.php',
                       data: { courseid : cid},
                       success: function(data){
-                        console.log('deleted student data from course: ' + cid);;
+                        console.log('deleted student data from course: ' + cid);
                       }
                     });
                     console.log('delete all student from course');
+                    break;
+                  
+                  default:
+                    break;
+                }
+              });
+          }
+        });
+      }
+    });
+  });
+  $("#courseDropdown2").change(function(){ //whenever a course is selected from the dropdown, this function fires
+    $('#output').empty();
+    $('#output').show();
+    $.ajax({ //set the selected course in the php session
+      type: 'POST',
+      url: 'setcourse.php',
+      data: { course: $('#courseDropdown2').find(":selected").val() },
+      success: function(data){
+        getChapters();
+        
+        $.ajax({ //get the scores for the selected course from the database and output them to a table
+          url: 'getscores-allusers-course.php',
+          data: 'courseid=' + $('#courseDropdown2').find(":selected").val(),
+          success: function(data){
+            console.log('success!');
+            
+            
+
+            var scores = $.parseJSON(data);
+            if (scores.length !=0) {
+              
+              $("#selectedCourseOutput").html('<button id="removeAllStudentsBtn" data-toggle="modal" data-target="#confirmRemoval" class="btn btn-danger">Delete All Students</button> </button></p>');
+            } else {
+              console.log('nothing in the system for this course');
+            }
+            for (var i = 0; i < scores.length; i++) {
+              var courseid = scores[i].courseid;
+              
+            }
+
+            
+            $('#table').DataTable({ paging: false, "order": [[1, 'asc']] }); //fancify the table with datatables.js, adding sorting and searching
+             //remove student button
+            $("#removeAllStudentsBtn").click(function(){
+              
+                    $('#modalBody2').html('Are you sure you want to delete all students in ' + courseid + '?');
+                    thingToDelete = 'allstudents';
+                    
+                    cid = courseid;
+                    
+                    console.log(cid);
+                  });
+                  
+              //remove button functions
+            $('#removeBtn').click(function(){
+                switch (thingToDelete) {
+                  case 'student':
+                    $.ajax({
+                      type: 'POST',
+                      url: 'delete-studentfromcourse.php',
+                      data: { courseid : cid, studentid : sid},
+                      success: function(data){
+                        console.log('deleted student '+ sid + ' from course: ' + cid);
+                      }
+                    });
+                    break;
+                  case 'allstudents':
+                    console.log('course id is: ' + cid);
+                    $.ajax({
+                      type: 'POST',
+                      url: 'remove-allstudent-score.php',
+                      data: { courseid : cid},
+                      success: function(data){
+                        console.log('deleted students from course: ' + cid);
+                      }
+                    });
+                  
                     break;
                   
                   default:
@@ -183,8 +306,25 @@ $(function (){
       }
     });
   });
-
+  $("#chapterDropdown2").change(function(){ //whenever a chapter is selected from the dropdown, this function fires
+    $('#output').empty();
+    $('#output').show();
+    $.ajax({ //get the scores for the selected chapter from the database and output them to a table
+      url: 'getscores-allusers-chapter.php',
+      data: 'courseid=' + $('#courseDropdown2').find(":selected").val() + '&chapter=' + $('#chapterDropdown2').find(":selected").val(),
+      success: function(data){
+        var str = "<h2>Scores for " + $('#courseDropdown2').find(":selected").val() + ", Chapter " + $('#chapterDropdown2').find(":selected").val() + ' </h2><p>Click a column heading to sort by that attribute</p><table id="table" class="display"><thead><tr><th>C Number</th><th>Display Name</th><th>Game Mode</th><th>High Score</th><th>Total Points Earned</th><th>Times Played</th></tr></thead><tbody>';
+        var scores = $.parseJSON(data);
+        for (var i = 0; i < scores.length; i++) {
+          str += '<tr><td>' + scores[i].c_number + '</td><td>' + scores[i].play_name + '</td><td>' + modes[scores[i].game_mode] + '</td><td>' + scores[i].high_score + '</td><td>' + scores[i].total_score + '</td><td>' + scores[i].times_played + '</td></tr>';
+        }
+        $('#output').html(str + '</tbody></table>');
+        $('#table').DataTable({ paging: false, "order": [[1, 'asc']] }); //fancify the table with datatables.js, adding sorting and searching
+      }
+    });
+  });
   getCourses();
+  getCourses2();
 
 });
 </script>

@@ -167,9 +167,10 @@ playStateC123.showChoices = function(){
   playStateC123.correctAnswer = question.newAnswer;
 
   // create a button to confirm answer selection
-  var bConfirm = game.world.add(new game.global.SpeechBubble(game, game.world.width + 1000, game.height, game.width, "Confirm", false, true, game.state.getCurrentState().btnClick));
+  var bConfirm = game.world.add(new game.global.SpeechBubble(game, game.world.width + 1000, game.global.bubble.y + game.global.bubble.bubbleheight, game.width, "Confirm", false, true, game.state.getCurrentState().btnClick));
   bConfirm.x = Math.floor(bConfirm.x - (bConfirm.bubblewidth/2));
-  bConfirm.y = Math.floor(prevHeights + (bConfirm.bubbleheight + 10 * dpr) * 4);
+  //bConfirm.y = Math.floor(prevHeights + (bConfirm.bubbleheight + 10 * dpr) * 4);
+  bConfirm.y += Math.floor(prevHeights)
   // animate button entrance
   var bTween = game.add.tween(bConfirm).to({x: Math.floor(game.world.centerX - bConfirm.bubblewidth/2)}, 500, Phaser.Easing.Default, true, 250 * 4);
   bTween.start();

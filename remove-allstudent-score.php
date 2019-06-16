@@ -4,8 +4,8 @@
 
   //delete all students in course
   $query = $dbcon->prepare("DELETE FROM score WHERE courseid = :courseid");
- 
-  $query->bindParam(':courseid ', $_POST["courseid"]);
+  
+  $query->bindParam(':courseid', $_POST["courseid"]);
   $query->execute();
 
 
