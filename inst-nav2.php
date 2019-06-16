@@ -7,18 +7,7 @@
     <div class="navbar-nav">
 
       <?php if ($_SESSION['isInstructor']){
-        echo '  <div class="nav-item dropdown">
-            <a class="d-block dropdown-toggle btn btn-outline-primary" href="" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              Instructor Options
-            </a>
-            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-              <a class="dropdown-item" href="inst-coursemgmt.php">Manage Courses</a>
-              <a class="dropdown-item" href="inst-taskgamemgmt.php">Manage Tasks/Games</a>
-              <a class="dropdown-item" href="inst-inviteinstructor.php">Invite Instructor</a>
-              <a class="dropdown-item" href="inst-stats.php">View Student Progress</a>
-              <a class="dropdown-item" href="resetfromoptions.php">Reset Password</a>
-            </div>
-          </div>';
+        echo '  <a class="btn btn-outline-info" href="index.php" >Instructor Options</a>';
       }
       if ($_SESSION['logged_in'] && $_SESSION['active']){
         echo '<a class="btn btn-outline-success" href="questiongame.php">Play</a>';
