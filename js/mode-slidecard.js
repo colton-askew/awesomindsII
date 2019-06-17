@@ -480,10 +480,6 @@ modeStateSC.nextQuestion = function(number){
       endGame = game.add.audio('endGame');
       endGame.play();
       game.state.start(game.global.selectedMode.endstate, false, false);
-    } else {
-      
-      
-      game.state.getCurrentState().showQuestion(game.global.questions.shift());
     }
   } 
   if (game.global.questionsAnswered == game.global.origNumQuestions){
