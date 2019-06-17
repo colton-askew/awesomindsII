@@ -25,10 +25,10 @@ modeStateRQ.btnClick = function(){
     //Show answer is pressed, revealing the answer
     if (game.global.answerPressed){
       console.log('show answer pressed');
-      game.global.choiceBubbles.forEach( function(item){ item.inputEnabled = true; } );
       game.global.answersShown = true;
       game.global.choiceBubbles.forEach( function(item){
         if(item.data.correct){
+          item.inputEnabled = true;
           var check = game.add.sprite(game.world.x - game.world.width, item.centerY, 'check');
           check.height = check.width = game.global.borderFrameSize * 3;
           check.anchor.setTo(0.5,0.5);
@@ -40,6 +40,7 @@ modeStateRQ.btnClick = function(){
       game.global.answerPressed = false;
     }
     else if (!game.global.answersShown){
+      console.log('this should never happen');
       game.global.answerPressed = true;
     }
     else {

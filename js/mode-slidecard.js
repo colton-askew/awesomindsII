@@ -107,7 +107,7 @@ modeStateSC.showQuestion = function(question){
     // set up for answer text ('yellow' is an asset and can be switched out as needed)
     sprite2 = game.add.sprite(game.world.centerX - TmpImg.width/2.0,game.world.centerY - TmpImg.height/2.0 - 100, 'yellow');
     
-    var style2 = { font: "16px Arial", fill: "#000000", wordWrap: true, wordWrapWidth: sprite2.width, align: "center" };
+    var style2 = { font: "16px Arial", fill: "#000000", wordWrap: true, wordWrapWidth: sprite2.width - 50, align: "center" };
     answerCard = game.add.text(game.world.centerX - TmpImg.width/2.0,game.world.centerY - TmpImg.height/2.0 - 100, answerText, style2);
     answerCard.anchor.set(0.5);
     game.global.answerCard = answerCard;
@@ -121,7 +121,7 @@ modeStateSC.showQuestion = function(question){
     sprite.input.enableDrag();
     sprite.input.allowVerticalDrag = false;
     
-    var style = { font: "16px Arial", fill: "#000000", wordWrap: true, wordWrapWidth: sprite.width, align: "center" };
+    var style = { font: "16px Arial", fill: "#000000", wordWrap: true, wordWrapWidth: sprite.width - 50, align: "center" };
 
     questionCard = game.add.text(game.world.centerX - TmpImg.width/2.0,game.world.centerY - TmpImg.height/2.0 - 100, question.question, style);
     questionCard.anchor.set(0.5);
@@ -225,7 +225,7 @@ modeStateSC.showQuestion = function(question){
     function tooEasyClicked(){
       
       
-      game.state.getCurrentState().animateOut(1);
+      game.state.getCurrentState().animateOut(2);
     }
     //number based on number of questions the current question is reshuffled into
     function gotItClicked(){
@@ -269,7 +269,6 @@ modeStateSC.showChoices = function(){
 modeStateSC.optionButtons = function(){
   var buttonsTemplate = [
     { text: 'Continue', function: game.state.getCurrentState().removeStopScreen},
-    { text: 'End Session', function: game.state.getCurrentState().endSession},
     { text: 'Select Different Course', function: game.state.getCurrentState().chooseCourseClick },
     { text: 'Select Different Game', function: game.state.getCurrentState().chooseChapterClick },
     { text: 'Log Out', function: game.state.getCurrentState().logOutClick }
@@ -282,14 +281,14 @@ modeStateSC.optionButtons = function(){
 
   return buttons;
 },
-modeStateSC.endSession = function(){
-  //out of questions, and everything was right OR this was a rehash round? end the game
-  game.global.jinnySpeech.destroy();
-  game.state.getCurrentState().ticks.destroy();
-  endGame = game.add.audio('endGame');
-  endGame.play();
-  game.state.start(game.global.selectedMode.endstate, false, false);
-},
+// modeStateSC.endSession = function(){
+//   //out of questions, and everything was right OR this was a rehash round? end the game
+//   game.global.jinnySpeech.destroy();
+//   game.state.getCurrentState().ticks.destroy();
+//   endGame = game.add.audio('endGame');
+//   endGame.play();
+//   game.state.start(game.global.selectedMode.endstate, false, false);
+// },
 modeStateSC.updateScores = function(){
   console.log('in updatescores')
   game.global.pointsToAdd = 2;
@@ -377,14 +376,7 @@ modeStateSC.createStopButton = function(){
 modeStateSC.nextQuestion = function(number){
   game.state.getCurrentState().removeQuestion();
   game.global.questionsAnswered++;
-  if (game.global.questionsAnswered == game.global.numQuestions){
-    console.log('question removed equal to numQuestions, ending session');
-    game.global.jinnySpeech.destroy();
-    game.state.getCurrentState().ticks.destroy();
-    endGame = game.add.audio('endGame');
-    endGame.play();
-    game.state.start(game.global.selectedMode.endstate, false, false);
-  } else {
+  
     //switch case for different buttons pressed splice is number - 1
   console.log('number pressed' + number);
   switch (number){
@@ -419,6 +411,9 @@ modeStateSC.nextQuestion = function(number){
           }
         });
       });
+      break;
+    case 2: 
+      console.log('too easy, removed');
       break;
     case 3:
       if ((game.global.numQuestions - game.global.questionsAnswered) > 3){
@@ -490,6 +485,14 @@ modeStateSC.nextQuestion = function(number){
       
       game.state.getCurrentState().showQuestion(game.global.questions.shift());
     }
+  } 
+  if (game.global.questionsAnswered == game.global.origNumQuestions){
+    console.log('questions answered equal to numQuestions, ending session');
+    game.global.jinnySpeech.destroy();
+    game.state.getCurrentState().ticks.destroy();
+    endGame = game.add.audio('endGame');
+    endGame.play();
+    game.state.start(game.global.selectedMode.endstate, false, false);
   } else {
     
     game.global.numQuestions = Math.min( (devmode ? devvars.numQ : 10), game.global.questions.length);
@@ -497,7 +500,7 @@ modeStateSC.nextQuestion = function(number){
   }
   
 
-  }
+  
   
   
 };
