@@ -73,7 +73,7 @@ var preGameState = {
       game.global.chars[i].score = 0;
       game.global.chars[i].scoreText = game.add.text(0 - game.world.width, 0 - game.world.height, '0', game.global.smallerWhiteFont);
       game.global.chars[i].scoreText.fill = 0xffffff;
-      if(game.global.selectedMode.id == 0 || game.global.selectedMode.id == 2){ //id for countdown crown or time bonus
+      if(game.global.selectedMode.id == 0 || game.global.selectedMode.id == 3){ //id for countdown crown or time bonus
         game.global.chars[i].crown = game.add.sprite(0 - game.world.width, Math.floor(game.global.chars[i].sprite.top - game.global.chars[i].sprite.height/2), 'crown', 0);
         if(dpr>=2) game.global.chars[i].crown.scale.setTo(dpr/4,dpr/4);
         game.global.chars[i].numJewels = 0;
@@ -89,13 +89,13 @@ var preGameState = {
   
     //loop again to add ai tweens; needs to be done after the sprites were made in this case
     for (var i = 0; i < game.global.chars.length; i++) {
-      console.log('no ai tween');
-      // game.global.chars[i].tween = game.add.tween(game.global.chars[i].sprite).to({x: Math.floor(((game.width/game.global.chars.length)*(i+1) -game.width/game.global.chars.length)+(game.width/25))}, 250, Phaser.Easing.Default, false);
-      // if(i==0){
-      //   sbtweens[sbtweens.length - 1].chain(game.global.chars[i].tween);
-      // }else{
-      //   game.global.chars[i-1].tween.chain(game.global.chars[i].tween);
-      // }
+     // console.log('no ai tween');
+       game.global.chars[i].tween = game.add.tween(game.global.chars[i].sprite).to({x: Math.floor(((game.width/game.global.chars.length)*(i+1) -game.width/game.global.chars.length)+(game.width/25))}, 250, Phaser.Easing.Default, false);
+       if(i==0){
+         sbtweens[sbtweens.length - 1].chain(game.global.chars[i].tween);
+       }else{
+         game.global.chars[i-1].tween.chain(game.global.chars[i].tween);
+       }
     }
 
     var skip = game.world.add(new game.global.SpeechBubble(game, game.world.centerX, game.height, game.width, "Play", false, true, this.skipFunction));
