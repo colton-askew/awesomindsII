@@ -74,7 +74,7 @@ var getChapters = function(){ //loads list of chapters for the selected course f
 $(function (){
   $('.selectChapterUI').hide();
   $('#output').hide();
-  var modes = ['Keep Choosing', 'Choose 1, 2, 3', 'One Choice Time Bonus', 'Big Money', 'One Crack', 'Just Drills', 'Rate Questions', 'Slide Cards' ];
+  var modes = ['Keep Choosing', 'Choose 1, 2, 3', 'One Crack Time Bonus', 'Big Money', 'One Crack', 'Just Drills', 'Rate Questions', 'Slide Cards' ];
 
   $("#courseDropdown").change(function(){ //whenever a course is selected from the dropdown, this function fires
     $('#output').empty();

@@ -7,9 +7,9 @@ preGameStateBM.instructLines = [
         Click/tap the question to make the answer choices appear.\n
         Keep choosing until you get the right answer.\n
         \n
-        If you are correct on the 1st try – earn 100 points.\n
+        If you are correct on the 1st try – earn points.\n
         On the 2nd try – earn 0 points.\n
-        On the 3rd try – lose 100 points.\n
+        On the 3rd try – lose points.\n
         If you are incorrect on all 3 – game over.`
   ];
 

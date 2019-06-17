@@ -209,7 +209,7 @@
                             </td>
                         </tr>
                         <tr>
-                            <td><label style="font-weight: bold">One Choice Time Bonus:</label><br>Race the clock and the opponents. Less time = more points.</td>
+                            <td><label style="font-weight: bold">One Crack Time Bonus:</label><br>Race the clock and the opponents. Less time = more points.</td>
                         </tr>
                         <tr>
                             <td><label style="font-weight: bold">Big Money:</label><br>Keep choosing until the right answer is selected. Game over on 4th attempt.

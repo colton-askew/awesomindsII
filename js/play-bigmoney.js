@@ -241,6 +241,47 @@ playStateBM.showAnswers = function(fromButton) { //show AI's selected answers
   }
 };
 
+playStateBM.animateOut = function(didntAnswer){
+  game.state.getCurrentState().timerOn = false;
+  game.add.tween(game.global.questionUI).to({x: game.world.x - game.world.width}, 300, Phaser.Easing.Default, true, 0);
+
+  makeBars = function(correct, didntAnswer){
+    /*
+     * create horizontal progress bars for each player
+     * and animate them
+     */
+    game.state.getCurrentState().updateScores(correct, didntAnswer);
+    for (var i = 0; i < game.global.chars.length; i++) {
+      if(game.global.questionsAnswered <= 1 && !game.global.isRehash){
+        game.global.chars[i].gfx = game.add.graphics(0,0);
+        game.global.chars[i].gfx.visible = false;
+        game.global.chars[i].gfx.beginFill(0x02C487, 1);
+        game.global.chars[i].gfx.drawRect(game.global.chars[i].sprite.x, (game.global.selectedMode.id == 0) ? game.global.chars[i].crown.y : game.global.chars[i].sprite.y, game.global.chars[i].sprite.width, 1);
+        game.global.chars[i].barSprite = game.add.sprite(game.global.chars[i].sprite.x, (game.global.selectedMode.id == 0) ? game.global.chars[i].crown.y : game.global.chars[i].sprite.y, game.global.chars[i].gfx.generateTexture());
+        game.global.chars[i].barSprite.anchor.y = 1;
+      }
+      game.add.tween(game.global.chars[i].barSprite).to({height: Math.max(game.global.chars[i].score * 0.1, 1)}, 1000, Phaser.Easing.Default, true, 0);
+    }
+  }
+  // makeBars();
+
+
+  /*
+   * remove answers from screen
+   */
+  removeAnswers = function(){
+    game.global.answersShown = false;
+    game.global.answerBubbles.destroy();
+    game.global.answerBubbles = game.add.group();
+  };
+
+  game.global.timer.stop();
+  game.global.timer.add(200, removeAnswers, game.state.getCurrentState());
+  game.global.timer.add(600, makeBars, game.state.getCurrentState(), this.data.correct, didntAnswer);
+  game.global.timer.add(2000, game.state.getCurrentState().nextQuestion, game.state.getCurrentState());
+  game.global.timer.start();
+};
+
 playStateBM.nextQuestion = function(){
   game.state.getCurrentState().removeQuestion();
     //set jin's face to default state
@@ -272,6 +313,9 @@ playStateBM.nextQuestion = function(){
     }
     else {
       //console.log("NextQ Option 4 Activated.");
+      maxGuessCount = 4;
+      allGuessesUsed = false;
+      playStateBM.timesAnswered = 0;
       game.global.jinnySpeech.destroy();
       game.state.getCurrentState().ticks.destroy();
       endGame = game.add.audio('endGame');
