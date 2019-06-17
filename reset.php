@@ -26,7 +26,7 @@ if( isset($_GET['c_number']) && !empty($_GET['c_number']) AND isset($_GET['hash'
 <html >
 <head>
   <meta charset="UTF-8">
-  <title>Reset Your Password - Awesominds</title>
+  <title>Reset Your Password - Awesominds II</title>
   <?php include 'css/css.html'; ?>
 </head>
 

@@ -46,7 +46,7 @@ debugToConsole($hash);
 <html >
 <head>
   <meta charset="UTF-8">
-  <title>Reset Your Password - Awesominds</title>
+  <title>Reset Your Password - Awesominds II</title>
   <?php include 'css/css.html'; ?>
 </head>
 

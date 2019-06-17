@@ -13,11 +13,11 @@
   $result = $query->execute();
 
   if($result){
-    $subject = 'Account Verification (Awesominds)';
+    $subject = 'Account Verification (Awesominds II)';
     $headers = "From: Awesominds Registration <noreply@gbl.cs.camosun.bc.ca>" . "\r\n" .
                "Reply-To: noreply@gbl.cs.camosun.bc.ca" . "\r\n" .
                "X-Mailer: PHP/" . phpversion();
-    $message_body = 'You have been invited to create an Awesominds instructor account!
+    $message_body = 'You have been invited to create an Awesominds II instructor account!
 
                     Please click this link to create your account:
 

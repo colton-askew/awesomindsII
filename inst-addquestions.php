@@ -8,7 +8,7 @@
     }
     include 'css/css.html';
   ?>
-  <title>Add Chapter/Game - Awesominds</title>
+  <title>Add Chapter/Game - Awesominds II</title>
 </head>
 <body>
   <?php include 'inst-nav2.php' ?>
