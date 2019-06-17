@@ -23,7 +23,7 @@ var menuGameState = {
       { name: 'Countdown Crown', desc: 'The faster you respond, the more points you earn', prestate: 'pregame', gamestate: 'play', id: 0, endstate: 'endOfGame', maxPtsPerQ: 25, totalTime: 25},
       { name: 'Keep Choosing', desc: 'Keep choosing until the right answer is selected\n(Best for beginners)', prestate: 'pregameKC', gamestate: 'playKC', id: 1, endstate: 'endOfGameKC', maxPtsPerQ: 15, totalTime: 25},
       { name: 'Choose 1, 2, or 3', desc: 'Choose up to 3 of the options displayed', prestate: 'pregameC123', gamestate: 'playC123', id: 2, endstate: 'endOfGameC123', maxPtsPerQ: 15, totalTime: 25},
-      { name: 'One Choice Time Bonus', desc: 'The faster you respond, the more points you earn', prestate: 'pregameTB', gamestate: 'playTB', id: 3, endstate: 'endOfGameTB', maxPtsPerQ: 25, totalTime: 10},
+      { name: 'One Crack Time Bonus', desc: 'The faster you respond, the more points you earn', prestate: 'pregameTB', gamestate: 'playTB', id: 3, endstate: 'endOfGameTB', maxPtsPerQ: 25, totalTime: 10},
       { name: 'Big Money', desc: 'Keep choosing until the right answer is selected\nGame over on 4th attempt', prestate: 'pregameBM', gamestate: 'playBM', id: 4, endstate: 'endOfGameBM', maxPtsPerQ: 100, totalTime: 25},
       { name: 'One Crack', desc: 'You only get one choice', prestate: 'pregameOC', gamestate: 'playOC', id: 5, endstate: 'endOfGameOC', maxPtsPerQ: 15, totalTime: 25}
       ];
