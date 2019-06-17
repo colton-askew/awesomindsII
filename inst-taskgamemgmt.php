@@ -8,7 +8,7 @@
     ?>
     <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.15/css/jquery.dataTables.css">
     <script type="text/javascript" charset="utf8" src="//cdn.datatables.net/1.10.15/js/jquery.dataTables.js"></script>
-    <title>Tasks/Game Management - Awesominds</title>
+    <title>Task/Game Management - Awesominds</title>
 </head>
 
 <body>
@@ -80,7 +80,7 @@
                         </div>
                         <div>
                           <div class="form-row" style="margin-top: 0.5em">
-                              <label class="col-sm-2" style="font-weight: bold; text-align: left; margin-left: 3.0em">Game</label>
+                              <label class="col-sm-2" style="font-weight: bold; text-align: left; margin-left: 3.0em">Game Show</label>
                           </div>
                           <div class="form-row">
                               <div class="col-sm-1"></div>
