@@ -8,7 +8,7 @@
 <body>
   <?php include 'inst-nav2.php' ?>
   <div class="container text-center">
-    <h2>Welcome to Awesominds</h2>
+    <h2>Welcome to Awesominds II</h2>
     <p>
     <?php
     // Display any set message only once, then remove it
@@ -55,7 +55,7 @@
          <div>
           <a href="inst-coursemgmt.php" class="btn btn-info" role="button">Manage Courses</a> <p>Create/hide/delete a course or chapter, add/edit/remove questions, etc. </p>
           <a href="inst-taskgamemgmt.php" class="btn btn-info" role="button">Manage Tasks/Games</a> <p>Customize students experience</p>
-          <a href="inst-inviteinstructor.php" class="btn btn-info" role="button">Invite Instructor</a> <p>Send an email to an instructor to use Awesominds</p>
+          <a href="inst-inviteinstructor.php" class="btn btn-info" role="button">Invite Instructor</a> <p>Send an email to an instructor to use Awesominds II</p>
           <a href="inst-stats.php" class="btn btn-info" role="button">View Student Progress</a> <p>View students scores/analytics</p>
           <a href="resetfromoptions.php" class="btn btn-info" role="button">Change Password</a> <p>Change your password </p>
         </div>

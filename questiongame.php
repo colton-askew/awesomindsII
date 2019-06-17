@@ -1,6 +1,6 @@
 <?php include('redir-notloggedin.php'); ?>
 
-<title>Awesominds</title>
+<title>Awesominds II</title>
 
 <script type="text/javascript" src="js/phaser.min.js"></script>
 <script type="text/javascript" src="js/moment.min.js"></script>

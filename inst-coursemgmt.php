@@ -7,7 +7,7 @@
   ?>
   <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.15/css/jquery.dataTables.css">
   <script type="text/javascript" charset="utf8" src="//cdn.datatables.net/1.10.15/js/jquery.dataTables.js"></script>
-  <title>Course Management - Awesominds</title>
+  <title>Course Management - Awesominds II</title>
 </head>
 <body>
   <?php include 'inst-nav2.php' ?>
@@ -181,8 +181,8 @@
         <div class="modal-body text-center" id='inviteStudentsModalBody'>
           <p>Copy the following link and paste it in a D2L post, or anywhere else that only students in your course will see it.</p>
           <textarea readonly id="studentReglink" class="form-control"></textarea>
-          <p>Students can click the link to add this course to their Awesominds account, adding it to their in-game course list.</p>
-          <p>Other instructors can click the link to add this course to their Awesominds account, giving them access to course management features for this course.</p>
+          <p>Students can click the link to add this course to their Awesominds II account, adding it to their in-game course list.</p>
+          <p>Other instructors can click the link to add this course to their Awesominds II account, giving them access to course management features for this course.</p>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-primary btn-ok" data-dismiss="modal">OK</button>

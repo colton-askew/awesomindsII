@@ -1,6 +1,6 @@
 <head>
 <meta charset="UTF-8" />
-<title>Create Account - Awesominds</title>
+<title>Create Account - Awesominds II</title>
 <?php
   require '../../db.php';
   require '../../conn.php';
