@@ -8,7 +8,7 @@
     }
     include 'css/css.html';
   ?>
-  <title>Edit Question - Awesominds</title>
+  <title>Edit Question - Awesominds II</title>
 </head>
 <body>
   <?php include 'inst-nav2.php' ?>

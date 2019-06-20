@@ -26,13 +26,13 @@ if ( $_SERVER['REQUEST_METHOD'] == 'POST' )
 
         // Send registration confirmation link (reset.php)
         $to      = $email;
-        $subject = 'Password Reset Link ( Awesominds )';
+        $subject = 'Password Reset Link ( Awesominds II )';
         $headers = "From: Awesominds Registration <noreply@gbl.cs.camosun.bc.ca>" . "\r\n" .
                    "Reply-To: noreply@gbl.cs.camosun.bc.ca" . "\r\n" .
                    "X-Mailer: PHP/" . phpversion();
         $message_body = '
 
-        A password reset has been requested on your Awesominds account.
+        A password reset has been requested on your Awesominds II account.
 
         Please click this link to reset your password:
 
@@ -47,7 +47,7 @@ if ( $_SERVER['REQUEST_METHOD'] == 'POST' )
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Reset Your Password - Awesominds</title>
+  <title>Reset Your Password - Awesominds II</title>
   <?php include 'css/css.html'; ?>
 </head>
 

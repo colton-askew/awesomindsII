@@ -5,7 +5,7 @@ var menuCourseState = {
       game.global.logoText.destroy();
       game.global.music.stop();
     }
-    game.global.logoText = game.add.text(game.world.centerX, 0, 'Awesominds', game.global.whiteFont);
+    game.global.logoText = game.add.text(game.world.centerX, 0, 'Awesominds II', game.global.whiteFont);
     game.global.logoText.fontWeight = 'bold';
     game.global.logoText.fontSize = 26 * dpr;
     game.global.logoText.x = Math.floor(game.global.logoText.x - game.global.logoText.width/2);

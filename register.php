@@ -52,7 +52,7 @@ else { // id doesn't already exist in a database, proceed...
 
         // Send registration confirmation link (verify.php)
         $to      = $email;
-        $subject = 'Account Verification (Awesominds)';
+        $subject = 'Account Verification (Awesominds II)';
         $headers = "From: Awesominds Registration <noreply@gbl.cs.camosun.bc.ca>" . "\r\n" .
                    "Reply-To: noreply@gbl.cs.camosun.bc.ca" . "\r\n" .
                    "X-Mailer: PHP/" . phpversion();

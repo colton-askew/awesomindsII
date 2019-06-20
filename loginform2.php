@@ -1,6 +1,6 @@
 <head>
 <meta charset="UTF-8" />
-<title>Log In - Awesominds</title>
+<title>Log In - Awesominds II</title>
 <?php
   include 'css/css.html';
   if( $_SESSION['loginpart2'] == 1 ){
