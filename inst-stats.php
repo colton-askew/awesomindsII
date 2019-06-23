@@ -71,9 +71,14 @@ var getChapters = function(){ //loads list of chapters for the selected course f
   });
 }
 
+// Create empty csvContent variable (to be generated and exported)
+//let csvContent = "data:text/csv;charset=utf-8,";  // Use this version of csvContent if using downloadCSVRandom()
+let csvContent = '';  // Use this version of csvContent if using exportToCSV() [Preferred]
+
 $(function (){
   $('.selectChapterUI').hide();
   $('#output').hide();
+  // Set the modes based on the game mode ID (see game_mode in score table / id value in menu-games.js and menu-mode.js)
   var modes = ['Keep Choosing', 'Choose 1, 2, 3', 'One Crack Time Bonus', 'Big Money', 'One Crack', 'Just Drills', 'Rate Questions', 'Slide Cards' ];
 
   $("#courseDropdown").change(function(){ //whenever a course is selected from the dropdown, this function fires
@@ -90,8 +95,22 @@ $(function (){
           url: 'getscores-allusers-course.php',
           data: 'courseid=' + $('#courseDropdown').find(":selected").val(),
           success: function(data){
-            var str = "<h2>Scores for " + $('#courseDropdown').find(":selected").val() + '</h2><p>Click a column heading to sort by that attribute</p><table id="table" class="display"><thead><tr><th>C Number</th><th>Display Name</th><th>Chapter</th><th>Mode/Game Challenge</th><th>High Score</th><th>Total Points Earned</th><th>Times Played</th></tr></thead><tbody>';
+            var str = "<h2>Scores for " + $('#courseDropdown').find(":selected").val() + '</h2><p>Click a column heading to sort by that attribute</p><p style="text-align: center">Export this data as a: <button onclick="exportToCSV()">CSV File</button>&nbsp;<button onclick="exportTableToExcel()">Excel File</button></p><table id="table" class="display"><thead><tr><th>C Number</th><th>Display Name</th><th>Chapter</th><th>Mode/Game Challenge</th><th>High Score</th><th>Total Points Earned</th><th>Times Played</th></tr></thead><tbody>';
             var scores = $.parseJSON(data);
+            //console.log("scores: " , scores);
+
+            // Map scores object into an array of arrays, each of which will become a row of data when exported
+            var rows = scores.map(function (obj) {
+              return ["C Number", obj.c_number, "Display Name", obj.play_name, "Chapter", obj.chapter, "Mode/Game Challenge", obj.game_mode, "High Score", obj.high_score, "Total Points Earned", obj.total_score, "Times Played", obj.times_played];
+            });
+            //console.log("rows: " , rows);
+
+            // Add each row of data to the csvContent variable (used for CSV only - Excel file is generated in it's own, separate function)
+            rows.forEach(function(rowArray) {
+                let row = rowArray.join(",");
+                csvContent += row + "\r\n";
+            });
+
             for (var i = 0; i < scores.length; i++) {
               str += '<tr><td>' + scores[i].c_number + '</td><td>' + scores[i].play_name + '</td><td>' + scores[i].chapter + '</td><td>' + modes[scores[i].game_mode] + '</td><td>' + scores[i].high_score + '</td><td>' + scores[i].total_score + '</td><td>' + scores[i].times_played + '</td></tr>';
             }
@@ -110,8 +129,21 @@ $(function (){
       url: 'getscores-allusers-chapter.php',
       data: 'courseid=' + $('#courseDropdown').find(":selected").val() + '&chapter=' + $('#chapterDropdown').find(":selected").val(),
       success: function(data){
-        var str = "<h2>Scores for " + $('#courseDropdown').find(":selected").val() + ", Chapter " + $('#chapterDropdown').find(":selected").val() + ' </h2><p>Click a column heading to sort by that attribute</p><table id="table" class="display"><thead><tr><th>C Number</th><th>Display Name</th><th>Mode/Game Challenge</th><th>High Score</th><th>Total Points Earned</th><th>Times Played</th></tr></thead><tbody>';
+        var str = "<h2>Scores for " + $('#courseDropdown').find(":selected").val() + ", Chapter " + $('#chapterDropdown').find(":selected").val() + ' </h2><p>Click a column heading to sort by that attribute</p><p style="text-align: center">Export this data as a: <button onclick="exportToCSV()">CSV File</button>&nbsp;<button onclick="exportTableToExcel()">Excel File</button></p><table id="table" class="display"><thead><tr><th>C Number</th><th>Display Name</th><th>Mode/Game Challenge</th><th>High Score</th><th>Total Points Earned</th><th>Times Played</th></tr></thead><tbody>';
         var scores = $.parseJSON(data);
+        //console.log("scores: " , scores);
+
+        // Map scores object into individual arrays, which will become rows of data when exported
+        var rows = scores.map(function (obj) {
+          return ["C Number", obj.c_number, "Display Name", obj.play_name, "Mode/Game Challenge", obj.game_mode, "High Score", obj.high_score, "Total Points Earned", obj.total_score, "Times Played", obj.times_played];
+        });
+        //console.log("rows: " , rows);
+
+        rows.forEach(function(rowArray) {
+            let row = rowArray.join(",");
+            csvContent += row + "\r\n";
+        });
+
         for (var i = 0; i < scores.length; i++) {
           str += '<tr><td>' + scores[i].c_number + '</td><td>' + scores[i].play_name + '</td><td>' + modes[scores[i].game_mode] + '</td><td>' + scores[i].high_score + '</td><td>' + scores[i].total_score + '</td><td>' + scores[i].times_played + '</td></tr>';
         }
@@ -124,6 +156,72 @@ $(function (){
   getCourses();
 
 });
+
+// // Download csvContent as a .csv file with a random name (output has same content as exportToCSV()'s output) and create download prompt
+// function downloadCSVRandom() {
+//   var encodedUri = encodeURI(csvContent);
+//   window.open(encodedUri);
+// }
+
+// Export csvContent as a .csv file and create download prompt
+function exportToCSV() {
+    var csvFile;
+    var downloadLink;
+
+    // CSV file
+    csvFile = new Blob([csvContent], {type: "text/csv"});
+
+    // Download link
+    downloadLink = document.createElement("a");
+
+    // File name
+    downloadLink.download = 'awesomindsII_studentprogress.csv';
+
+    // Create a link to the file
+    downloadLink.href = window.URL.createObjectURL(csvFile);
+
+    // Hide download link
+    downloadLink.style.display = "none";
+
+    // Add the link to DOM
+    document.body.appendChild(downloadLink);
+
+    // Click download link
+    downloadLink.click();
+}
+
+// Export entire table (including titles, buttons, and search) to Microsoft Excel (.xls) format and create download prompt
+function exportTableToExcel(){
+    var downloadLink;
+    var dataType = 'application/vnd.ms-excel';
+    var tableSelect = document.getElementById('output');
+    var tableHTML = tableSelect.outerHTML.replace(/ /g, '%20');
+    
+    // Specify file name
+    filename = 'awesomindsII_studentprogress.xls';
+    
+    // Create download link element
+    downloadLink = document.createElement("a");
+    
+    document.body.appendChild(downloadLink);
+    
+    if(navigator.msSaveOrOpenBlob){
+        var blob = new Blob(['\ufeff', tableHTML], {
+            type: dataType
+        });
+        navigator.msSaveOrOpenBlob( blob, filename);
+    }else{
+        // Create a link to the file
+        downloadLink.href = 'data:' + dataType + ', ' + tableHTML;
+    
+        // Set file name
+        downloadLink.download = filename;
+        
+        //triggering the function
+        downloadLink.click();
+    }
+}
+
 </script>
 
 </body>
