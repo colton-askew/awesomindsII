@@ -139,6 +139,8 @@ $(function (){
         });
         //console.log("rows: " , rows);
 
+        csvContent = '';
+
         rows.forEach(function(rowArray) {
             let row = rowArray.join(",");
             csvContent += row + "\r\n";
